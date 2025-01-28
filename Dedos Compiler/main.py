@@ -68,7 +68,7 @@ def update_line_numbers(event=None):
 
 # Main window setup
 root = tk.Tk()
-root.title("DEDOS Analyzer")
+root.title("DEDOS Compiler")
 root.configure(bg="#333333")
 
 # Responsive layout
