@@ -32,6 +32,64 @@ class DEDOSLexicalAnalyzer:
         self.num = '0123456789'  # Digits for numeric literals
         self.zero = '0'
 
+    def identifier_token(self, input_string, i):
+        """Handles alphanumeric identifiers and keywords (inst, strike, flank, chat)."""
+        tokens = []
+        keyword_list = ["inst", "strike", "flank", "chat"]  # List of valid keywords
+
+        # Start reading the identifier
+        start_index = i
+        while i < len(input_string) and (input_string[i].isalnum() or input_string[i] == '_'):  # Allow alphanumeric characters and underscores
+            if input_string[i].isalpha() and not input_string[i].islower():  # Ensure identifiers are lowercase
+                raise ValueError(f"Lexical Error: Identifier must be lowercase at position {i}")
+            i += 1
+
+        # Extract the token
+        token = input_string[start_index:i]
+
+        # Ensure the identifier is no longer than 15 characters
+        if len(token) > 15:
+            raise ValueError(f"Lexical Error: Identifier '{token}' exceeds 15 characters at position {start_index}")
+
+        # Check if the token is a keyword (reserved word)
+        if token in keyword_list:
+            tokens.append((f"{token}_keyword", token))  # Handle keywords
+        else:
+            tokens.append(("identifier", token))  # Handle identifiers
+
+        # Lookahead for valid space or delimiters in delim25 after the identifier
+        if i < len(input_string):
+            char = input_string[i]
+            if char == ' ':  # Check if the next character is a space
+                # Process the space token using the space_token method
+                space_tokens, i = self.space_token(input_string, i)
+                tokens.extend(space_tokens)  # Add space tokens to the token list
+
+            # Now check if the next character is a valid delimiter (delim25)
+            if i < len(input_string) and input_string[i] in self.delim25:  # Check if next char is in delim25 (space or '=')
+                tokens.append((input_string[i], input_string[i]))  # Add the delimiter as a token
+                i += 1  # Move past the delimiter
+
+        return tokens, i
+
+    def handle_special_symbols(self, input_string, i):
+        """
+        Handles special symbol tokens like ~{ and }~.
+        """
+        tokens = []
+        start_index = i
+
+        # Check for the special symbols
+        if input_string[i:i + 2] == "~{":
+            tokens.append(("oblock_token", "~{"))
+            i += 2  # Move past the `~{`
+        elif input_string[i:i + 2] == "}~":
+            tokens.append(("cblock_token", "}~"))
+            i += 2  # Move past the `}~`
+        else:
+            raise ValueError(f"Lexical Error: Unexpected symbol at position {start_index} ({input_string[i]})")
+
+        return tokens, i
 
     def newline_token(self, input_string, i):
         """Handles newline characters as tokens."""
@@ -310,9 +368,6 @@ class DEDOSLexicalAnalyzer:
             state = 0  # Initial state for 'a'
             length = len(input_string)
             lexeme = ""  # To accumulate the lexeme
-
-            if input_string[i] != 'a':  # If the first character is not 'a', raise an error
-                raise ValueError(f"Lexical Error: Expected 'a' at position {i}")
 
             while i < length:
                 char = input_string[i]
@@ -1516,45 +1571,6 @@ class DEDOSLexicalAnalyzer:
 
         return tokens, i
 
-    def identifier_token(self, input_string, i):
-        """Handles alphanumeric identifiers and keywords (inst, strike, flank, chat)."""
-        tokens = []
-        keyword_list = ["inst", "strike", "flank", "chat"]  # List of valid keywords
-
-        # Start reading the identifier
-        start_index = i
-        while i < len(input_string) and (input_string[i].isalnum() or input_string[i] == '_'):  # Allow alphanumeric characters and underscores
-            if input_string[i].isalpha() and not input_string[i].islower():  # Ensure identifiers are lowercase
-                raise ValueError(f"Lexical Error: Identifier must be lowercase at position {i}")
-            i += 1
-
-        # Extract the token
-        token = input_string[start_index:i]
-
-        # Ensure the identifier is no longer than 15 characters
-        if len(token) > 15:
-            raise ValueError(f"Lexical Error: Identifier '{token}' exceeds 15 characters at position {start_index}")
-
-        # Check if the token is a keyword (reserved word)
-        if token in keyword_list:
-            tokens.append((f"{token}_keyword", token))  # Handle keywords
-        else:
-            tokens.append(("identifier", token))  # Handle identifiers
-
-        # Lookahead for valid space or delimiters in delim25 after the identifier
-        if i < len(input_string):
-            char = input_string[i]
-            if char == ' ':  # Check if the next character is a space
-                # Process the space token using the space_token method
-                space_tokens, i = self.space_token(input_string, i)
-                tokens.extend(space_tokens)  # Add space tokens to the token list
-
-            # Now check if the next character is a valid delimiter (delim25)
-            if i < len(input_string) and input_string[i] in self.delim25:  # Check if next char is in delim25 (space or '=')
-                tokens.append((input_string[i], input_string[i]))  # Add the delimiter as a token
-                i += 1  # Move past the delimiter
-
-        return tokens, i
 
 def readTokens(input_string, tokenizer):
     """Tokenize the input string using the given tokenizer."""
@@ -1577,6 +1593,11 @@ def readTokens(input_string, tokenizer):
                 tokens.extend(comment_tokens)
                 continue
 
+            # Handle special symbols like ~{ and }~
+            if input_string[i:i + 2] in ["~{", "}~"]:
+                special_tokens, i = tokenizer.handle_special_symbols(input_string, i)
+                tokens.extend(special_tokens)
+                continue
 
             # Handle operators (including assignment, comparison, and arithmetic operators)
             elif char in ['+', '-', '*', '/', '%', '=', '>', '<', '!', '&']:
@@ -1676,8 +1697,8 @@ def readTokens(input_string, tokenizer):
 
             # Handle specific keywords and identifiers
             elif char.isalpha():
-                keyword_or_identifier_tokens, i = tokenizer.keyword_or_identifier_token(input_string, i)
-                tokens.extend(keyword_or_identifier_tokens)  # Add keyword/identifier token
+                identifier_token, i = tokenizer.identifier_token(input_string, i)
+                tokens.extend(identifier_token)  # Add keyword/identifier token
 
             # Handle newline characters explicitly
             elif char == '\n':
