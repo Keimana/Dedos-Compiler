@@ -23,15 +23,21 @@ def analyze_code():
         error_output.insert(tk.END, "Lexemes and Tokens:\n")
         error_output.insert(tk.END, "-" * 30 + "\n")
 
-        for token_type, lexeme in tokens:
+        for idx, (token_type, lexeme) in enumerate(tokens, start=1):
+            # Format with numbering
+            lexeme_numbered = f"{idx}. {lexeme}"
+            token_numbered = f"{idx}. {token_type}"
+
+            # Handle newline tokens specifically
             if token_type == "\\n":
-                lexeme_list.insert(tk.END, "\\n")
-                token_list.insert(tk.END, "newline_token")
-                error_output.insert(tk.END, f"Lexeme: \\n\tToken: newline_token\n")
-            else:
-                lexeme_list.insert(tk.END, lexeme)
-                token_list.insert(tk.END, token_type)
-                error_output.insert(tk.END, f"Lexeme: {lexeme}\tToken: {token_type}\n")
+                lexeme_numbered = f"{idx}. \\n"
+                token_numbered = f"{idx}. newline_token"
+                error_output.insert(tk.END, f"{lexeme_numbered}\t{token_numbered}\n")
+
+            # Add to listboxes and error output
+            lexeme_list.insert(tk.END, lexeme_numbered)
+            token_list.insert(tk.END, token_numbered)
+            error_output.insert(tk.END, f"{lexeme_numbered}\t{token_numbered}\n")
 
         error_output.insert(tk.END, "-" * 30 + "\n")
         error_output.insert(tk.END, "Lexical analysis completed successfully!\n")
@@ -47,6 +53,7 @@ def analyze_code():
         error_output.insert(tk.END, f"Unexpected Error: {str(e)}\n")
         error_output.insert(tk.END, f"Traceback:\n{traceback.format_exc()}\n")
         error_output.config(state=tk.DISABLED)
+
 
 
 def update_line_numbers(event=None):
@@ -106,11 +113,16 @@ def create_rounded_button(parent, text, command, bg, fg, font):
 analyzer_button_frame = tk.Frame(root, bg="#333333")
 analyzer_button_frame.grid(row=0, column=0, columnspan=5, padx=10, pady=10, sticky="ew")
 
+# Syntax Analyzer Button
+def analyze_lexer():
+    """Placeholder function for syntax analyzer."""
+    messagebox.showinfo("Lexical Analyzer", "This is Lexical Analyzer")
+
 # Lexical Analyzer Button
 lexical_button = create_rounded_button(
     analyzer_button_frame,
-    text="Lexical Analyzer",
-    command=analyze_code,  # Replace with actual lexical analysis function
+    text="Lexical Analyzer", # Replace with actual lexical analysis function
+    command=analyze_lexer,
     bg="#007acc",
     fg="white",
     font=("Arial", 10),
@@ -120,7 +132,7 @@ lexical_button.pack(side=tk.LEFT, padx=10)
 # Syntax Analyzer Button
 def analyze_syntax():
     """Placeholder function for syntax analyzer."""
-    messagebox.showinfo("Syntax Analyzer", "Syntax analyzer function triggered!")
+    messagebox.showinfo("Syntax Analyzer", "Under Development")
 
 syntax_button = create_rounded_button(
     analyzer_button_frame,
@@ -135,7 +147,7 @@ syntax_button.pack(side=tk.LEFT, padx=10)
 # Semantic Analyzer Button
 def analyze_semantics():
     """Placeholder function for semantic analyzer."""
-    messagebox.showinfo("Semantic Analyzer", "Semantic analyzer function triggered!")
+    messagebox.showinfo("Semantic Analyzer", "Under Development")
 
 semantic_button = create_rounded_button(
     analyzer_button_frame,
@@ -162,7 +174,7 @@ run_button = create_rounded_button(
     command=analyze_code,  # This will trigger the analyze_code function
     bg="#007acc",
     fg="white",
-    font=("Arial", 10),
+    font=("Arial", 12),
 )
 run_button.pack(side=tk.LEFT, padx=10)
 
@@ -173,9 +185,9 @@ completion_message.pack(side=tk.LEFT, padx=10)
 
 # Input Frame for Code
 input_frame = tk.Frame(root, bg="#333333")
-input_frame.grid(row=1, column=0, columnspan=2, padx=20, pady=10, sticky="nsew")
+input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=10, sticky="nsew")
 
-line_numbers = tk.Text(input_frame, width=4, bg="#1e1e1e", fg="white", font=("Arial", 12), bd=0, height=10)
+line_numbers = tk.Text(input_frame, width=4, bg="#1e1e1e", fg="white", font=("Arial", 12), bd=0, height=15)
 line_numbers.pack(side=tk.LEFT, fill=tk.Y)
 line_numbers.config(state=tk.DISABLED)
 
@@ -183,26 +195,48 @@ code_input = scrolledtext.ScrolledText(input_frame, bg="#1e1e1e", fg="white", in
 code_input.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 code_input.bind("<KeyRelease>", update_line_numbers)
 
-# Lexeme Listbox with Scrollbar
-lexeme_frame = tk.Frame(root, bg="#333333")  # Frame to hold the listbox and scrollbar
-lexeme_frame.grid(row=1, column=3, padx=10, pady=5, sticky="nsew")
+# Lexeme Title
+lexeme_title = tk.Label(root, text="Lexemes", bg="#333333", fg="white", font=("Arial", 12, "bold"))
+lexeme_title.grid(row=0, column=3, padx=10, pady=5, sticky="n")
 
-lexeme_scroll = tk.Scrollbar(lexeme_frame, orient=tk.VERTICAL)  # Vertical scrollbar for Lexeme
+# Lexeme Listbox with Border
+lexeme_frame_with_border = tk.Frame(root, bg="#1e1e1e", relief="solid", borderwidth=2)  # Frame with a solid border
+lexeme_frame_with_border.grid(row=1, column=3, padx=10, pady=5, sticky="nsew")
+
+lexeme_scroll = tk.Scrollbar(lexeme_frame_with_border, orient=tk.VERTICAL)  # Vertical scrollbar for Lexeme
 lexeme_scroll.pack(side=tk.RIGHT, fill=tk.Y)
 
-lexeme_list = tk.Listbox(lexeme_frame, bg="#1e1e1e", fg="white", font=("Arial", 10), yscrollcommand=lexeme_scroll.set)
+lexeme_list = tk.Listbox(
+    lexeme_frame_with_border,
+    bg="#1e1e1e",
+    fg="white",
+    font=("Arial", 10),
+    yscrollcommand=lexeme_scroll.set
+)
 lexeme_list.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
 lexeme_scroll.config(command=lexeme_list.yview)  # Connect the scrollbar to the listbox
 
-# Token Listbox with Scrollbar
-token_frame = tk.Frame(root, bg="#333333")  # Frame to hold the listbox and scrollbar
-token_frame.grid(row=1, column=4, padx=10, pady=5, sticky="nsew")
 
-token_scroll = tk.Scrollbar(token_frame, orient=tk.VERTICAL)  # Vertical scrollbar for Token
+
+# Token Title
+token_title = tk.Label(root, text="Tokens", bg="#333333", fg="white", font=("Arial", 12, "bold"))
+token_title.grid(row=0, column=4, padx=10, pady=5, sticky="n")
+
+# Token Listbox with Border
+token_frame_with_border = tk.Frame(root, bg="#1e1e1e", relief="solid", borderwidth=2)  # Frame with a solid border
+token_frame_with_border.grid(row=1, column=4, padx=10, pady=5, sticky="nsew")
+
+token_scroll = tk.Scrollbar(token_frame_with_border, orient=tk.VERTICAL)  # Vertical scrollbar for Token
 token_scroll.pack(side=tk.RIGHT, fill=tk.Y)
 
-token_list = tk.Listbox(token_frame, bg="#1e1e1e", fg="white", font=("Arial", 10), yscrollcommand=token_scroll.set)
+token_list = tk.Listbox(
+    token_frame_with_border,
+    bg="#1e1e1e",
+    fg="white",
+    font=("Arial", 10),
+    yscrollcommand=token_scroll.set
+)
 token_list.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
 token_scroll.config(command=token_list.yview)  # Connect the scrollbar to the listbox
