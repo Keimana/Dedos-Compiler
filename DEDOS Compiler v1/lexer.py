@@ -860,10 +860,10 @@ class DEDOSLexicalAnalyzer:
                 result += self.currentChar
                 self.next()
 
-            if self.currentChar in [x for x in set(errorChar) if x not in set(delim3)]:
+            if self.currentChar in [x for x in set(errorChar) if x not in set(delim4)]:
                     return "UNKNOWN LEXEME", result
 
-            if self.currentChar not in delim3:
+            if self.currentChar not in delim4:
                     return "UNKNOWN LEXEME", result
 
             return "watch", result
