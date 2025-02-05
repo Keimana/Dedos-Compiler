@@ -617,7 +617,7 @@ class DEDOSLexicalAnalyzer:
                 result += self.currentChar
                 self.next()
 
-            if self.currentChar in [x for x in set(errorChar) if x not in set(delim4)]:
+            if self.currentChar in [x for x in set(errorChar) if x not in set(delim5)]:
                 return "UNKNOWN LEXEME", result
 
             if self.currentChar not in delim5:
