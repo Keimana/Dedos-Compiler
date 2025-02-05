@@ -577,10 +577,10 @@ class DEDOSLexicalAnalyzer:
             result += self.currentChar
             self.next()
 
-        if self.currentChar in [x for x in set(errorChar) if x not in set(delim5)]:
+        if self.currentChar in [x for x in set(errorChar) if x not in set(delim1)]:
             return "UNKNOWN LEXEME", result
 
-        if self.currentChar not in delim3:
+        if self.currentChar not in delim1:
             return "UNKNOWN LEXEME", result
 
         return "load", result
@@ -750,7 +750,7 @@ class DEDOSLexicalAnalyzer:
                                 self.next()
 
                                 # Verify delimiter after "reload"
-                                if self.currentChar in delim1:
+                                if self.currentChar in delim4:
                                     return "reload", result
                                 else:
                                     # Invalid delimiter after "reload"
@@ -1010,7 +1010,7 @@ class DEDOSLexicalAnalyzer:
         elif self.currentChar == '}':
             result += self.currentChar
             self.next()
-            if self.currentChar in delim16:
+            if self.currentChar in delim11:
                 return "}", result
             else:
                 return "UNKNOWN LEXEME", result
