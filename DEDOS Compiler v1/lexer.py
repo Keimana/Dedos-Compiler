@@ -750,7 +750,7 @@ class DEDOSLexicalAnalyzer:
                                 self.next()
 
                                 # Verify delimiter after "reload"
-                                if self.currentChar in delim4:
+                                if self.currentChar in delim1:
                                     return "reload", result
                                 else:
                                     # Invalid delimiter after "reload"
@@ -766,7 +766,7 @@ class DEDOSLexicalAnalyzer:
                         return "UNKNOWN LEXEME", result
                 else:
                     # After "re", check if the current character is a valid delimiter for "re"
-                    if self.currentChar in delim24:
+                    if self.currentChar in delim4:
                         return "re", result
                     else:
                         # "re" not followed by a valid delimiter
