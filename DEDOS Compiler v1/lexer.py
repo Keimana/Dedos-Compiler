@@ -558,7 +558,7 @@ class DEDOSLexicalAnalyzer:
                     return "info", result
 
             # After checking for 'inst' and 'info', if no match, return "in"
-            if self.currentChar not in delim5:
+            if self.currentChar not in delim3:
                 return "UNKNOWN LEXEME", result
             return "in", result  # Return "in" if no other tokens matched
 
