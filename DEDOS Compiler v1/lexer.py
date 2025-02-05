@@ -710,7 +710,21 @@ class DEDOSLexicalAnalyzer:
                 return "UNKNOWN LEXEME", result
 
             return "pos", result
+        
+        if checker == "pus":
+            for char in "push":
+                if self.currentChar != char:
+                    return "UNKNOWN LEXEME", result
+                result += self.currentChar
+                self.next()
 
+            if self.currentChar in [x for x in set(errorChar) if x not in set(delim12)]:
+                return "UNKNOWN LEXEME", result
+
+            if self.currentChar not in delim12:
+                return "UNKNOWN LEXEME", result
+
+            return "push", result
         else:
             result += self.currentChar
             self.next()
