@@ -1,14 +1,12 @@
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox, filedialog
 from lexer import DEDOSLexicalAnalyzer
-from parser import DEDOSParser  # Import your PLY-based parser
-
+from Syntax import DEDOSParser  # Import your PLY-based parser
+import Semantic
 class LexerGUI:
-    def __init__(self, master, analysis_type):
+    def __init__(self, master):
         self.master = master
-        self.analysis_type = analysis_type
-        master.title(f"DEDOS {analysis_type} Analyzer")
-        master.geometry("900x600")
+        master.geometry("1400x600")
 
         # Configure grid layout for responsiveness
         master.grid_columnconfigure(0, weight=2, uniform="equal")
@@ -21,20 +19,23 @@ class LexerGUI:
         master.grid_rowconfigure(2, weight=2)
         master.grid_rowconfigure(3, weight=1)
 
-        # Buttons for different analyzers
+        # ✅ First, define `analyzer_button_frame`
         analyzer_button_frame = tk.Frame(master, bg="#333333")
         analyzer_button_frame.grid(row=12, column=0, columnspan=5, padx=10, pady=10, sticky="ew")
 
+        # ✅ Now, define `self.syntax_button` after `analyzer_button_frame`
+        self.syntax_button = self.create_rounded_button(analyzer_button_frame, "Run Syntax Analyzer", self.analyze_syntax, "#007acc", "white", ("Arial", 10))
+        self.syntax_button.pack(side=tk.LEFT, padx=10)
+        self.syntax_button.configure(state="disabled")  # Initially disabled
+
+        self.semantic_button = self.create_rounded_button(analyzer_button_frame, "Semantic Analyzer", self.analyze_semantics, "#007acc", "white", ("Arial", 10))
+        self.semantic_button.pack(side=tk.LEFT, padx=10)
+        self.semantic_button.configure(state="disabled")  # Initially disabled
+
+        # ✅ Now, define other buttons in `analyzer_button_frame`
         lexical_button = self.create_rounded_button(analyzer_button_frame, "Run Lexical Analyzer", self.analyze_code, "#007acc", "white", ("Arial", 10))
         lexical_button.pack(side=tk.LEFT, padx=10)
 
-        syntax_button = self.create_rounded_button(analyzer_button_frame, "Run Syntax Analyzer", self.analyze_syntax, "#007acc", "white", ("Arial", 10))
-        syntax_button.pack(side=tk.LEFT, padx=10)
-
-        semantic_button = self.create_rounded_button(analyzer_button_frame, "Semantic Analyzer", self.analyze_semantics, "#007acc", "white", ("Arial", 10))
-        semantic_button.pack(side=tk.LEFT, padx=10)
-
-        # Buttons for file import/export
         import_button = self.create_rounded_button(analyzer_button_frame, "Import File", self.import_file, "#007acc", "white", ("Arial", 10))
         import_button.pack(side=tk.LEFT, padx=10)
 
@@ -70,6 +71,24 @@ class LexerGUI:
 
         # Bind Ctrl+F to the find_text function
         self.master.bind("<Control-f>", self.open_find_dialog)
+        # Input Frame with Line Numbers
+        
+        input_frame = tk.Frame(master, bg="#333333")
+        input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=10, sticky="nsew")
+
+        # Line Number Panel
+        self.line_numbers = tk.Text(input_frame, width=4, padx=5, bg="#1e1e1e", fg="white", state="disabled", font=("Arial", 12))
+        self.line_numbers.pack(side=tk.LEFT, fill=tk.Y)
+
+        # Code Input Box
+        self.code_input = scrolledtext.ScrolledText(input_frame, bg="#1e1e1e", fg="white", insertbackground="white", font=("Arial", 12))
+        self.code_input.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
+
+        # Bind events to update line numbers
+        self.code_input.bind("<KeyRelease>", self.update_line_numbers)
+        self.code_input.bind("<MouseWheel>", self.sync_scroll)
+        self.code_input.bind("<Configure>", self.update_line_numbers)
+
 
     def create_rounded_button(self, parent, text, command, bg, fg, font):
         """Creates a rounded button with a hover effect."""
@@ -105,6 +124,21 @@ class LexerGUI:
         button.bind("<Leave>", on_leave)
 
         return button
+    
+    def update_line_numbers(self, event=None):
+        """Update line numbers dynamically."""
+        self.line_numbers.config(state="normal")
+        self.line_numbers.delete("1.0", tk.END)
+        
+        line_count = self.code_input.get("1.0", tk.END).count("\n")  # Count lines
+        line_numbers_str = "\n".join(str(i) for i in range(1, line_count + 1))  # Generate numbers
+
+        self.line_numbers.insert("1.0", line_numbers_str)
+        self.line_numbers.config(state="disabled")  # Prevent user from modifying it
+
+    def sync_scroll(self, event):
+        """Sync scrolling between code input and line numbers."""
+        self.line_numbers.yview_moveto(self.code_input.yview()[0])  # Move line numbers
 
     def apply_dark_mode(self):
         """Apply dark mode theme."""
@@ -150,15 +184,6 @@ class LexerGUI:
             start_pos = end_pos
         self.code_input.tag_config("highlight", background="yellow", foreground="black")
 
-    def run_analysis(self):
-        """Run the selected analysis based on the mode chosen at startup."""
-        if self.analysis_type == "Lexical":
-            self.analyze_code()
-        elif self.analysis_type == "Syntax":
-            self.analyze_syntax()
-        elif self.analysis_type == "Semantic":
-            self.analyze_semantics()
-
     def analyze_code(self):
         """Run Lexical Analysis"""
         self.tokens_list.delete(0, tk.END)
@@ -171,23 +196,36 @@ class LexerGUI:
             return
 
         # Initialize the lexer
-        lexer = DEDOSLexicalAnalyzer(code)
-        lexer.getNextTokens()
+        self.lexer = DEDOSLexicalAnalyzer(code)
+        self.lexer.getNextTokens()
 
-        # Display tokens (types) in the "Tokens" list box
-        for token in lexer.tokens:
-            if " : " in token:  # Ensure token contains " : " before splitting
-                token_type, token_value = token.split(" : ")
-                self.tokens_list.insert(tk.END, token_type)  # Display token type in "Tokens"
-                self.lexemes_list.insert(tk.END, token_value)  # Display token value (lexeme) in "Lexemes"
+        # ✅ Correctly assign line numbers
+        current_line = 1
+        for token in self.lexer.tokens:
+            if " : " in token:
+                token_type, lexeme_value = token.split(" : ", 1)
+                self.tokens_list.insert(tk.END, f"{current_line}. {token_type}")
+                self.lexemes_list.insert(tk.END, f"{current_line}. {lexeme_value}")
             else:
-                # If the token doesn't have the expected format, display it as is
-                self.tokens_list.insert(tk.END, token)
-                self.lexemes_list.insert(tk.END, token)  # Display the same token for lexeme as fallback
+                self.tokens_list.insert(tk.END, f"{current_line}. {token}")
+                self.lexemes_list.insert(tk.END, f"{current_line}. {token}")
 
-        # Display errors in the "Errors" list box
-        for error in lexer.tokensForUnknown:
-            self.errors_list.insert(tk.END, error)
+            # ✅ Count new lines based on token content
+            if "\n" in lexeme_value:
+                current_line += lexeme_value.count("\n")  # Increments based on actual lines
+            else:
+                current_line += 1  # Default: move to the next line
+
+        # ✅ Display lexical errors properly
+        if self.lexer.tokensForUnknown:
+            for error in self.lexer.tokensForUnknown:
+                self.errors_list.insert(tk.END, error)
+            self.syntax_button.configure(state="disabled")
+        else:
+            self.errors_list.insert(tk.END, "LEXICAL COMPILE SUCCESSFUL ✅")
+            self.syntax_button.configure(state="normal")  # Enable syntax analysis
+
+
 
     def import_file(self):
         """Open a file dialog to import a code file."""
@@ -217,80 +255,58 @@ class LexerGUI:
         """Run Syntax Analysis and display errors in GUI."""
         self.errors_list.delete(0, tk.END)  # Clear previous errors
 
-        code = self.code_input.get("1.0", tk.END).strip()
-        if not code:
-            messagebox.showwarning("Input Error", "Please enter some code to analyze!")
+        if not hasattr(self, "lexer") or not self.lexer.tokens:
+            messagebox.showwarning("Syntax Error", "Run Lexical Analysis First!")
             return
 
-        lexer = DEDOSLexicalAnalyzer(code)
-        lexer.getNextTokens()
+        # Initialize Parser
+        self.parser = DEDOSParser(self.lexer.tokens)
+        self.parser.ListToDict()
+        self.parser.GetNextTerminal()
 
-        # Pass the lexer-generated tokens to the parser
-        parser = DEDOSParser(lexer.tokens)
-        parser.parse()
+        syntaxErrors = self.parser.SyntaxErrors
 
-        # Display syntax errors in the GUI
-        if parser.errors_list:
-            for error in parser.errors_list:
+        # Display syntax errors
+        if syntaxErrors:
+            for error in syntaxErrors:
                 self.errors_list.insert(tk.END, error)
+            self.semantic_button.configure(state="disabled")
         else:
-            self.errors_list.insert(tk.END, "No Syntax Errors Found ✅")
+            self.errors_list.insert(tk.END, "SYNTAX COMPILE SUCCESSFUL ✅")
+            self.semantic_button.configure(state="normal")  # Enable semantic analysis
+
+            # Run Semantic Analysis
+            self.analyze_semantics()
 
     def analyze_semantics(self):
-        """Run Semantic Analysis (Placeholder)"""
-        messagebox.showinfo("Semantic Analyzer", "Semantic Analysis is under development")
+        """Run Semantic Analysis"""
+        if not hasattr(self, "parser") or not self.parser.SemanticSequence:
+            messagebox.showwarning("Semantic Error", "Run Syntax Analysis First!")
+            return
 
-def choose_analysis():
-    """Prompt the user to select analysis type before launching the main GUI."""
+        # Initialize Semantic Analyzer
+        self.semanticAnalyzer = Semantic.Sem(self.parser.Terminals, self.parser.SemanticSequence)
+        self.semanticAnalyzer.keyval_fix()
+        self.semanticAnalyzer.token_type()
+
+        output = self.semanticAnalyzer.Output
+        errorfound = any("Semantic Error" in item or "Runtime Error" in item for item in output)
+
+        # Display results
+        for line in output:
+            self.errors_list.insert(tk.END, line)
+
+        if not errorfound:
+            self.errors_list.insert(tk.END, "\n✅ SEMANTIC COMPILE SUCCESSFUL")
+        else:
+            self.errors_list.insert(tk.END, "\n❌ ERRORS FOUND DURING SEMANTIC COMPILATION")
+
+
+# ===================== Run GUI Without Choose Analysis =====================
+def main():
     root = tk.Tk()
-    root.withdraw()  # Hide the root window
-
-    # Create a Toplevel window (modal dialog)
-    dialog = tk.Toplevel(root)
-    dialog.title("Choose Analysis Type")
-    dialog.geometry("300x200")
-
-    def select_lexical():
-        selected_mode = "Lexical"
-        dialog.destroy()  # Close the dialog
-        main(selected_mode)
-
-    def select_syntax():
-        selected_mode = "Syntax"
-        dialog.destroy()  # Close the dialog
-        main(selected_mode)
-
-    def select_semantic():
-        selected_mode = "Semantic"
-        dialog.destroy()  # Close the dialog
-        main(selected_mode)
-
-    # Add buttons for each analysis type
-    lexical_button = tk.Button(dialog, text="Lexical Analysis", command=select_lexical, width=20)
-    lexical_button.pack(pady=10)
-
-    syntax_button = tk.Button(dialog, text="Syntax Analysis", command=select_syntax, width=20)
-    syntax_button.pack(pady=10)
-
-    semantic_button = tk.Button(dialog, text="Semantic Analysis", command=select_semantic, width=20)
-    semantic_button.pack(pady=10)
-
-    dialog.mainloop()
-
-def main(selected_mode):
-    """Launch the GUI with the selected analysis mode."""
-    root = tk.Tk()
-    app = LexerGUI(root, selected_mode)
+    app = LexerGUI(root)
     root.mainloop()
 
 if __name__ == "__main__":
-    choose_analysis()
-
-def main(selected_mode):
-    """Launch the GUI with the selected analysis mode."""
-    root = tk.Tk()
-    app = LexerGUI(root, selected_mode)
-    root.mainloop()
-
-if __name__ == "__main__":
-    choose_analysis()
+    main()

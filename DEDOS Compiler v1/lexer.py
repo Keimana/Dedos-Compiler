@@ -32,14 +32,14 @@ delim26 = [',', '+', '-', '*', '/', '%', '=', '<', '>', '!', '^', '\n', '\0', '}
 delim27 = [' ', '\n', '\0', '}']
 delim28 = [' ', ';', '\n', '\0']
 zero = '0'
-errorChar = ['!', '@', '%', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '|', '\\', ':', "'", '"', ',', '.', '<', '>', '/', '?', '~']
-unknownCharacters = ['@',  '&', '_', '?', '|', ';', '-', '|', '\\', ':', ';', 'e', 'h', 'j', 'k', 'm', 'q', 'u', 'v', 'x', 'y', 'z', '.', "'"] + [chr(ord('A') + i) for i in range(26)]
+errorChar = ['!', '@', '%', '&', '*', '(', ')', '-', '_', '+', '=', '{', '}', '[', ']', '~', '\\', ':', "'", '"', ',', '.', '<', '>', '/', '?', '~']
+unknownCharacters = ['@',  '&', '_', '?', '~', ';', '-', '~', '\\', ':', ';', 'e', 'h', 'j', 'k', 'm', 'q', 'u', 'v', 'x', 'y', 'z', '.', "'"] + [chr(ord('A') + i) for i in range(26)]
 reservedkeywords = ["abort", "and", "back", "bounce", "chat", "defuse", "flank", "force", "in", "inst", "info","load", "neg", "not", "or", "perim", "plant", "push", "re", "reload", "strike", "tool", "watch"]
 
 class DEDOSLexicalAnalyzer:
     def __init__(self, lexeme):
         self.lexeme = lexeme
-        self.currentChar = lexeme[0] if lexeme else ''
+        self.currentChar = lexeme[0] 
         self.position = 0
         self.value_ = None
         self.type_ = None
@@ -74,79 +74,105 @@ class DEDOSLexicalAnalyzer:
 
     def digits(self):
         result = ""
-        instctr = 0
-        flankctr = 0
 
-        while True:
-            if self.currentChar == '0':
-                result += self.currentChar
-                instctr += 1
-                self.next()
-            elif self.currentChar in "123456789":
-                result += self.currentChar
-                instctr += 1
-                self.next()
-                while True:
+        instctr = 0  # checker of hint
+        flankctr = 0  # checker of flute
+        lead = 1  # checker of leading zeros
+
+        if self.currentChar == "_":
+            result += self.currentChar
+            self.next()
+            if self.currentChar == ".":
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected ⏵ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"'
+            while True:
+                while self.currentChar in "0123456789" and self.currentChar != '\0':
                     if instctr > 9 or flankctr > 9:
-                        return "UNKNOWN LEXEME", result
-                    if self.currentChar in "0123456789":
+                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n ERROR: Out of range'
+                    result += self.currentChar
+                    self.next()
+                    instctr += 1
+
+                if self.currentChar == ".":
+                    result += self.currentChar
+                    self.next()
+                    while self.currentChar in "0123456789" and self.currentChar != '\0':
+                        if flankctr > 9:
+                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n ERROR: Out of range'
                         result += self.currentChar
-                        instctr += 1
                         self.next()
-                    elif self.currentChar == '.':
-                        result += self.currentChar
-                        self.next()
-                        while True:
-                            if instctr > 6 or flankctr > 9:
-                                return "UNKNOWN LEXEME", result
-                            if self.currentChar in "0123456789":
-                                result += self.currentChar
-                                flankctr += 1
-                                print(flankctr)
-                                self.next()
-                            elif self.currentChar in delim22:
-                                # When a delimiter is found, return FLANKLIT token along with the value
-                                return "FLANKLIT", result
-                            elif self.currentChar in [x for x in set(errorChar) if x not in set(delim22)]:
-                                return "UNKNOWN LEXEME", result
-                            else:
-                                break
-                        break
-                    elif self.currentChar in delim22:
-                        # When a delimiter is found, return INSTLIT token along with the value
-                        return "INSTLIT", result
-                    elif self.currentChar in [x for x in set(errorChar) if x not in set(delim22)]:
-                        return "UNKNOWN LEXEME", result
-                    else:
-                        break
-            elif self.currentChar == '.':
-                result += self.currentChar
-                self.next()
-                if self.currentChar == ' ' or self.currentChar == '\0' or self.currentChar == '\n':
-                    return "UNKNOWN LEXEME", result
-                while True:
-                    if instctr > 9 or flankctr > 9:
-                        return "UNKNOWN LEXEME", result
-                    if self.currentChar in "0123456789":
-                        result += self.currentChar
                         flankctr += 1
-                        self.next()
-                    elif self.currentChar in delim22:
-                        # When a delimiter is found, return FLANKLIT token along with the value
-                        return "FLANKLIT", result
-                    elif self.currentChar in [x for x in set(errorChar) if x not in set(delim22)]:
-                        return "UNKNOWN LEXEME", result
-                    else:
-                        break
-            elif self.currentChar in delim22:
-                # When a delimiter is found, return INSTLIT token along with the value
-                return "INSTLIT", result
-            elif self.currentChar in [x for x in set(errorChar) if x not in set(delim22)]:
-                return "UNKNOWN LEXEME", result
-            else:
-                break
 
-        return "UNKNOWN LEXEME", result
+                        if self.currentChar == ".":
+                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+
+                        if self.currentChar in delim22:  # 00.1
+                            if len(result) > 2:
+                                if result[1] == "0":
+                                    while result[lead] not in delim22:
+                                        if result[lead] in "123456789":
+                                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+                                        if result[lead] == "0":
+                                            lead += 1
+                                        if result[lead] == ".":
+                                            break
+
+                            return "FLANKLIT", result
+
+                    if flankctr == 0:
+                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+
+                elif self.currentChar in delim22:
+                    if len(result) > 1:
+                        if result[1] == "0":
+                            if result[2] in "0123456789":
+                                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+                    elif len(result) == 1:
+                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+                    return "INSTLIT", result
+
+                else:
+                    return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"'
+
+        elif self.currentChar in "0123456789":
+            while True:
+                while self.currentChar in "0123456789" and self.currentChar != '\0':
+                    if instctr > 9 or flankctr > 9:
+                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+                    result += self.currentChar
+                    self.next()
+                    instctr += 1
+
+                if self.currentChar == ".":
+                    result += self.currentChar
+                    self.next()
+
+                    while self.currentChar in "0123456789" and self.currentChar != '\0':
+                        if flankctr > 9:
+                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+                        result += self.currentChar
+                        self.next()
+                        flankctr += 1
+                        if self.currentChar == ".":
+                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+
+                        if self.currentChar in delim22:
+                            return "FLANKLIT", result
+
+                    if flankctr == 0:
+                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+
+                elif self.currentChar in delim22:
+                    if len(result) > 1:
+                        if result[0] == "0":
+                            if result[1] in "0123456789":
+                                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+
+                    return "INSTLIT", result
+
+                else:
+                    return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+        else:
+            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
 
     def operatorToken(self):
         result = ""
@@ -165,7 +191,7 @@ class DEDOSLexicalAnalyzer:
                     return "UNKNOWN LEXEME", result
 
             # If it's a valid delimiter after '+', return '+'
-            if self.currentChar in delim26:
+            if self.currentChar in delim22:
                 return "+", result
 
             return "UNKNOWN LEXEME", result  # Reject invalid operators
@@ -951,92 +977,127 @@ class DEDOSLexicalAnalyzer:
         
     def special_token(self):
         result = ""
-
-        # Handle the sequence '~{'
-        if self.currentChar == '~':
+        # Check for the open block token: ~{
+        # Other delimiters and special tokens:
+        if self.currentChar == "~":
             result += self.currentChar
-            self.next()  # Move to the next character
-            if self.currentChar == '{':  # Check if the next character is '{'
-                result += self.currentChar  # Append '{' to the result
-                self.next()
-                return "~{", result  # Return as opening block
-            elif self.currentChar in delim1:  # If only ~, validate against delim1
+            self.next()
+            if self.currentChar in delim11:
                 return "~", result
             else:
-                return "UNKNOWN LEXEME", result
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim23])}'
 
-        # Handle the sequence '}~'
-        elif self.currentChar == '}':
-            result += self.currentChar
-            self.next()  # Move to the next character
-            if self.currentChar == '~':  # Check if the next character is '~'
-                result += self.currentChar  # Append '~' to the result
-                self.next()
-                return "}~", result  # Return as closing block
-            elif self.currentChar in delim16:  # If only }, validate against delim16
-                return "}", result
-            else:
-                return "UNKNOWN LEXEME", result
-            
-        if self.currentChar == '~':
-            result += self.currentChar
-            self.next()
-            if self.currentChar in delim1:
-                return "~", result
-            else:
-                return "UNKNOWN LEXEME", result
-            
-        elif self.currentChar == '(':
-            result += self.currentChar
-            self.next()
-            if self.currentChar in delim23:
-                return "(", result
-            else:
-                return "UNKNOWN LEXEME", result
-        elif self.currentChar == '[':
-            result += self.currentChar
-            self.next()
-            if self.currentChar in delim10:
-                return "[", result
-            else:
-                return "UNKNOWN LEXEME", result
-        elif self.currentChar == '{':
+
+        # Other delimiters and special tokens:
+        elif self.currentChar == "{":
             result += self.currentChar
             self.next()
             if self.currentChar in delim11:
                 return "{", result
             else:
-                return "UNKNOWN LEXEME", result
-        elif self.currentChar == ')':
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim23])}'
+        
+        # Other delimiters and special tokens:
+        elif self.currentChar == "}":
+            result += self.currentChar
+            self.next()
+            if self.currentChar in delim11:
+                return "(", result
+            else:
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim23])}'
+        
+
+        # Other delimiters and special tokens:
+        elif self.currentChar == "(":
+            result += self.currentChar
+            self.next()
+            if self.currentChar in delim23:
+                return "(", result
+            else:
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim23])}'
+        
+        elif self.currentChar == ")":
             result += self.currentChar
             self.next()
             if self.currentChar in delim18:
                 return ")", result
             else:
-                return "UNKNOWN LEXEME", result
-        elif self.currentChar == ']':
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim18])}'
+        
+        elif self.currentChar == "[":
+            result += self.currentChar
+            self.next()
+            if self.currentChar in delim10:
+                return "[", result
+            else:
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim10])}'
+        
+        elif self.currentChar == "]":
             result += self.currentChar
             self.next()
             if self.currentChar in delim19:
                 return "]", result
             else:
-                return "UNKNOWN LEXEME", result
-        elif self.currentChar == '}':
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim19])}'
+        
+        elif self.currentChar == ";":
             result += self.currentChar
             self.next()
             if self.currentChar in delim11:
-                return "}", result
+                return ";", result
             else:
-                return "UNKNOWN LEXEME", result
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim11])}'
 
-        elif self.currentChar == ';':
+        elif self.currentChar == "'":
             result += self.currentChar
             self.next()
-            if self.currentChar in delim27:
-                print(result)
-                return ";", result
-        return "UNKNOWN LEXEME", result
-    
+            print(result, self.currentChar)
+            if self.currentChar == "\0":
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \nExpected ⏵ "\'\'"'
+            if self.currentChar == "'":
+                result += self.currentChar
+                self.next()
+                return "CHATLIT", result
+            result += self.currentChar
+            self.next()
+            print(result, self.currentChar)
+            if self.currentChar == "'":
+                result += self.currentChar
+                self.next()
+                print(result, self.currentChar)
+                if self.currentChar in delim20:
+                    return "CHATLIT", result
+                else:
+                    return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim20])}'
+            else:
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \nExpected ⏵ "\'\'"'
+        
+        elif self.currentChar == '"':  # ' Token
+            result += self.currentChar
+            self.next()
+            print(result, self.currentChar)
+            if self.currentChar == "\0":
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \nExpected ⏵ "\'\'"'
+            if self.currentChar == '"':
+                result += self.currentChar
+                self.next()
+                return "STRIKELIT", result
+            result += self.currentChar
+            self.next()
+            print(result, self.currentChar)
+            if self.currentChar == '"':
+                result += self.currentChar
+                self.next()
+                print(result, self.currentChar)
+                if self.currentChar in delim20:
+                    return "STRIKELIT", result
+                else:
+                    return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim20])}'
+            else:
+                return "UNKNOWN LEXEME ⏵", f'"{result}" \nExpected ⏵ "\'\'"'
+
+        else:
+            return "UNKNOWN LEXEME ⏵", f'"{result}" \n ERROR: Incorrect Delimiter'
     def UnknownToken(self):
         result = ""
         result += self.currentChar
@@ -1167,6 +1228,10 @@ class DEDOSLexicalAnalyzer:
     def getNextTokens(self):
         counter = 0
         error = "UNKNOWN LEXEME"
+        self.tokens = []
+        self.lineCounter = 1  # ✅ Start from line 1
+
+
         while True:
             if counter >= len(self.lexeme):
                 break
@@ -1347,6 +1412,11 @@ class DEDOSLexicalAnalyzer:
                 self.lineCounter += 1
                 self.next()
                 continue
+            if self.currentChar == "\t":
+                self.tokens.append(f'"Tab" "\\t"')
+                self.lineCounter += 1
+                self.next()
+                continue
             elif self.currentChar in unknownCharacters:
                 self.type_, self.value_ = self.UnknownToken()
                 self.tokensForUnknown.append(f'line #{self.lineCounter} : {self.type_} : {self.value_}')
@@ -1365,7 +1435,7 @@ def main():
         lexer.getNextTokens()
         print(lexer.tokens)
         print(lexer.tokensForUnknown)
-        if lexeme == "|":
+        if lexeme == "~":
             break
 
 
