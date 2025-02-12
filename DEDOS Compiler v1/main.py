@@ -219,7 +219,7 @@ class LexerGUI:
         # ✅ Display lexical errors properly
         if self.lexer.tokensForUnknown:
             for error in self.lexer.tokensForUnknown:
-                self.errors_list.insert(tk.END, error)
+                self.errors_list.insert(tk.END, f"Line {self.lexer.lineCounter}: {error}")
             self.syntax_button.configure(state="disabled")
         else:
             self.errors_list.insert(tk.END, "LEXICAL COMPILE SUCCESSFUL ✅")
@@ -252,12 +252,14 @@ class LexerGUI:
                 file.write(output)  # Write to the file
 
     def analyze_syntax(self):
+        syntaxErrors = []
         """Run Syntax Analysis and display errors in GUI."""
         self.errors_list.delete(0, tk.END)  # Clear previous errors
 
-        if not hasattr(self, "lexer") or not self.lexer.tokens:
-            messagebox.showwarning("Syntax Error", "Run Lexical Analysis First!")
-            return
+        for error in syntaxErrors:
+            line_number = self.parser.current_token[2] if hasattr(self.parser, 'current_token') else 1
+            self.errors_list.insert(tk.END, f"Line {line_number}: {error}")
+
 
         # Initialize Parser
         self.parser = DEDOSParser(self.lexer.tokens)
@@ -269,11 +271,12 @@ class LexerGUI:
         # Display syntax errors
         if syntaxErrors:
             for error in syntaxErrors:
-                self.errors_list.insert(tk.END, error)
+                self.errors_list.insert(tk.END, f"Line {self.parser.lineCounter}: {error}")
             self.semantic_button.configure(state="disabled")
         else:
             self.errors_list.insert(tk.END, "SYNTAX COMPILE SUCCESSFUL ✅")
             self.semantic_button.configure(state="normal")  # Enable semantic analysis
+
 
             # Run Semantic Analysis
             self.analyze_semantics()
