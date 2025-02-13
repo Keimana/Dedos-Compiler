@@ -156,11 +156,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 5: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
         else:
             print("SYNTAX ERROR 5.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "Identifier"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "Identifier"')  # put error in a list for viewing in GUI
 
     def ter_id(self):  # <id>
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<id>": self.position})
@@ -174,11 +174,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 6: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "[", "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "[", "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
         else:
             print("SYNTAX ERROR 6.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "Identifier"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "Identifier"')  # put error in a list for viewing in GUI
 
     def ter_index(self):  # <index>
         if self.currentkeys == '[':
@@ -196,11 +196,11 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 7: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
             else:
                 print("SYNTAX ERROR 7.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI
         elif (self.currentkeys in ['=', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst',
                                    'flank', 'strike', 'chat', 'tool', 'bounce', 'back', ']', 'COMMA', ')', '+',
                                    '-', '*', '/', '%', 'abort', 'push', '}', '<', '>', '<=', '>=', '==', '!=',
@@ -210,7 +210,7 @@ class DEDOSParser:
         else:
             print("SYNTAX ERROR 7.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "[", "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "[", "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
 
     def ter_inst_or_id_value(self):  # <inst or id value>
         if self.currentkeys == 'INSTLIT':  # Handle integer literals
@@ -225,7 +225,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 8: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\n'
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\n'
                     f'Expected ⏵ "]", "COMMA", ")", ";"')
 
         elif self.currentkeys == 'Identifier':  # Handle variable identifiers
@@ -238,13 +238,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 8.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\n'
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\n'
                     f'Expected ⏵ "]", "COMMA", ")", ";"')
 
         else:
             print("SYNTAX ERROR 8.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\n'
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\n'
                 f'Expected ⏵ "INSTLIT", "Identifier"')
 
     def ter_declare_and_initialize(self):  # <declare and initialize>
@@ -259,14 +259,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 10: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI
         elif (self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst', 'flank', 'strike',
                                    'chat', 'tool', 'bounce', 'back', '}', ';'] or 'Identifier' in self.currentkeys):
             pass
         else:
             print("SYNTAX ERROR 10.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI
 
     def ter_allowed_value(self):  # <allowed value>
         if self.currentkeys == 'INSTLIT':
@@ -298,15 +298,15 @@ class DEDOSParser:
                     else:
                         print("SYNTAX ERROR 11: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}", "Identifier"')  # put error in a list for viewing in GUI
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}", "Identifier"')  # put error in a list for viewing in GUI
                 else:
                     print("SYNTAX ERROR 11.1: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI
             else:
                 print("SYNTAX ERROR 11.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI
         elif self.currentkeys == '[':
             self.ter_array_value()
             if (self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst', 'flank',
@@ -316,7 +316,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 11.3: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys == 'CHATLIT':
             self.SemanticSequence.insert(len(self.SemanticSequence), {"<CHATLIT>": self.position})
             
@@ -328,7 +328,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 11.4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['neg', 'pos']:
             self.ter_tool_value()
             if (self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst', 'flank',
@@ -338,7 +338,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 11.5: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['(', 'INSTLIT', 'FLANKLIT', 'STRIKELIT'] or 'Identifier' in self.currentkeys:
             self.ter_math_expression()
             if (self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst', 'flank',
@@ -348,11 +348,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 11.6: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
         else:
             print("SYNTAX ERROR 11.7: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
         if "NEWLINE" in self.currentkeys:
             self.lineCounter += 1
             self.next()
@@ -366,13 +366,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 12: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI
         elif self.currentkeys == ')':
             pass  # NULL <return value>
         else:
             print("SYNTAX ERROR 12.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier", ")"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier", ")"')  # put error in a list for viewing in GUI
 
     def ter_data_value(self):
         if self.currentkeys in ['FLANKLIT', 'INSTLIT', 'STRIKELIT', 'CHATLIT', 'neg',
@@ -383,7 +383,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 13: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]"')  # put error in a list for viewing in GUI
         elif self.currentkeys == '[':
             self.ter_array_value()
             if self.currentkeys in [')', 'COMMA', ']']:
@@ -391,11 +391,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 13.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]"')  # put error in a list for viewing in GUI
         else:
             print("SYNTAX ERROR 13.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "FLANKLIT", "INSTLIT", "STRIKELIT", "CHATLIT", "neg", "pos", "Identifier", "["')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "FLANKLIT", "INSTLIT", "STRIKELIT", "CHATLIT", "neg", "pos", "Identifier", "["')  # put error in a list for viewing in GUI
 
     def ter_data_value_no_array(self):
         if self.currentkeys in ['neg', 'pos']:
@@ -405,7 +405,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 14: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
         elif self.currentkeys == 'CHATLIT':
             self.SemanticSequence.insert(len(self.SemanticSequence), {"<CHATLIT+>": self.position})
             self.next()  # Expected: self.currentkeys = follow set <data value no array>
@@ -414,7 +414,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 14.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['(', 'FLANKLIT', 'INSTLIT', 'STRIKELIT'] or 'Identifier' in self.currentkeys:
             self.ter_math_expression()
             if (self.currentkeys in [')', 'COMMA', ']', '<', '>', '<=', '>=', '==', '!=', 'and', 'or']):
@@ -422,11 +422,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 14.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
         else:
             print("SYNTAX ERROR 14.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "neg", "pos", "CHATLIT", "(", "FLANKLIT", "INSTLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "neg", "pos", "CHATLIT", "(", "FLANKLIT", "INSTLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
 
     def ter_tool_value(self):
         if self.currentkeys in ['neg', 'pos']:
@@ -439,12 +439,12 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 15: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]", "==", "!=", "and", "or", "inst", "strike", "chat", "tool", "flank", "}}", "~", "plant", "re", "force", "watch", "defuse", "bounce", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "COMMA", "]", "==", "!=", "and", "or", "inst", "strike", "chat", "tool", "flank", "}}", "~", "plant", "re", "force", "watch", "defuse", "bounce", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI
 
         else:
             print("SYNTAX ERROR 15.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "neg", "pos"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "neg", "pos"')  # put error in a list for viewing in GUI
 
 
     def ter_math_expression(self):
@@ -463,11 +463,11 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 16: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
             else:
                 print("SYNTAX ERROR 16.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['INSTLIT', 'FLANKLIT']:
             self.ter_number_value()
             self.ter_arithmetic_tail()
@@ -479,7 +479,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 16.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys == 'STRIKELIT':
             self.SemanticSequence.insert(len(self.SemanticSequence), {"<STRIKELIT+>": self.position})
             self.next()  # Expected: self.currentkeys = first set <arithmetic tail> or follow set <math expression>
@@ -493,7 +493,7 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 16.3: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
             elif (self.currentkeys in [')', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe',
                                        'inst', 'flank', 'strike', 'chat', 'tool', 'bounce', 'back', 'abort', 'push',
                                        'COMMA', ']', '==', '!=', 'and',
@@ -502,7 +502,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 16.3: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "==", "!=", "and", "or", "}}", "Identifier", "+"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "==", "!=", "and", "or", "}}", "Identifier", "+"')  # put error in a list for viewing in GUI
 
         elif 'Identifier' in self.currentkeys:
             self.ter_id_or_array()
@@ -515,11 +515,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 16.4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}" "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}" "Identifier"')  # put error in a list for viewing in GUI
         else:
             print("SYNTAX ERROR 16.5: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
 
     def ter_arithmetic_tail(self):
         if self.currentkeys in ['+', '-', '*', '/', '%']:
@@ -533,7 +533,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 17: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
         elif (self.currentkeys in [')', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe',
                                    'inst', 'flank', 'strike', 'chat', 'tool', 'bounce', 'back', 'abort', 'push',
                                    'COMMA', ']', '<', '>', '<=', '>=', '==', '!=', 'and',
@@ -542,7 +542,7 @@ class DEDOSParser:
         else:
             print("SYNTAX ERROR 17.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "+", "-", "*", "/", "%", ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "+", "-", "*", "/", "%", ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
 
     def ter_arithmetic(self):
         if self.currentkeys in ['+', '-', '*', '/', '%']:
@@ -553,11 +553,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 17.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 17.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "+", "-", "*", "/", "%"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "+", "-", "*", "/", "%"')  # put error in a list for viewing in GUI:
 
     def ter_number_value(self):
         if self.currentkeys in ['FLANKLIT', 'INSTLIT']:
@@ -571,11 +571,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 18: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "+", "-", "*", "/", "%", ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "Identifier", "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "+", "-", "*", "/", "%", ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "Identifier", "}}"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 18.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "FLANKLIT", "INSTLIT"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "FLANKLIT", "INSTLIT"')  # put error in a list for viewing in GUI:
 
     def ter_array_value(self):
         if self.currentkeys == '[':
@@ -590,15 +590,15 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 19: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", ")", "COMMA", "]", "Identifier"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", ")", "COMMA", "]", "Identifier"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 19.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 19.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "["')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "["')  # put error in a list for viewing in GUI:
 
     def ter_array_parameter_values(self):
         if self.currentkeys in ['[', 'neg', 'pos', 'CHATLIT', 'STRIKELIT', 'INSTLIT',
@@ -610,11 +610,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 20: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 20.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "[", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "[", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT"')  # put error in a list for viewing in GUI:
 
     def ter_array_data_value(self):
         if self.currentkeys in ['neg', 'pos', 'CHATLIT', 'STRIKELIT', 'INSTLIT', 'FLANKLIT'] or 'Identifier' in self.currentkeys:
@@ -624,11 +624,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 21: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "COMMA", "]"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "COMMA", "]"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 21.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier", "["')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier", "["')  # put error in a list for viewing in GUI:
 
     def ter_data_value_tail(self):
         if self.currentkeys == 'COMMA':
@@ -640,13 +640,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 23: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ']':
             pass  # NULL <data value tail>
         else:
             print("SYNTAX ERROR 23.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "COMMA", "]"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "COMMA", "]"')  # put error in a list for viewing in GUI:
 
     def ter_array_parameter_tail(self):
         if self.currentkeys == 'COMMA':
@@ -658,13 +658,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 24: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "]"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ']':
             pass  # NULL <array parameter tail>
         else:
             print("SYNTAX ERROR 24.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "COMMA", "]"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "COMMA", "]"')  # put error in a list for viewing in GUI:
 
     def ter_body(self):
         if self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse'] or 'Identifier' in self.currentkeys:
@@ -674,13 +674,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 25: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ~')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ~')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ['~', ';']:
             pass  # NULL <body>
         else:
             print("SYNTAX ERROR 25.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_statement(self):
         if self.currentkeys in ['plant', 're', 'force', 'watch'] or 'Identifier' in self.currentkeys:
@@ -691,7 +691,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 26: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'defuse':
             self.ter_function()
             self.ter_statement()
@@ -700,13 +700,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 26.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', ';'] or 'Identifier' in self.currentkeys:
             pass  # NULL <statement>
         else:
             print("SYNTAX ERROR 26.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "Identifier", "defuse", "~"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "Identifier", "defuse", "~"')  # put error in a list for viewing in GUI:
 
     def ter_body_no_defuse(self):
         if self.currentkeys in ['plant', 'force', 'watch'] or 'Identifier' in self.currentkeys:
@@ -717,7 +717,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 27: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 're':
             self.ter_condition_statement()
             if self.currentkeys in ['bounce', 'plant', 're', 'force', 'watch', 'defuse',
@@ -726,14 +726,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 27.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['bounce', 'plant', 're', 'force', 'watch', 'defuse',
                                   '}', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <body no defuse>
         else:
             print("SYNTAX ERROR 27.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_body_no_if_defuse(self):
         if self.currentkeys == 'plant' or 'Identifier' in self.currentkeys:
@@ -753,7 +753,7 @@ class DEDOSParser:
                     else:
                         print("SYNTAX ERROR 29: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
                 else:
                     self.prev()  # if Identifier but not for <function call statement>
                     self.ter_body_no_if_loop_defuse()
@@ -763,12 +763,12 @@ class DEDOSParser:
                     else:
                         print("SYNTAX ERROR 29.1: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
             else:
                 print("SYNTAX ERROR 28: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch']:
             self.ter_loop_statement()
             if self.currentkeys in ['re', 'bounce', 'abort', 'push', 'plant', 'force', 'watch', 'defuse',
@@ -777,14 +777,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 28.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['re', 'bounce', 'abort', 'push', 'plant', 'force', 'watch', 'defuse',
                                   '}', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <body no if-defuse>
         else:
             print("SYNTAX ERROR 28.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_body_no_if_loop_defuse(self):
         if 'Identifier' in self.currentkeys:
@@ -795,7 +795,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 29.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'plant':
             self.ter_output_statement()
             if self.currentkeys in ['re', 'force', 'watch', 'bounce', 'back', 'abort', 'push', '~',
@@ -804,14 +804,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 29.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         if self.currentkeys in ['re', 'force', 'watch', 'bounce', 'back', 'abort', 'push', '~',
                                 'plant', 'defuse', '}', ';'] or 'Identifier' in self.currentkeys:
             pass  # NULL <body no if-loop-defuse>
         else:
             print("SYNTAX ERROR 29.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_call_statement(self):
         if 'Identifier' in self.currentkeys:
@@ -824,11 +824,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 29.4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 29.5: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_parameter(self):
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<parameter+>": self.position})
@@ -844,15 +844,15 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 30: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 30.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 30.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
 
     def ter_parameter_values(self):
         if self.currentkeys in ['FLANKLIT', 'INSTLIT', 'STRIKELIT', 'CHATLIT', 'neg', 'pos',
@@ -864,13 +864,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 31: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <parameter values>
         else:
             print("SYNTAX ERROR 31.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "FLANKLIT", "INSTLIT", "STRIKELIT", "CHATLIT", "neg", "pos", "[", "Identifier", ")"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "FLANKLIT", "INSTLIT", "STRIKELIT", "CHATLIT", "neg", "pos", "[", "Identifier", ")"')  # put error in a list for viewing in GUI:
 
     def ter_parameter_tail(self):
         if self.currentkeys == 'COMMA':
@@ -882,13 +882,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 32: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass
         else:
             print("SYNTAX ERROR 32.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "COMMA", ")"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "COMMA", ")"')  # put error in a list for viewing in GUI:
 
     def ter_output_statement(self):
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<output statement+>": self.position})
@@ -912,7 +912,7 @@ class DEDOSParser:
         else:
             print("SYNTAX ERROR 33.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant"'
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant"'
             )
 
 
@@ -931,11 +931,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 34: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 34.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_assignment_operator(self):
         if self.currentkeys in ['=', '+=', '-=', '*=', '/=', '%=']:
@@ -947,11 +947,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 35: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "STRIKELIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "STRIKELIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 35.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "=", "+=", "-=", "*=", "/=", "%="')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "=", "+=", "-=", "*=", "/=", "%="')  # put error in a list for viewing in GUI:
 
     def ter_allowed_value_initialize(self):
         if 'Identifier' in self.currentkeys:
@@ -969,7 +969,7 @@ class DEDOSParser:
                     else:
                         print("SYNTAX ERROR 36: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "plant", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "plant", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['info', '[', 'CHATLIT', 'neg', 'pos', '(', 'INSTLIT', 'FLANKLIT', 'STRIKELIT']:
             self.ter_allowed_value()
             if self.currentkeys in ['re', 'force', 'watch', 'bounce', 'back', 'abort', 'push',
@@ -978,11 +978,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 36.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "plant", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "plant", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 36.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "Identifier", "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "Identifier", "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT"')  # put error in a list for viewing in GUI:
         if "NEWLINE" in self.currentkeys:
             self.lineCounter += 1
             self.next()
@@ -1000,7 +1000,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 37: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "~", "plant", "re", "force", "watch", "defuse", "bounce", "back", "}}", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "~", "plant", "re", "force", "watch", "defuse", "bounce", "back", "}}", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'watch':
             self.SemanticSequence.insert(len(self.SemanticSequence), {"<watch loop+>": self.position})
             self.ter_watch()
@@ -1013,11 +1013,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 37.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "~", "plant", "re", "force", "watch", "defuse", "bounce", "back", "}}", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "~", "plant", "re", "force", "watch", "defuse", "bounce", "back", "}}", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 37.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "force", "watch"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "force", "watch"')  # put error in a list for viewing in GUI:
 
     def ter_for(self):
         if self.currentkeys == 'force':
@@ -1040,27 +1040,27 @@ class DEDOSParser:
                             else:
                                 print("SYNTAX ERROR 38: Unexpected", self.currentvalues, self.lineCounter)
                                 self.SyntaxErrors.append(
-                                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
                         else:
                             print("SYNTAX ERROR 38.1: Unexpected", self.currentvalues, self.lineCounter)
                             self.SyntaxErrors.append(
-                                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
                     else:
                         print("SYNTAX ERROR 38.2: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
                 else:
                     print("SYNTAX ERROR 38.3: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "perim"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "perim"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 38.4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "in"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "in"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 38.5: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "force"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "force"')  # put error in a list for viewing in GUI:
 
     def ter_perim(self):
         if self.currentkeys == 'COMMA':
@@ -1072,13 +1072,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 39: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <perim>
         else:
             print("SYNTAX ERROR 39.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "COMMA", ")"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "COMMA", ")"')  # put error in a list for viewing in GUI:
 
     def ter_perim_tail(self):
         if self.currentkeys == 'COMMA':
@@ -1089,13 +1089,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 40: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <perim tail>
         else:
             print("SYNTAX ERROR 40.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "COMMA", ")"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "COMMA", ")"')  # put error in a list for viewing in GUI:
 
     def ter_loop_body(self):
         if self.currentkeys == '{':
@@ -1109,15 +1109,15 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 41: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "reload", "load", "Identifier"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "reload", "load", "Identifier"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 41.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 41.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
 
     def ter_loop_content(self):
         if self.currentkeys in ['force', 'watch', 'plant', 're', 'bounce', 'abort',
@@ -1131,13 +1131,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 42: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '}':
             pass
         else:
             print("SYNTAX ERROR 42.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "plant", "re", "bounce", "abort", "push", "Identifier", "}}"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "plant", "re", "bounce", "abort", "push", "Identifier", "}}"')  # put error in a list for viewing in GUI:
 
     def ter_loop_condition(self):
         if self.currentkeys == 're':
@@ -1151,14 +1151,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 43: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['re', 'bounce', 'abort', 'push', 'plant', 'force', 'watch',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <loop condition>
         else:
             print("SYNTAX ERROR 43.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_loop_re(self):
         if self.currentkeys == 're':
@@ -1171,11 +1171,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 44: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 44.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
 
     def ter_re(self):
         if self.currentkeys == 're':
@@ -1186,11 +1186,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 45: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 45.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
 
     def ter_condition(self):
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<condition+>": self.position})
@@ -1204,15 +1204,15 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 46: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 46.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 46.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
 
     def ter_logical_expression(self):
         if self.currentkeys == '(':
@@ -1226,11 +1226,11 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 47: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 47.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'not':
             self.ter_not_logic()
             self.ter_logic_or_relational_tail()
@@ -1239,7 +1239,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 47.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['neg', 'pos', 'CHATLIT', 'STRIKELIT', 'INSTLIT',
                                   'FLANKLIT'] or 'Identifier' in self.currentkeys:
             self.ter_relational_expression()
@@ -1249,11 +1249,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 47.3: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 47.4: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "(", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "(", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_logic_tail(self):
         if self.currentkeys in ['and', 'or']:
@@ -1264,13 +1264,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 48: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <logic tail>
         else:
             print("SYNTAX ERROR 48.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "and", "or", ")"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "and", "or", ")"')  # put error in a list for viewing in GUI:
 
     def ter_logical_operator(self):
         if self.currentkeys in ['and', 'or']:
@@ -1281,11 +1281,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 49: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "(", "not", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "(", "not", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 49.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "and", "or"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "and", "or"')  # put error in a list for viewing in GUI:
 
     def ter_not_logic(self):
         if self.currentkeys == 'not':
@@ -1300,19 +1300,19 @@ class DEDOSParser:
                     else:
                         print("SYNTAX ERROR 50: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "and", "or", "==", "!="')  # put error in a list for viewing in GUI:
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "and", "or", "==", "!="')  # put error in a list for viewing in GUI:
                 else:
                     print("SYNTAX ERROR 50.1: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 50.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 50.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "not"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "not"')  # put error in a list for viewing in GUI:
 
     def ter_logic_or_relational_tail(self):
         if self.currentkeys in ['and', 'or']:
@@ -1322,7 +1322,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 51: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['<', '>', '<=', '>=', '==', '!=']:
             self.ter_relational_tail()
             if self.currentkeys == ')':
@@ -1330,7 +1330,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 51.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass
         elif self.currentkeys in ['(', 'not', 'neg', 'pos', 'CHATLIT', 'STRIKELIT', 'INSTLIT', 'FLANKLIT',
@@ -1339,7 +1339,7 @@ class DEDOSParser:
         else:
             print("SYNTAX ERROR 51.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "and", "or", "==", "!=", ")"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "and", "or", "==", "!=", ")"')  # put error in a list for viewing in GUI:
 
     def ter_relational_expression(self):
         if self.currentkeys == '(':
@@ -1352,11 +1352,11 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 52: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "and", "or"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "and", "or"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 52.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['neg', 'pos', 'CHATLIT', 'STRIKELIT', 'INSTLIT',
                                   'FLANKLIT'] or 'Identifier' in self.currentkeys:
             self.ter_data_value_no_array()
@@ -1366,11 +1366,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 52.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "and", "or"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "and", "or"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 52.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "(", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "(", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_relational_tail(self):
         if self.currentkeys in ['<', '>', '<=', '>=', '==', '!=']:
@@ -1381,13 +1381,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 53: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "and", "or"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")", "and", "or"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in [')', 'and', 'or']:
             pass  # NULL <relational tail>
         else:
             print("SYNTAX ERROR 53.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "<", ">", "<=", ">=", "==", "!=", ")", "and", "or"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "<", ">", "<=", ">=", "==", "!=", ")", "and", "or"')  # put error in a list for viewing in GUI:
 
     def ter_relational_operator(self):
         if self.currentkeys in ['<', '>', '<=', '>=', '==', '!=']:
@@ -1398,11 +1398,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 54: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "(", "not", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "(", "not", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 54.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "<", ">", "<=", ">=", "==", "!="')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "<", ">", "<=", ">=", "==", "!="')  # put error in a list for viewing in GUI:
 
     def ter_loop_reload(self):
         if self.currentkeys == 'reload':
@@ -1417,14 +1417,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 55: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "load", "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "load", "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['load', 'bounce', 'abort', 'push', 're', 'plant', 'force', 'watch',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <loop elif>
         else:
             print("SYNTAX ERROR 55.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_reload(self):
         if self.currentkeys == 'reload':
@@ -1435,11 +1435,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 56: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 56.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload"')  # put error in a list for viewing in GUI:
 
     def ter_loop_load(self):
         if self.currentkeys == 'load':
@@ -1452,14 +1452,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 57: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['bounce', 'abort', 'push', 're', 'plant', 'force', 'watch',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <loop else>
         else:
             print("SYNTAX ERROR 57.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "load", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "load", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_control_flow(self):
         if self.currentkeys in ['bounce', 'abort', 'push']:
@@ -1476,14 +1476,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 58: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "abort", "push", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "abort", "push", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'force', 'watch', 'bounce', 'abort', 'push',
                                   '}', 'back'] or 'Identifier' in self.currentkeys:
             pass  # NULL <control flow>
         else:
             print("SYNTAX ERROR 58.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "abort", "push", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "abort", "push", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_watch(self):
         if self.currentkeys == 'watch':
@@ -1494,11 +1494,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 59: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 59.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "watch"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "watch"')  # put error in a list for viewing in GUI:
 
     def ter_condition_statement(self):
         if self.currentkeys == 're':
@@ -1512,11 +1512,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 60: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "~", "plant", "re", "force", "watch", "defuse", "bounce", "}}", "back", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "~", "plant", "re", "force", "watch", "defuse", "bounce", "}}", "back", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 60.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
 
     def ter_re_with_body(self):
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<if with body+>": self.position})
@@ -1529,11 +1529,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 61: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 61.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
 
     def ter_condition_body(self):
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<condition body+>": self.position})
@@ -1548,15 +1548,15 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 62: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 62.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 62.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
 
     def ter_condition_content(self):
         if self.currentkeys in ['plant', 're', 'force', 'watch', 'bounce'] or 'Identifier' in self.currentkeys:
@@ -1568,13 +1568,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 63: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '}':
             pass  # NULL <condition content>
         else:
             print("SYNTAX ERROR 63.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "Identifier", "}}"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "Identifier", "}}"')  # put error in a list for viewing in GUI:
 
     def ter_pass(self):
         if self.currentkeys == 'bounce':
@@ -1586,14 +1586,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 64: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "watch", "force", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "watch", "force", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'watch', 'force', 'bounce',
                                   'back', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <pass>
         else:
             print("SYNTAX ERROR 64.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "plant", "re", "watch", "force", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "plant", "re", "watch", "force", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_reload_with_body(self):
         if self.currentkeys == 'reload':
@@ -1608,14 +1608,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 65: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['load', 'plant', 're', 'force', 'watch', 'bounce', 'defuse',
                                   '}', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <elif with body>
         else:
             print("SYNTAX ERROR 65.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_load_with_body(self):
         if self.currentkeys == 'load':
@@ -1628,14 +1628,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 66: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'force', 'watch', 'bounce', 'defuse',
                                   '}', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <else with body>
         else:
             print("SYNTAX ERROR 66.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function(self):
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<function+>": self.position})
@@ -1654,19 +1654,19 @@ class DEDOSParser:
                     else:
                         print("SYNTAX ERROR 67: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "bounce", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
                 else:
                     print("SYNTAX ERROR 67.1: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 67.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 67.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "defuse"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "defuse"')  # put error in a list for viewing in GUI:
 
     def ter_function_parameter(self):
         if 'Identifier' in self.currentkeys:
@@ -1678,13 +1678,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 68: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <function parameter>
         else:
             print("SYNTAX ERROR 68.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "Identifier", ")"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "Identifier", ")"')  # put error in a list for viewing in GUI:
 
     def ter_id_tail(self):
         if self.currentkeys == 'COMMA':
@@ -1695,13 +1695,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 69: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <id tail>
         else:
             print("SYNTAX ERROR 69.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "COMMA", ")"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "COMMA", ")"')  # put error in a list for viewing in GUI:
 
     def ter_function_body(self):
         if self.currentkeys == '{':
@@ -1717,11 +1717,11 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 70: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 70.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
 
     def ter_function_declaration(self):
         if self.currentkeys == 'universal':
@@ -1733,7 +1733,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 71: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['inst', 'flank', 'strike', 'chat', 'tool']:
             self.ter_var_declaration()
             self.ter_function_declaration()
@@ -1742,14 +1742,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 71.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'force', 'watch', '}', 'bounce',
                                   'back'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function declaration>
         else:
             print("SYNTAX ERROR 71.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "universal", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}" , "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "universal", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}" , "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_globe(self):
         if self.currentkeys == 'universal':
@@ -1763,14 +1763,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 72: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "universal", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}", "bounce", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "universal", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}", "bounce", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['universal', 'inst', 'flank', 'strike', 'chat', 'tool', 'plant', 're',
                                   'force', 'watch', '}', 'bounce'] or 'Identifier' in self.currentkeys:
             pass  # NULL <universal>
         else:
             print("SYNTAX ERROR 72.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "universal", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}", "bounce", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "universal", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}", "bounce", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_content(self):
         if self.currentkeys in ['plant', 're', 'force', 'watch', 'bounce',
@@ -1786,13 +1786,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 73: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '}':
             pass  # NULL <function content>
         else:
             print("SYNTAX ERROR 73.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_condition(self):
         if self.currentkeys == 're':
@@ -1806,14 +1806,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 74: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         if self.currentkeys in ['force', 'watch', 'bounce', 'back', 'plant', 're',
                                 '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function condition>
         else:
             print("SYNTAX ERROR 74.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_re(self):
         if self.currentkeys == 're':
@@ -1826,11 +1826,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 75: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 75.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
 
     def ter_function_condition_body(self):
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<function condition body+>": self.position})
@@ -1845,15 +1845,15 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 76: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 76.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 76.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
 
     def ter_function_reload(self):
         if self.currentkeys == 'reload':
@@ -1868,14 +1868,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 77: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['load', 'force', 'watch', 'bounce', 'back', 'plant', 're',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function elif>
         else:
             print("SYNTAX ERROR 77.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", ')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", ')  # put error in a list for viewing in GUI:
 
     def ter_function_load(self):
         if self.currentkeys == 'load':
@@ -1888,14 +1888,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 78: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch', 'bounce', 'back', 'plant', 're',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function else>
         else:
             print("SYNTAX ERROR 78.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_loop(self):
         if self.currentkeys == 'force':
@@ -1910,7 +1910,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 79: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'watch':
             self.SemanticSequence.insert(len(self.SemanticSequence), {"<function watch loop+>": self.position})
             self.ter_watch()
@@ -1923,14 +1923,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 79.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['bounce', 'back', 'plant', '}', 'abort', 'push', 'force', 'watch',
                                   're'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function loop>
         else:
             print("SYNTAX ERROR 79.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_loop_body(self):
         if self.currentkeys == '{':
@@ -1944,15 +1944,15 @@ class DEDOSParser:
                 else:
                     print("SYNTAX ERROR 80: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "reload", "load", "Identifier"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "reload", "load", "Identifier"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 80.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 80.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
 
     def ter_function_loop_content(self):
         if self.currentkeys in ['plant', 're', 'force', 'watch', 'bounce', 'abort', 'push',
@@ -1968,13 +1968,13 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 81: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "}}"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '}':
             pass  # NULL <function loop content>
         else:
             print("SYNTAX ERROR 81.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_loop_condition(self):
         if self.currentkeys == 're':
@@ -1988,14 +1988,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 82: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch', 'bounce', 'abort', 'push', 'back', 'plant',
                                   're', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function loop condition>
         else:
             print("SYNTAX ERROR 82.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_loop_re(self):
         if self.currentkeys == 're':
@@ -2008,11 +2008,11 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 83: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
             print("SYNTAX ERROR 83.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "re"')  # put error in a list for viewing in GUI:
 
     def ter_function_loop_reload(self):
         if self.currentkeys == 'reload':
@@ -2027,14 +2027,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 84: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['load', 'force', 'watch', 'bounce', 'abort', 'push', 'back', 'plant',
                                   're', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function loop elif>
         else:
             print("SYNTAX ERROR 84.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "reload", "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_function_loop_else(self):
         if self.currentkeys == 'load':
@@ -2047,14 +2047,14 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR 85: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch', 'bounce', 'abort', 'push', 'back', 'plant',
                                   're', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function loop else>
         else:
             print("SYNTAX ERROR 85.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     def ter_back(self):
         if self.currentkeys == 'back':
@@ -2071,22 +2071,22 @@ class DEDOSParser:
                     else:
                         print("SYNTAX ERROR 86: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
                 else:
                     print("SYNTAX ERROR 86.1: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
+                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ ")"')  # put error in a list for viewing in GUI:
             else:
                 print("SYNTAX ERROR 86.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "("')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch', 'bounce', 'abort', 'push', 'back', 'plant',
                                   're', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <return>
         else:
             print("SYNTAX ERROR 86.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "back", "force", "watch", "bounce", "abort", "push", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected ⏵ "back", "force", "watch", "bounce", "abort", "push", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
     # =====================================The STRUCTURE CODE============================================================#
 
@@ -2112,7 +2112,7 @@ class DEDOSParser:
             else:
                 print("SYNTAX ERROR X:", self.currentvalues)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}"')  # put error in a list for viewing in GUI
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}"')  # put error in a list for viewing in GUI
                 break
             ctr += 1
         self.ter_prog_end()
