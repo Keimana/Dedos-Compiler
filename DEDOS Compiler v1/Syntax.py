@@ -79,24 +79,30 @@ class DEDOSParser:
             print("Syntax Error 1.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "~"')  # put Error in a list for viewing in GUI
-
+            
     def ter_prog_end(self):  # <program>
         self.next()  # Move to next token
 
         # Handle unexpected tokens before ~
-        while self.currentkeys in ["strike", "flank", "watch", "chat", "inst"]:  # Add more if needed
-            print(f"WARNING: Skipping unexpected token {self.currentkeys} at {self.position}")
+        while self.currentkeys in ["strike", "flank", "watch", "chat", "inst", 'plant'] or 'Identifier' in self.currentkeys:  # Add more if needed
+            print(f"WARNING: Skipping unexpected token {self.currentkeys} at line {self.lineCounter}")
             self.next()  # Skip to next token
 
+
+        if self.currentkeys == '=':  
+            self.next()  # Skip = and check the next token
         if self.currentkeys == ';':  
             self.next()  # Skip semicolon and check the next token
         
         if self.currentkeys == '~':  # Ensure ~ is accepted at the program's end
-            self.SemanticSequence.insert(len(self.SemanticSequence), {"<Program->": self.position-1})
+            self.SemanticSequence.append({"<Program->": self.position - 1})
         else:
-            print("Syntax Error 2: Unexpected", self.currentvalues, self.lineCounter)
+            print(f"Syntax Error 2: Unexpected {self.currentvalues} at line {self.lineCounter}")
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: \"{self.currentvalues}\" \n\nExpected: \"~\"')
+
+            # 🔴 Force error tracking: Ensure error line number updates correctly
+            self.lineCounter += 1
 
 
     def ter_var_declaration(self):  # <var_dec>
@@ -468,20 +474,21 @@ class DEDOSParser:
             if (self.currentkeys in [')', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe',
                                      'inst', 'flank', 'strike', 'chat', 'tool', 'bounce', 'back', 'abort', 'push',
                                      'COMMA', ']', '<', '>', '<=', '>=', '==', '!=', 'and',
-                                     'or', '}'] or 'Identifier' in self.currentkeys):
+                                     'or', '}', ';'] or 'Identifier' in self.currentkeys):
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<math expression->": self.position-1})
             else:
                 print("SYNTAX ERROR 16.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys == 'STRIKELIT':
+            self.SemanticSequence.insert(len(self.SemanticSequence), {"<STRIKELIT+>": self.position})
             self.next()  # Expected: self.currentkeys = first set <arithmetic tail> or follow set <math expression>
             if self.currentkeys == '+':
                 self.ter_arithmetic_tail()
                 if (self.currentkeys in [')', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe',
                                          'inst', 'flank', 'strike', 'chat', 'tool', 'bounce', 'back', 'abort', 'push',
                                          'COMMA', ']', '==', '!=', 'and',
-                                         'or', '}'] or 'Identifier' in self.currentkeys):
+                                         'or', '}', ';'] or 'Identifier' in self.currentkeys):
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<math expression->": self.position-1})
                 else:
                     print("SYNTAX ERROR 16.3: Unexpected", self.currentvalues, self.lineCounter)
@@ -490,7 +497,7 @@ class DEDOSParser:
             elif (self.currentkeys in [')', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe',
                                        'inst', 'flank', 'strike', 'chat', 'tool', 'bounce', 'back', 'abort', 'push',
                                        'COMMA', ']', '==', '!=', 'and',
-                                       'or', '}'] or 'Identifier' in self.currentkeys):
+                                       'or', '}', ';'] or 'Identifier' in self.currentkeys):
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<math expression->": self.position-1})
             else:
                 print("SYNTAX ERROR 16.3: Unexpected", self.currentvalues, self.lineCounter)
@@ -530,7 +537,7 @@ class DEDOSParser:
         elif (self.currentkeys in [')', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe',
                                    'inst', 'flank', 'strike', 'chat', 'tool', 'bounce', 'back', 'abort', 'push',
                                    'COMMA', ']', '<', '>', '<=', '>=', '==', '!=', 'and',
-                                   'or', '}'] or 'Identifier' in self.currentkeys):
+                                   'or', '}', ';'] or 'Identifier' in self.currentkeys):
             pass  # NULL <arithmetic tail>
         else:
             print("SYNTAX ERROR 17.1: Unexpected", self.currentvalues, self.lineCounter)
@@ -559,7 +566,7 @@ class DEDOSParser:
             if self.currentkeys in ['+', '-', '*', '/', '%', ')', 'plant', 're', 'force', 'watch', 'defuse',
                                     '~', 'globe', 'inst', 'flank', 'strike', 'chat', 'tool', 'bounce', 'back',
                                     'abort', 'push', 'COMMA', ']', '<', '>', '<=', '>=', '==', '!=', 'and', 'or',
-                                    '}'] or 'Identifier' in self.currentkeys:
+                                    '}', ';'] or 'Identifier' in self.currentkeys:
                 pass
             else:
                 print("SYNTAX ERROR 18: Unexpected", self.currentvalues, self.lineCounter)
@@ -668,7 +675,7 @@ class DEDOSParser:
                 print("SYNTAX ERROR 25: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ ~')  # put error in a list for viewing in GUI:
-        elif self.currentkeys == '~':
+        elif self.currentkeys == ['~', ';']:
             pass  # NULL <body>
         else:
             print("SYNTAX ERROR 25.1: Unexpected", self.currentvalues, self.lineCounter)
@@ -679,7 +686,7 @@ class DEDOSParser:
         if self.currentkeys in ['plant', 're', 'force', 'watch'] or 'Identifier' in self.currentkeys:
             self.ter_body_no_defuse()
             self.ter_statement()
-            if self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~'] or 'Identifier' in self.currentkeys:
+            if self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', ';'] or 'Identifier' in self.currentkeys:
                 pass
             else:
                 print("SYNTAX ERROR 26: Unexpected", self.currentvalues, self.lineCounter)
@@ -688,13 +695,13 @@ class DEDOSParser:
         elif self.currentkeys == 'defuse':
             self.ter_function()
             self.ter_statement()
-            if self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~'] or 'Identifier' in self.currentkeys:
+            if self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', ';'] or 'Identifier' in self.currentkeys:
                 pass
             else:
                 print("SYNTAX ERROR 26.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
-        elif self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~'] or 'Identifier' in self.currentkeys:
+        elif self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', ';'] or 'Identifier' in self.currentkeys:
             pass  # NULL <statement>
         else:
             print("SYNTAX ERROR 26.2: Unexpected", self.currentvalues, self.lineCounter)
@@ -705,7 +712,7 @@ class DEDOSParser:
         if self.currentkeys in ['plant', 'force', 'watch'] or 'Identifier' in self.currentkeys:
             self.ter_body_no_if_defuse()
             if self.currentkeys in ['bounce', 'plant', 're', 'force', 'watch', 'defuse',
-                                    '}', '~'] or 'Identifier' in self.currentkeys:
+                                    '}', '~', ';'] or 'Identifier' in self.currentkeys:
                 pass
             else:
                 print("SYNTAX ERROR 27: Unexpected", self.currentvalues, self.lineCounter)
@@ -733,7 +740,7 @@ class DEDOSParser:
             if self.currentkeys == 'plant':
                 self.ter_body_no_if_loop_defuse()
                 if self.currentkeys in ['re', 'bounce', 'abort', 'push', 'plant', 'force', 'watch', 'defuse',
-                                        '}', '~'] or 'Identifier' in self.currentkeys:
+                                        '}', '~', ';'] or 'Identifier' in self.currentkeys:
                     pass
             elif 'Identifier' in self.currentkeys:
                 self.next()  # Expected: self.currentkeys = '(' if in <function call statement>
@@ -783,7 +790,7 @@ class DEDOSParser:
         if 'Identifier' in self.currentkeys:
             self.ter_initialization_statement()
             if self.currentkeys in ['re', 'force', 'watch', 'bounce', 'back', 'abort', 'push', '~',
-                                    'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
+                                    'plant', 'defuse', '}', ';'] or 'Identifier' in self.currentkeys:
                 pass
             else:
                 print("SYNTAX ERROR 29.1: Unexpected", self.currentvalues, self.lineCounter)
@@ -792,14 +799,14 @@ class DEDOSParser:
         elif self.currentkeys == 'plant':
             self.ter_output_statement()
             if self.currentkeys in ['re', 'force', 'watch', 'bounce', 'back', 'abort', 'push', '~',
-                                    'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
+                                    'plant', 'defuse', '}', ';'] or 'Identifier' in self.currentkeys:
                 pass
             else:
                 print("SYNTAX ERROR 29.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         if self.currentkeys in ['re', 'force', 'watch', 'bounce', 'back', 'abort', 'push', '~',
-                                'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
+                                'plant', 'defuse', '}', ';'] or 'Identifier' in self.currentkeys:
             pass  # NULL <body no if-loop-defuse>
         else:
             print("SYNTAX ERROR 29.3: Unexpected", self.currentvalues, self.lineCounter)
