@@ -93,7 +93,7 @@ class LexerGUI:
             "group3": (["abort", "back", "push", "perim"], "#aeac95"),
             "group4": (["plant", "info"], "#FFD65A"),
             "group5": (["re", "reload", "load"], "#ff1377"),
-            "group6": (["force"], "#DE3163"),
+            "group6": (["force"], "#F3CFC6"),
             "group7": (["+", "-", "/", "*", "="], "#ffffff"),
             "group8": (["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], "#d6fa51"),
             "group9": (["~"], "#16C47F"),
