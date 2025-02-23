@@ -929,13 +929,17 @@ class DEDOSLexicalAnalyzer:
             return "COMMA", result
         else:
             return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim22])}'
-
     def digits(self):
         result = ""
-
         instctr = 0  # Counter for integer part
         flankctr = 0  # Counter for decimal part
         has_decimal = False  # Flag to track if a decimal has been encountered
+
+
+        # Check for negative sign at the start
+        if self.currentChar == "-":
+            result += self.currentChar
+            self.next()
 
         if self.currentChar in "0123456789":  
             if self.currentChar == "0":  # Check for leading zero issue
@@ -980,6 +984,7 @@ class DEDOSLexicalAnalyzer:
             return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
 
         return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Expected a number"'
+
 
     def SpaceToken(self):
         result = '"'
@@ -1052,6 +1057,7 @@ class DEDOSLexicalAnalyzer:
             elif self.currentChar in "+-*/%":
                 self.type_, self.value_ = self.operatorToken()
                 if self.type_ in error:
+                    print(f"DEBUG: lineCounter={self.lineCounter}, type_={self.type_}, value_={self.value_}")
                     self.tokensForUnknown.append(f'line #{self.lineCounter} : {self.type_} : {self.value_}')
                 else:
                     self.tokens.append(f'{self.type_} : {self.value_}')
@@ -1175,7 +1181,7 @@ class DEDOSLexicalAnalyzer:
                 else:
                     self.tokens.append(f'{self.type_} : {self.value_}')
                 continue
-            elif self.currentChar in "({[)}]~}_":
+            elif self.currentChar in "({[)}]~}-":
                 self.type_, self.value_ = self.special_token()
                 if self.type_ == "Hey Agent! This Lexeme is Unknown":
                     self.tokensForUnknown.append(f'line #{self.lineCounter} : {self.type_} : {self.value_}')
