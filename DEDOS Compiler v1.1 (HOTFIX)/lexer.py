@@ -29,7 +29,7 @@ delim22 = [' ', '\0', '\n', '"', '(', ')', '-', "'", '#', ']', ','] + num + alph
 delim23 = ['[', '}', '$', "'", '\0', "#", '"', ')'] + num + alpha
 delim24 = [')', ']', '+', '=', '}', '*', '\0', ',', '/', '[', '<', '>', '-', ' ', '%', '{', '(', '\n', '!', '`']
 delim25 = [' ', '(', '_', '"'] + num + alpha
-delim26 = [' ', '\n', '}', '$', "'"]
+delim26 = [' ', '\n', '}', '$', "'", ]
 delim27 = [' ', '\n']
 delim28 = [' ',  '\n', '\0']
 delim29 = ['\n', '\0', 'a', 'b', 'c', 'd', 'f', 'g', 'i', 'l', 'n', 'o', 'p', 'r', 's', 't', 'w', '`', '$' ]
@@ -933,104 +933,54 @@ class DEDOSLexicalAnalyzer:
     def digits(self):
         result = ""
 
-        instctr = 0  # checker of hint
-        flankctr = 0  # checker of flute
-        lead = 1  # checker of leading zeros
+        instctr = 0  # Counter for integer part
+        flankctr = 0  # Counter for decimal part
+        has_decimal = False  # Flag to track if a decimal has been encountered
 
-        if self.currentChar == "-":
-            result += self.currentChar
-            self.next()
-            if self.currentChar == ".":
-                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected ⏵ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"'
-            while True:
+        if self.currentChar in "0123456789":  
+            if self.currentChar == "0":  # Check for leading zero issue
+                result += self.currentChar
+                self.next()
+                if self.currentChar in "0123456789":  
+                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n ERROR: Leading zeros are not allowed'
+
+            while self.currentChar in "0123456789" and self.currentChar != '\0':
+                if instctr >= 9:  # Prevent exceeding max integer length
+                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Bullet Error: Integer part exceeds 9 digits'
+
+                result += self.currentChar
+                self.next()
+                instctr += 1
+
+            if self.currentChar == ".":  # Decimal point found
+                if has_decimal:
+                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n ERROR: Multiple decimal points are not allowed'
+
+                has_decimal = True
+                result += self.currentChar
+                self.next()
+
                 while self.currentChar in "0123456789" and self.currentChar != '\0':
-                    if instctr > 9 or flankctr > 9:
-                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n ERROR: Out of range'
+                    if flankctr >= 5:  # Prevent exceeding max decimal length
+                        return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Bullet Error: Decimal part exceeds 5 digits'
+
                     result += self.currentChar
                     self.next()
-                    instctr += 1
+                    flankctr += 1
 
-                if self.currentChar == ".":
-                    result += self.currentChar
-                    self.next()
-                    while self.currentChar in "0123456789" and self.currentChar != '\0':
-                        if flankctr > 9:
-                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n ERROR: Out of range'
-                        result += self.currentChar
-                        self.next()
-                        flankctr += 1
+                if flankctr == 0:
+                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Expected digits after "."'
 
-                        if self.currentChar == ".":
-                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+                if self.currentChar in delim22:  # Valid floating-point literal
+                    return "FLANKLIT", result
 
-                        if self.currentChar in delim22:  # 00.1
-                            if len(result) > 2:
-                                if result[1] == "0":
-                                    while result[lead] not in delim22:
-                                        if result[lead] in "123456789":
-                                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-                                        if result[lead] == "0":
-                                            lead += 1
-                                        if result[lead] == ".":
-                                            break
+            elif self.currentChar in delim22:  # Valid integer literal
+                return "INSTLIT", result
 
-                            return "FLANKLIT", result
+            return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
 
-                    if flankctr == 0:
-                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
+        return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Expected a number"'
 
-                elif self.currentChar in delim22:
-                    if len(result) > 1:
-                        if result[1] == "0":
-                            if result[2] in "0123456789":
-                                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-                    elif len(result) == 1:
-                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-                    return "INSTLIT", result
-
-                else:
-                    return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"'
-
-        elif self.currentChar in "0123456789":
-            while True:
-                while self.currentChar in "0123456789" and self.currentChar != '\0':
-                    if instctr > 9 or flankctr > 9:
-                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-                    result += self.currentChar
-                    self.next()
-                    instctr += 1
-
-                if self.currentChar == ".":
-                    result += self.currentChar
-                    self.next()
-
-                    while self.currentChar in "0123456789" and self.currentChar != '\0':
-                        if flankctr > 9:
-                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-                        result += self.currentChar
-                        self.next()
-                        flankctr += 1
-                        if self.currentChar == ".":
-                            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-
-                        if self.currentChar in delim22:
-                            return "FLANKLIT", result
-
-                    if flankctr == 0:
-                        return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-
-                elif self.currentChar in delim22:
-                    if len(result) > 1:
-                        if result[0] == "0":
-                            if result[1] in "0123456789":
-                                return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-
-                    return "INSTLIT", result
-
-                else:
-                    return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
-        else:
-            return "UNKNOWN LEXEME ⏵", f'"{result}" \n Expected Delimiter⏵ {", ".join([repr(x) for x in delim22])}'
     def SpaceToken(self):
         result = '"'
         result += self.currentChar
