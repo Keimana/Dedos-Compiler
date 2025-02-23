@@ -21,29 +21,25 @@ class LexerGUI:
         master.grid_rowconfigure(2, weight=2)
         master.grid_rowconfigure(3, weight=1)
 
-        # ✅ First, define `analyzer_button_frame`
+        # Analyzer Button Frame and buttons (unchanged)...
         analyzer_button_frame = tk.Frame(master, bg="#3c3f59")
         analyzer_button_frame.grid(row=12, column=2, columnspan=5, padx=0, pady=10, sticky="ew")
-
-        # ✅ Now, define `self.syntax_button` after `analyzer_button_frame`
         self.syntax_button = self.create_rounded_button(analyzer_button_frame, "Run Syntax Analyzer", self.analyze_syntax, "#fb5421", "white", ("Helvetica", 10))
         self.syntax_button.pack(side=tk.LEFT, padx=0)
-        self.syntax_button.configure(state="disabled")  # Initially disabled
-
-
-        # ✅ Now, define other buttons in `analyzer_button_frame`
+        self.syntax_button.configure(state="disabled")
         lexical_button = self.create_rounded_button(analyzer_button_frame, "Run Lexical Analyzer", self.analyze_code, "#fb5421", "white", ("Helvetica", 10))
         lexical_button.pack(side=tk.LEFT, padx=5)
-
         import_button = self.create_rounded_button(analyzer_button_frame, "Import File", self.import_file, "#fb5421", "white", ("Helvetica", 10))
         import_button.pack(side=tk.LEFT, padx=5)
-
         export_button = self.create_rounded_button(analyzer_button_frame, "Export Results", self.export_file, "#fb5421", "white", ("Helvetica", 10))
         export_button.pack(side=tk.LEFT, padx=5)
 
-        # Input Code Frame
+        # Input Code Frame (first instance)
         input_frame = tk.Frame(master, bg="#3c3f59")
         input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=20, sticky="nsew")
+        self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200",
+                                                      insertbackground="#fbb200", font=("Helvetica", 12))
+        self.code_input.pack(fill=tk.BOTH, expand=True)
 
         # Code Input Box
         self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200", insertbackground="#fbb200", font=("Helvetica", 12))
@@ -70,24 +66,53 @@ class LexerGUI:
 
         # Bind Ctrl+F to the find_text function
         self.master.bind("<Control-f>", self.open_find_dialog)
-        # Input Frame with Line Numbers
-        
+        # --- Input Frame with Line Numbers ---
         input_frame = tk.Frame(master, bg="#3c3f59")
         input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=10, sticky="nsew")
-
-        # Line Number Panel
-        self.line_numbers = tk.Text(input_frame, width=0, padx=5, bg="#161527", fg="#fbb200", state="disabled", font=("Helvetica", 12))
+        self.line_numbers = tk.Text(input_frame, width=0, padx=5, bg="#161527",
+                                     fg="#fbb200", state="disabled", font=("Helvetica", 12))
         self.line_numbers.pack(side=tk.LEFT, fill=tk.Y)
-
-        # Code Input Box
-        self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200", insertbackground="#fbb200", font=("Helvetica", 12))
+        # Create the final code input widget (this one will be used)
+        self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200",
+                                                      insertbackground="#fbb200", font=("Helvetica", 12))
         self.code_input.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        # Bind events to update line numbers
+        # Bind events to update line numbers and sync scrolling
         self.code_input.bind("<KeyRelease>", self.update_line_numbers)
         self.code_input.bind("<MouseWheel>", self.sync_scroll)
         self.code_input.bind("<Configure>", self.update_line_numbers)
+        self.code_input.bind("<KeyRelease>", self.highlight_words, add="+")
 
+
+    def highlight_words(self, event=None):
+        """Highlight multiple groups of words in different colors."""
+        # Define groups: each key is a tag name, and each value is (list of words, color)
+        highlight_groups = {
+            "group1": (["defuse", "in", "not"], "#F93827"),
+            "group2": (["inst", "flank", "chat", "strike"], "#5cffe4"),
+            "group3": (["abort", "back", "push", "perim"], "#aeac95"),
+            "group4": (["plant", "info"], "#FFD65A"),
+            "group5": (["re", "reload", "load"], "#ff1377"),
+            "group6": (["force"], "#DE3163"),
+            "group7": (["+", "-", "/", "*", "="], "#ffffff"),
+            "group8": (["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], "#d6fa51"),
+            "group9": (["~"], "#16C47F"),
+            "group10": (["(", ")", "[", "{", "}", "]", "'", '"'], "white")
+        }
+        # For each group, remove old highlights and configure the tag
+        for tag, (words, color) in highlight_groups.items():
+            self.code_input.tag_remove(tag, "1.0", tk.END)
+            self.code_input.tag_config(tag, foreground=color)
+            # For each word, search and add the tag
+            for word in words:
+                start_pos = "1.0"
+                while True:
+                    start_pos = self.code_input.search(word, start_pos, stopindex=tk.END)
+                    if not start_pos:
+                        break
+                    end_pos = f"{start_pos}+{len(word)}c"
+                    self.code_input.tag_add(tag, start_pos, end_pos)
+                    start_pos = end_pos
 
     def create_rounded_button(self, parent, text, command, bg, fg, font):
         """Creates a rounded button with a hover effect."""
@@ -275,7 +300,6 @@ class LexerGUI:
                 self.errors_list.insert(tk.END, f" {error}")  # Show line numbers
         else:
             self.errors_list.insert(tk.END, "Syntax Compile Successfully")
-
 
 
 
