@@ -3,6 +3,7 @@ from tkinter import ttk, scrolledtext, messagebox, filedialog
 from lexer import DEDOSLexicalAnalyzer
 from Syntax import DEDOSParser  # Import your PLY-based parser
 import Semantic
+
 class LexerGUI:
     def __init__(self, master):
         self.master = master
@@ -21,7 +22,7 @@ class LexerGUI:
         master.grid_rowconfigure(2, weight=2)
         master.grid_rowconfigure(3, weight=1)
 
-        # Analyzer Button Frame and buttons (unchanged)...
+        # Analyzer Button Frame and buttons
         analyzer_button_frame = tk.Frame(master, bg="#3c3f59")
         analyzer_button_frame.grid(row=12, column=2, columnspan=5, padx=0, pady=10, sticky="ew")
         self.syntax_button = self.create_rounded_button(analyzer_button_frame, "Run Syntax Analyzer", self.analyze_syntax, "#fb5421", "white", ("Helvetica", 10))
@@ -37,49 +38,57 @@ class LexerGUI:
         # Input Code Frame (first instance)
         input_frame = tk.Frame(master, bg="#3c3f59")
         input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=20, sticky="nsew")
+        # (This instance will be overridden later by the final code input widget)
         self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200",
-                                                      insertbackground="#fbb200", font=("Helvetica", 12))
+                                                     insertbackground="#fbb200", font=("Helvetica", 12))
         self.code_input.pack(fill=tk.BOTH, expand=True)
 
-        # Code Input Box
-        self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200", insertbackground="#fbb200", font=("Helvetica", 10))
-        self.code_input.pack(fill=tk.BOTH, expand=True)
+        # Error Output with scrollbar
+        error_frame = tk.Frame(master, bg="#161527")
+        error_frame.grid(row=2, column=0, columnspan=5, padx=6, pady=5, sticky="nsew")
+        self.errors_list = tk.Listbox(error_frame, bg="#161527", fg="#fbb200", font=("Consolas", 10))
+        scrollbar_errors = tk.Scrollbar(error_frame, orient=tk.VERTICAL, command=self.errors_list.yview)
+        self.errors_list.config(yscrollcommand=scrollbar_errors.set)
+        self.errors_list.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar_errors.pack(side=tk.RIGHT, fill=tk.Y)
 
-        # Error Output
-        self.errors_list = tk.Listbox(master, bg="#161527", fg="#fbb200", font=("Consolas", 10), height=20)
-        self.errors_list.grid(row=2, column=0, columnspan=5, padx=6, pady=5, sticky="nsew")
-
-        # Tokens Panel
+        # Tokens Panel with scrollbar
         tokens_frame = ttk.LabelFrame(master, text="Tokens")
         tokens_frame.grid(row=1, column=3, padx=0, pady=5, sticky="nsew")
         self.tokens_list = tk.Listbox(tokens_frame, width=40)
-        self.tokens_list.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        scrollbar_tokens = tk.Scrollbar(tokens_frame, orient=tk.VERTICAL, command=self.tokens_list.yview)
+        self.tokens_list.config(yscrollcommand=scrollbar_tokens.set)
+        self.tokens_list.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        scrollbar_tokens.pack(side=tk.RIGHT, fill=tk.Y)
 
-        # Lexemes Panel
+        # Lexemes Panel with scrollbar
         lexemes_frame = ttk.LabelFrame(master, text="Lexemes")
         lexemes_frame.grid(row=1, column=4, padx=0, pady=5, sticky="nsew")
         self.lexemes_list = tk.Listbox(lexemes_frame, width=40)
-        self.lexemes_list.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        scrollbar_lexemes = tk.Scrollbar(lexemes_frame, orient=tk.VERTICAL, command=self.lexemes_list.yview)
+        self.lexemes_list.config(yscrollcommand=scrollbar_lexemes.set)
+        self.lexemes_list.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        scrollbar_lexemes.pack(side=tk.RIGHT, fill=tk.Y)
 
         # Apply Dark Mode by Default
         self.apply_dark_mode()
 
-        # Bind Ctrl+F to the find_text function
+        # Bind Ctrl+F to the find_text function and Esc to close the find bar
         self.master.bind("<Control-f>", self.show_find_bar)
-        # Bind Esc to close the find bar if it's open
         self.master.bind("<Escape>", self.hide_find_bar)
 
         # Find bar frame (hidden by default)
         self.find_frame = None
+
         # --- Input Frame with Line Numbers ---
         input_frame = tk.Frame(master, bg="#3c3f59")
         input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=10, sticky="nsew")
-        self.line_numbers = tk.Text(input_frame, width=3, padx=5, bg="#161527",
-                                     fg="#fbb200", state="disabled", font=("Helvetica", 14))
+        self.line_numbers = tk.Text(input_frame, width=4, padx=5, bg="#161527",
+                                     fg="#fbb200", state="disabled", font=("Helvetica", 13))
         self.line_numbers.pack(side=tk.LEFT, fill=tk.Y)
         # Create the final code input widget (this one will be used)
         self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200",
-                                                      insertbackground="#fbb200", font=("Helvetica", 14))
+                                                      insertbackground="#fbb200", font=("Helvetica", 13))
         self.code_input.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
         # Bind events to update line numbers and sync scrolling
@@ -87,7 +96,6 @@ class LexerGUI:
         self.code_input.bind("<MouseWheel>", self.sync_scroll)
         self.code_input.bind("<Configure>", self.update_line_numbers)
         self.code_input.bind("<KeyRelease>", self.highlight_words, add="+")
-
 
     def highlight_words(self, event=None):
         """Highlight multiple groups of words in different colors."""
@@ -291,19 +299,16 @@ class LexerGUI:
                 self.code_input.insert(tk.END, code)  # Insert imported code into the input field
 
     def export_file(self):
-        """Export the results to a text file."""
-        file_path = filedialog.asksaveasfilename(defaultextension=".dedos", filetypes=[("Text Files", "*.dedos"), ("All Files", "*.*")])
+        """Export the code from the input box to a text file."""
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".dedos", 
+            filetypes=[("Text Files", "*.dedos"), ("All Files", "*.*")]
+        )
         if file_path:
+            # Get the code from the input box and write it to the file
+            code = self.code_input.get("1.0", tk.END)
             with open(file_path, "w") as file:
-                # Collect tokens, lexemes, and errors
-                output = ""
-                for token in self.tokens_list.get(0, tk.END):
-                    output += f"Token: {token}\n"
-                for lexeme in self.lexemes_list.get(0, tk.END):
-                    output += f"Lexeme: {lexeme}\n"
-                for error in self.errors_list.get(0, tk.END):
-                    output += f"Error: {error}\n"
-                file.write(output)  # Write to the file
+                file.write(code)
 
     def analyze_syntax(self):
         self.errors_list.delete(0, tk.END)  # Clear previous errors
@@ -316,13 +321,29 @@ class LexerGUI:
         syntaxErrors = self.parser.SyntaxErrors  # Get syntax errors
         print("Syntax Errors:", syntaxErrors)  # Debugging
 
-        # 🛠️ Ignore Success Messages in Error List
-        if syntaxErrors and not any("Syntax Compile Successfully" in err for err in syntaxErrors):
+        unique_errors = {}  # Dictionary to store only the first error per line
+
+        if syntaxErrors:
             for error in syntaxErrors:
-                line_number = self.parser.lineCounter
-                self.errors_list.insert(tk.END, f" {error}")  # Show line numbers
+                if "#" in error and ":" in error:  # Ensure the format is correct before splitting
+                    parts = error.split("#")
+                    if len(parts) > 1 and ":" in parts[1]:  # Double check split is successful
+                        line_number = parts[1].split(":")[0]  # Extract line number
+                        
+                        if line_number not in unique_errors:  
+                            unique_errors[line_number] = error  # Store only the first error for the line
+            
+            if unique_errors:  # If there are errors, display them
+                for error in unique_errors.values():
+                    self.errors_list.insert(tk.END, f" {error}")
+            else:
+                self.errors_list.insert(tk.END, "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")  
+                self.errors_list.insert(tk.END, " ")  
+                self.errors_list.insert(tk.END, "------------------------------------------------------------------------SYNTAX COMPILE SUCCESSFULLY--------------------------------------------------------------------------------")
+                self.errors_list.insert(tk.END, " ")
+                self.errors_list.insert(tk.END, "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------")  
         else:
-            self.errors_list.insert(tk.END, "Syntax Compile Successfully")
+            self.errors_list.insert(tk.END, "Syntax Compile Successfully")  # ✅ No errors at all, show success
 
 
 
