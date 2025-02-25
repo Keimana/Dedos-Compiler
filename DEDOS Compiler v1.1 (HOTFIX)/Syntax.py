@@ -75,11 +75,11 @@ class DEDOSParser:
                                     'defuse', '~'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "inst", "flank", "strike", "tool", "chat", "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 1.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v1.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "~"')  # put error in a list for viewing in GUI
 
@@ -88,9 +88,10 @@ class DEDOSParser:
         if self.position == len(self.Terminals) and self.currentkeys == '~':
             self.SemanticSequence.insert(len(self.SemanticSequence), {"<Program->": self.position-1})
         else:
-            print("SYNTAX ERROR 2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "NULL"')  # put error in a list for viewing in GUI
+
 
     def terminal_declaration(self):  # <declaration>
         if self.currentkeys in ['inst', 'flank', 'strike', 'tool', 'chat']:
@@ -104,14 +105,14 @@ class DEDOSParser:
                                     'chat', 'tool', 'bounce', '}', 'back'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 3: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v3: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst', 'flank',
                                   'strike', 'chat', 'tool', 'bounce', '}', 'back'] or 'Identifier' in self.currentkeys:
             pass # NULL <declaration>
         else:
-            print("SYNTAX ERROR 3.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v3.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "inst", "flank", "strike", "tool", "chat", "plant", "re", "force", "watch", "defuse", "~", "globe", "bounce", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI
 
@@ -122,11 +123,11 @@ class DEDOSParser:
             if 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 4: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "Identifier"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 4.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v4.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "inst", "flank", "strike", "tool", "chat"')  # put error in a list for viewing in GUI
 
@@ -141,11 +142,11 @@ class DEDOSParser:
                                     '+=', '-=', '*=', '/=', '%='] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<id->": self.position-1})
             else:
-                print("SYNTAX ERROR 5: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v5: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 5.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v5.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "Identifier"')  # put error in a list for viewing in GUI
 
@@ -159,11 +160,11 @@ class DEDOSParser:
                                      '+=', '-=', '*=', '/=', '%=', '(', 'in'] or 'Identifier' in self.currentkeys):
                 pass
             else:
-                print("SYNTAX ERROR 6: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v6: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "[", "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "]", "COMMA", ")", "+", "-", "*", "/", "%", "abort", "push", "}}", "<", ">", "<=", ">=", "==", "!=", "and", "or", "+=", "-=", "*=", "/=", "%=", "Identifier"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 6.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v6.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "Identifier"')  # put error in a list for viewing in GUI
 
@@ -174,7 +175,7 @@ class DEDOSParser:
             if self.currentkeys in [']', 'COMMA', ')']:
                 pass
             else:
-                print("SYNTAX ERROR 8: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v8: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "]", "COMMA", ")"')  # put error in a list for viewing in GUI
         elif "Identifier" in self.currentkeys:
@@ -182,11 +183,11 @@ class DEDOSParser:
             if self.currentkeys in [']', 'COMMA', ')']:
                 pass
             else:
-                print("SYNTAX ERROR 8.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v8.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "]", "COMMA", ")"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 8.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v8.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "INSTLIT", "Identifier"')  # put error in a list for viewing in GUI
 
@@ -200,14 +201,14 @@ class DEDOSParser:
                                      'chat', 'tool', 'bounce', 'back', '}'] or 'Identifier' in self.currentkeys):
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<allowed value->": self.position-1})
             else:
-                print("SYNTAX ERROR 10: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v10: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI
         elif (self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst', 'flank', 'strike',
                                    'chat', 'tool', 'bounce', 'back', '}'] or 'Identifier' in self.currentkeys):
             pass
         else:
-            print("SYNTAX ERROR 10.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v10.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "=", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI
 
@@ -225,15 +226,15 @@ class DEDOSParser:
                                              'push', '}'] or 'Identifier' in self.currentkeys):
                         self.SemanticSequence.insert(len(self.SemanticSequence), {"<input->": self.position-1})
                     else:
-                        print("SYNTAX ERROR 11: Unexpected", self.currentvalues, self.lineCounter)
+                        print("Syntax Error: v11: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
                             f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}", "Identifier"')  # put error in a list for viewing in GUI
                 else:
-                    print("SYNTAX ERROR 11.1: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v11.1: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI
             else:
-                print("SYNTAX ERROR 11.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v11.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("')  # put error in a list for viewing in GUI
         elif self.currentkeys == '[':
@@ -243,7 +244,7 @@ class DEDOSParser:
                                      'push', '}'] or 'Identifier' in self.currentkeys):
                 pass
             else:
-                print("SYNTAX ERROR 11.3: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v11.3: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys == 'CHATLIT':
@@ -254,7 +255,7 @@ class DEDOSParser:
                                      'push', '}'] or 'Identifier' in self.currentkeys):
                 pass
             else:
-                print("SYNTAX ERROR 11.4: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v11.4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['neg', 'pos']:
@@ -264,7 +265,7 @@ class DEDOSParser:
                                      'push', '}'] or 'Identifier' in self.currentkeys):
                 pass
             else:
-                print("SYNTAX ERROR 11.5: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v11.5: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['(', 'FLANKLIT', 'INSTLIT', 'STRIKELIT'] or 'Identifier' in self.currentkeys:
@@ -274,11 +275,11 @@ class DEDOSParser:
                                      'push', '}'] or 'Identifier' in self.currentkeys):
                 pass
             else:
-                print("SYNTAX ERROR 11.6: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v11.6: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "}}",  "Identifier"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 11.7: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v11.7: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
         if "NEWLINE" in self.currentkeys:
@@ -292,13 +293,13 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 12: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v12: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI
         elif self.currentkeys == ')':
             pass  # NULL <return value>
         else:
-            print("SYNTAX ERROR 12.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v12.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier", ")"')  # put error in a list for viewing in GUI
 
@@ -309,7 +310,7 @@ class DEDOSParser:
             if self.currentkeys in [')', 'COMMA', ']']:
                 pass
             else:
-                print("SYNTAX ERROR 13: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v13: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "COMMA", "]"')  # put error in a list for viewing in GUI
         elif self.currentkeys == '[':
@@ -317,11 +318,11 @@ class DEDOSParser:
             if self.currentkeys in [')', 'COMMA', ']']:
                 pass
             else:
-                print("SYNTAX ERROR 13.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v13.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "COMMA", "]"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 13.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v13.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "FLANKLIT", "INSTLIT", "STRIKELIT", "CHATLIT", "neg", "pos", "Identifier", "["')  # put error in a list for viewing in GUI
 
@@ -331,7 +332,7 @@ class DEDOSParser:
             if (self.currentkeys in [')', 'COMMA', ']', '<', '>', '<=', '>=', '==', '!=', 'and', 'or']):
                 pass
             else:
-                print("SYNTAX ERROR 14: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v14: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
         elif self.currentkeys == 'CHATLIT':
@@ -340,7 +341,7 @@ class DEDOSParser:
             if (self.currentkeys in [')', 'COMMA', ']', '<', '>', '<=', '>=', '==', '!=', 'and', 'or']):
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<CHATLIT->": self.position-1})
             else:
-                print("SYNTAX ERROR 14.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v14.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['(', 'FLANKLIT', 'INSTLIT', 'STRIKELIT'] or 'Identifier' in self.currentkeys:
@@ -348,11 +349,11 @@ class DEDOSParser:
             if (self.currentkeys in [')', 'COMMA', ']', '<', '>', '<=', '>=', '==', '!=', 'and', 'or']):
                 pass
             else:
-                print("SYNTAX ERROR 14.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v14.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 14.3: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v14.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "neg", "pos", "CHATLIT", "(", "FLANKLIT", "INSTLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
 
@@ -365,12 +366,12 @@ class DEDOSParser:
                                      'push'] or 'Identifier' in self.currentkeys):
                 pass
             else:
-                print("SYNTAX ERROR 15: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v15: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "COMMA", "]", "==", "!=", "and", "or", "inst", "strike", "chat", "tool", "flank", "}}", "~", "plant", "re", "force", "watch", "defuse", "bounce", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI
 
         else:
-            print("SYNTAX ERROR 15.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v15.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "neg", "pos"')  # put error in a list for viewing in GUI
 
@@ -388,11 +389,11 @@ class DEDOSParser:
                                          '}'] or 'Identifier' in self.currentkeys):
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<math expression->": self.position-1})
                 else:
-                    print("SYNTAX ERROR 16: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v16: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
             else:
-                print("SYNTAX ERROR 16.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v16.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI
         elif self.currentkeys in ['INSTLIT', 'FLANKLIT']:
@@ -404,7 +405,7 @@ class DEDOSParser:
                                      'or', '}'] or 'Identifier' in self.currentkeys):
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<math expression->": self.position-1})
             else:
-                print("SYNTAX ERROR 16.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v16.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
         elif self.currentkeys == 'STRIKELIT':
@@ -417,7 +418,7 @@ class DEDOSParser:
                                          'or', '}'] or 'Identifier' in self.currentkeys):
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<math expression->": self.position-1})
                 else:
-                    print("SYNTAX ERROR 16.3: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v16.3: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
             elif (self.currentkeys in [')', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe',
@@ -426,7 +427,7 @@ class DEDOSParser:
                                        'or', '}'] or 'Identifier' in self.currentkeys):
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<math expression->": self.position-1})
             else:
-                print("SYNTAX ERROR 16.3: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v16.3: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "==", "!=", "and", "or", "}}", "Identifier", "+"')  # put error in a list for viewing in GUI
 
@@ -439,11 +440,11 @@ class DEDOSParser:
                                      'or', '}'] or 'Identifier' in self.currentkeys):
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<math expression->": self.position-1})
             else:
-                print("SYNTAX ERROR 16.4: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v16.4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}" "Identifier"')  # put error in a list for viewing in GUI
         else:
-            print("SYNTAX ERROR 16.5: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v16.5: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI
 
@@ -457,7 +458,7 @@ class DEDOSParser:
                                      'or', '}'] or 'Identifier' in self.currentkeys):
                 pass
             else:
-                print("SYNTAX ERROR 17: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v17: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
         elif (self.currentkeys in [')', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe',
@@ -466,7 +467,7 @@ class DEDOSParser:
                                    'or', '}'] or 'Identifier' in self.currentkeys):
             pass  # NULL <arithmetic tail>
         else:
-            print("SYNTAX ERROR 17.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v17.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "+", "-", "*", "/", "%", ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "}}", "Identifier"')  # put error in a list for viewing in GUI
 
@@ -477,11 +478,11 @@ class DEDOSParser:
             if self.currentkeys in ['(', 'INSTLIT', 'FLANKLIT', 'STRIKELIT'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 17.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v17.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "(", "INSTLIT", "FLANKLIT", "STRIKELIT", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 17.3: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v17.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "+", "-", "*", "/", "%"')  # put error in a list for viewing in GUI:
 
@@ -495,11 +496,11 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 18: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v18: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "+", "-", "*", "/", "%", ")", "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", "COMMA", "]", "<", ">", "<=", ">=", "==", "!=", "and", "or", "Identifier", "}}"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 18.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v18.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "FLANKLIT", "INSTLIT"')  # put error in a list for viewing in GUI:
 
@@ -514,15 +515,15 @@ class DEDOSParser:
                                         'COMMA', ']', '}'] or 'Identifier' in self.currentkeys:
                     pass
                 else:
-                    print("SYNTAX ERROR 19: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v19: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "globe", "inst", "flank", "strike", "chat", "tool", "bounce", "back", "abort", "push", ")", "COMMA", "]", "Identifier"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 19.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v19.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "]"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 19.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v19.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "["')  # put error in a list for viewing in GUI:
 
@@ -534,11 +535,11 @@ class DEDOSParser:
             if self.currentkeys == ']':
                 pass
             else:
-                print("SYNTAX ERROR 20: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v20: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "]"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 20.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v20.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "[", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT"')  # put error in a list for viewing in GUI:
 
@@ -548,11 +549,11 @@ class DEDOSParser:
             if self.currentkeys in ['COMMA', ']']:
                 pass
             else:
-                print("SYNTAX ERROR 21: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v21: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "COMMA", "]"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 21.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v21.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier", "["')  # put error in a list for viewing in GUI:
 
@@ -564,13 +565,13 @@ class DEDOSParser:
             if self.currentkeys == ']':
                 pass
             else:
-                print("SYNTAX ERROR 23: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v23: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "]"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ']':
             pass  # NULL <data value tail>
         else:
-            print("SYNTAX ERROR 23.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v23.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "COMMA", "]"')  # put error in a list for viewing in GUI:
 
@@ -582,13 +583,13 @@ class DEDOSParser:
             if self.currentkeys == ']':
                 pass
             else:
-                print("SYNTAX ERROR 24: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v24: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "]"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ']':
             pass  # NULL <array parameter tail>
         else:
-            print("SYNTAX ERROR 24.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v24.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "COMMA", "]"')  # put error in a list for viewing in GUI:
 
@@ -598,13 +599,13 @@ class DEDOSParser:
             if self.currentkeys == '~':
                 pass
             else:
-                print("SYNTAX ERROR 25: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v25: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ~')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '~':
             pass  # NULL <body>
         else:
-            print("SYNTAX ERROR 25.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v25.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -615,22 +616,23 @@ class DEDOSParser:
             if self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 26: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v26: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
+        
         elif self.currentkeys == 'defuse':
             self.terminal_function()
             self.terminal_statement()
             if self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 26.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v26.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <statement>
         else:
-            print("SYNTAX ERROR 26.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v26.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "Identifier", "defuse", "~"')  # put error in a list for viewing in GUI:
 
@@ -641,7 +643,7 @@ class DEDOSParser:
                                     '}', '~'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 27: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v27: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 're':
@@ -650,14 +652,14 @@ class DEDOSParser:
                                     '}', '~'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 27.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v27.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['bounce', 'plant', 're', 'force', 'watch', 'defuse',
                                   '}', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <body no defuse>
         else:
-            print("SYNTAX ERROR 27.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v27.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "plant", "re", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -677,7 +679,7 @@ class DEDOSParser:
                                             '}', '~'] or 'Identifier' in self.currentkeys:
                         pass
                     else:
-                        print("SYNTAX ERROR 29: Unexpected", self.currentvalues, self.lineCounter)
+                        print("Syntax Error: v29: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
                             f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
                 else:
@@ -687,12 +689,12 @@ class DEDOSParser:
                                             '}', '~'] or 'Identifier' in self.currentkeys:
                         pass
                     else:
-                        print("SYNTAX ERROR 29.1: Unexpected", self.currentvalues, self.lineCounter)
+                        print("Syntax Error: v29.1: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
                             f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
             else:
-                print("SYNTAX ERROR 28: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v28: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch']:
@@ -701,14 +703,14 @@ class DEDOSParser:
                                     '}', '~'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 28.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v28.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['re', 'bounce', 'abort', 'push', 'plant', 'force', 'watch', 'defuse',
                                   '}', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <body no if-defuse>
         else:
-            print("SYNTAX ERROR 28.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v28.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -719,7 +721,7 @@ class DEDOSParser:
                                     'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 29.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v29.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'plant':
@@ -728,14 +730,14 @@ class DEDOSParser:
                                     'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 29.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v29.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         if self.currentkeys in ['re', 'force', 'watch', 'bounce', 'back', 'abort', 'push', '~',
                                 'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <body no if-loop-defuse>
         else:
-            print("SYNTAX ERROR 29.3: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v29.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -748,11 +750,11 @@ class DEDOSParser:
                                     'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function call statement->": self.position - 1})
             else:
-                print("SYNTAX ERROR 29.4: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v29.4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 29.5: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v29.5: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -768,15 +770,15 @@ class DEDOSParser:
                                         'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
                     pass
                 else:
-                    print("SYNTAX ERROR 30: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v30: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 30.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v30.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 30.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v30.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("')  # put error in a list for viewing in GUI:
 
@@ -788,13 +790,13 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 31: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v31: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <parameter values>
         else:
-            print("SYNTAX ERROR 31.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v31.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "FLANKLIT", "INSTLIT", "STRIKELIT", "CHATLIT", "neg", "pos", "[", "Identifier", ")"')  # put error in a list for viewing in GUI:
 
@@ -806,13 +808,13 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 32: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v32: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass
         else:
-            print("SYNTAX ERROR 32.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v32.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "COMMA", ")"')  # put error in a list for viewing in GUI:
 
@@ -825,11 +827,11 @@ class DEDOSParser:
                                     'plant', 'defuse', '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<output statement->": self.position - 1})
             else:
-                print("SYNTAX ERROR 33: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v33: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 33.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v33.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant"')  # put error in a list for viewing in GUI:
 
@@ -845,11 +847,11 @@ class DEDOSParser:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<allowed value->": self.position-1})
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<initialization statement->": self.position - 1})
             else:
-                print("SYNTAX ERROR 34: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v34: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "~", "plant", "defuse", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 34.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v34.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -861,11 +863,11 @@ class DEDOSParser:
                                     'FLANKLIT'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 35: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v35: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "STRIKELIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 35.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v35.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "=", "+=", "-=", "*=", "/=", "%="')  # put error in a list for viewing in GUI:
 
@@ -883,7 +885,7 @@ class DEDOSParser:
                                             'plant', 'defuse', '}', '~'] or 'Identifier' in self.currentkeys:
                         pass
                     else:
-                        print("SYNTAX ERROR 36: Unexpected", self.currentvalues, self.lineCounter)
+                        print("Syntax Error: v36: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
                             f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "plant", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['info', '[', 'CHATLIT', 'neg', 'pos', '(', 'INSTLIT', 'FLANKLIT', 'STRIKELIT']:
@@ -892,11 +894,11 @@ class DEDOSParser:
                                     'plant', 'defuse', '}', '~'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 36.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v36.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "abort", "push", "plant", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 36.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v36.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "Identifier", "info", "[", "CHATLIT", "neg", "pos", "(", "INSTLIT", "FLANKLIT", "STRIKELIT"')  # put error in a list for viewing in GUI:
         if "NEWLINE" in self.currentkeys:
@@ -914,7 +916,7 @@ class DEDOSParser:
                                     'abort', 'push'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<force loop->": self.position-1})
             else:
-                print("SYNTAX ERROR 37: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v37: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "~", "plant", "re", "force", "watch", "defuse", "bounce", "back", "}}", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'watch':
@@ -927,11 +929,11 @@ class DEDOSParser:
                                     'abort', 'push'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<watch loop->": self.position - 1})
             else:
-                print("SYNTAX ERROR 37.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v37.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "~", "plant", "re", "force", "watch", "defuse", "bounce", "back", "}}", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 37.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v37.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force", "watch"')  # put error in a list for viewing in GUI:
 
@@ -947,69 +949,69 @@ class DEDOSParser:
                     if self.currentkeys == '(':
                         self.next()
                         self.terminal_inst_or_id_value()
-                        self.terminal_range()
+                        self.terminal_perim()
                         if self.currentkeys == ')':
                             self.SemanticSequence.insert(len(self.SemanticSequence), {"<perim->": self.position})
                             self.next()
                             if self.currentkeys == '{':
                                 pass
                             else:
-                                print("SYNTAX ERROR 38: Unexpected", self.currentvalues, self.lineCounter)
+                                print("Syntax Error: v38: Unexpected", self.currentvalues, self.lineCounter)
                                 self.SyntaxErrors.append(
                                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
                         else:
-                            print("SYNTAX ERROR 38.1: Unexpected", self.currentvalues, self.lineCounter)
+                            print("Syntax Error: v38.1: Unexpected", self.currentvalues, self.lineCounter)
                             self.SyntaxErrors.append(
                                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
                     else:
-                        print("SYNTAX ERROR 38.2: Unexpected", self.currentvalues, self.lineCounter)
+                        print("Syntax Error: v38.2: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
                             f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("')  # put error in a list for viewing in GUI:
                 else:
-                    print("SYNTAX ERROR 38.3: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v38.3: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "perim"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 38.4: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v38.4: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "in"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 38.5: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v38.5: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force"')  # put error in a list for viewing in GUI:
 
-    def terminal_range(self):
+    def terminal_perim(self):
         if self.currentkeys == 'COMMA':
             self.next()
             self.terminal_inst_or_id_value()
-            self.terminal_range_tail()
+            self.terminal_perim_tail()
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 39: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v39: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <perim>
         else:
-            print("SYNTAX ERROR 39.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v39.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "COMMA", ")"')  # put error in a list for viewing in GUI:
 
-    def terminal_range_tail(self):
+    def terminal_perim_tail(self):
         if self.currentkeys == 'COMMA':
             self.next()
             self.terminal_inst_or_id_value()
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 40: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v40: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <perim tail>
         else:
-            print("SYNTAX ERROR 40.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v40.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "COMMA", ")"')  # put error in a list for viewing in GUI:
 
@@ -1023,15 +1025,15 @@ class DEDOSParser:
                                         'defuse', '}', '~', 'reload', 'load'] or 'Identifier' in self.currentkeys:
                     pass
                 else:
-                    print("SYNTAX ERROR 41: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v41: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "bounce", "abort", "push", "plant", "force", "watch", "defuse", "}}", "~", "reload", "load", "Identifier"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 41.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v41.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "}}"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 41.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v41.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
 
@@ -1045,13 +1047,13 @@ class DEDOSParser:
             if self.currentkeys == '}':
                 pass
             else:
-                print("SYNTAX ERROR 42: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v42: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "}}"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '}':
             pass
         else:
-            print("SYNTAX ERROR 42.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v42.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force", "watch", "plant", "re", "bounce", "abort", "push", "Identifier", "}}"')  # put error in a list for viewing in GUI:
 
@@ -1065,14 +1067,14 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<loop condition->": self.position-1})
             else:
-                print("SYNTAX ERROR 43: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v43: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['re', 'bounce', 'abort', 'push', 'plant', 'force', 'watch',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <loop condition>
         else:
-            print("SYNTAX ERROR 43.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v43.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1085,11 +1087,11 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<loop if->": self.position-1})
             else:
-                print("SYNTAX ERROR 44: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v44: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "re", "bounce", "abort", "push", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 44.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v44.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re"')  # put error in a list for viewing in GUI:
 
@@ -1100,11 +1102,11 @@ class DEDOSParser:
             if self.currentkeys == '{':
                 pass
             else:
-                print("SYNTAX ERROR 45: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v45: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 45.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v45.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re"')  # put error in a list for viewing in GUI:
 
@@ -1118,15 +1120,15 @@ class DEDOSParser:
                 if self.currentkeys == '{':
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<condition->": self.position-1})
                 else:
-                    print("SYNTAX ERROR 46: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v46: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 46.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v46.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 46.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v46.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("')  # put error in a list for viewing in GUI:
 
@@ -1140,11 +1142,11 @@ class DEDOSParser:
                 if self.currentkeys == ')':
                     pass
                 else:
-                    print("SYNTAX ERROR 47: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v47: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 47.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v47.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'not':
@@ -1153,7 +1155,7 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 47.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v47.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['neg', 'pos', 'CHATLIT', 'STRIKELIT', 'INSTLIT',
@@ -1163,11 +1165,11 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 47.3: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v47.3: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 47.4: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v47.4: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "(", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1178,13 +1180,13 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 48: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v48: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <logic tail>
         else:
-            print("SYNTAX ERROR 48.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v48.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "and", "or", ")"')  # put error in a list for viewing in GUI:
 
@@ -1195,11 +1197,11 @@ class DEDOSParser:
                                     ] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 49: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v49: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "(", "not", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 49.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v49.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "and", "or"')  # put error in a list for viewing in GUI:
 
@@ -1214,19 +1216,19 @@ class DEDOSParser:
                     if self.currentkeys in ['and', 'or', '==', '!=', ')']:
                         pass
                     else:
-                        print("SYNTAX ERROR 50: Unexpected", self.currentvalues, self.lineCounter)
+                        print("Syntax Error: v50: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
                             f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "and", "or", "==", "!="')  # put error in a list for viewing in GUI:
                 else:
-                    print("SYNTAX ERROR 50.1: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v50.1: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 50.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v50.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 50.3: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v50.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "not"')  # put error in a list for viewing in GUI:
 
@@ -1236,7 +1238,7 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 51: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v51: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['<', '>', '<=', '>=', '==', '!=']:
@@ -1244,7 +1246,7 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 51.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v51.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
@@ -1253,7 +1255,7 @@ class DEDOSParser:
                                     ] or 'Identifier' in self.currentkeys:
             self.terminal_logical_expression() #NOterminal_SURE PA HERE EXPERIMENterminal_ LANG
         else:
-            print("SYNTAX ERROR 51.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v51.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "and", "or", "==", "!=", ")"')  # put error in a list for viewing in GUI:
 
@@ -1266,11 +1268,11 @@ class DEDOSParser:
                 if self.currentkeys in [')', 'and', 'or']:
                     pass
                 else:
-                    print("SYNTAX ERROR 52: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v52: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "and", "or"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 52.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v52.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['neg', 'pos', 'CHATLIT', 'STRIKELIT', 'INSTLIT',
@@ -1280,11 +1282,11 @@ class DEDOSParser:
             if self.currentkeys in [')', 'and', 'or']:
                 pass
             else:
-                print("SYNTAX ERROR 52.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v52.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "and", "or"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 52.3: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v52.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "(", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1295,13 +1297,13 @@ class DEDOSParser:
             if self.currentkeys in [')', 'and', 'or']:
                 pass
             else:
-                print("SYNTAX ERROR 53: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v53: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")", "and", "or"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in [')', 'and', 'or']:
             pass  # NULL <relational tail>
         else:
-            print("SYNTAX ERROR 53.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v53.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "<", ">", "<=", ">=", "==", "!=", ")", "and", "or"')  # put error in a list for viewing in GUI:
 
@@ -1312,11 +1314,11 @@ class DEDOSParser:
                                     ] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 54: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v54: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "(", "not", "neg", "pos", "CHATLIT", "STRIKELIT", "INSTLIT", "FLANKLIT", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 54.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v54.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "<", ">", "<=", ">=", "==", "!="')  # put error in a list for viewing in GUI:
 
@@ -1331,14 +1333,14 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 55: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v55: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "load", "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['load', 'bounce', 'abort', 'push', 're', 'plant', 'force', 'watch',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <loop elif>
         else:
-            print("SYNTAX ERROR 55.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v55.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1349,11 +1351,11 @@ class DEDOSParser:
             if self.currentkeys == '{':
                 pass
             else:
-                print("SYNTAX ERROR 56: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v56: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 56.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v56.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload"')  # put error in a list for viewing in GUI:
 
@@ -1366,14 +1368,14 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<loop else->": self.position-1})
             else:
-                print("SYNTAX ERROR 57: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v57: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['bounce', 'abort', 'push', 're', 'plant', 'force', 'watch',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <loop else>
         else:
-            print("SYNTAX ERROR 57.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v57.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "abort", "push", "re", "plant", "force", "watch", "}}", "load", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1390,14 +1392,14 @@ class DEDOSParser:
                                     '}', 'back'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 58: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v58: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "bounce", "abort", "push", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'force', 'watch', 'bounce', 'abort', 'push',
                                   '}', 'back'] or 'Identifier' in self.currentkeys:
             pass  # NULL <control flow>
         else:
-            print("SYNTAX ERROR 58.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v58.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "bounce", "abort", "push", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1408,13 +1410,28 @@ class DEDOSParser:
             if self.currentkeys == '{':
                 pass
             else:
-                print("SYNTAX ERROR 59: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v59: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 59.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v59.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "watch"')  # put error in a list for viewing in GUI:
+
+    def Tcheckif(self):
+        if self.currentkeys == 'checkif':
+            self.next()
+            self.Tcondition()
+            if self.currentkeys == '{':
+                pass
+            else:
+                print("SYNTAX ERROR 59: Unexpected", self.currentvalues, self.lineCounter)
+                self.SyntaxErrors.append(
+                    f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "{{"')  # put error in a list for viewing in GUI:
+        else:
+            print("SYNTAX ERROR 59.1: Unexpected", self.currentvalues, self.lineCounter)
+            self.SyntaxErrors.append(
+                f'LINE #{self.lineCounter} : Unexpected ⏵ "{self.currentvalues}" \n\nExpected ⏵ "checkif"')  # put error in a list for viewing in GUI:
 
     def terminal_condition_statement(self):
         if self.currentkeys == 're':
@@ -1426,11 +1443,11 @@ class DEDOSParser:
                                     '}', 'back', 'abort', 'push'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<condition statement->": self.position - 1})
             else:
-                print("SYNTAX ERROR 60: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v60: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "~", "plant", "re", "force", "watch", "defuse", "bounce", "}}", "back", "abort", "push", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 60.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v60.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re"')  # put error in a list for viewing in GUI:
 
@@ -1443,11 +1460,11 @@ class DEDOSParser:
                                     '}', '~'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<if with body->": self.position - 1})
             else:
-                print("SYNTAX ERROR 61: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v61: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 61.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v61.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re"')  # put error in a list for viewing in GUI:
 
@@ -1462,15 +1479,15 @@ class DEDOSParser:
                                         '}', '~'] or 'Identifier' in self.currentkeys:
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<condition body->": self.position -1})
                 else:
-                    print("SYNTAX ERROR 62: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v62: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 62.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v62.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "}}"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 62.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v62.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
 
@@ -1482,13 +1499,13 @@ class DEDOSParser:
             if self.currentkeys == '}':
                 pass
             else:
-                print("SYNTAX ERROR 63: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v63: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "}}"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '}':
             pass  # NULL <condition content>
         else:
-            print("SYNTAX ERROR 63.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v63.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "bounce", "Identifier", "}}"')  # put error in a list for viewing in GUI:
 
@@ -1500,14 +1517,14 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 64: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v64: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "watch", "force", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'watch', 'force', 'bounce',
                                   'back', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <pass>
         else:
-            print("SYNTAX ERROR 64.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v64.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "plant", "re", "watch", "force", "bounce", "back", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1522,14 +1539,14 @@ class DEDOSParser:
                                     '}', '~'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 65: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v65: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['load', 'plant', 're', 'force', 'watch', 'bounce', 'defuse',
                                   '}', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <elif with body>
         else:
-            print("SYNTAX ERROR 65.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v65.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1542,14 +1559,14 @@ class DEDOSParser:
                                     '}', '~'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<else with body->": self.position-1})
             else:
-                print("SYNTAX ERROR 66: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v66: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'force', 'watch', 'bounce', 'defuse',
                                   '}', '~'] or 'Identifier' in self.currentkeys:
             pass  # NULL <else with body>
         else:
-            print("SYNTAX ERROR 66.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v66.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "load", "plant", "re", "force", "watch", "bounce", "defuse", "}}", "~", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1568,19 +1585,19 @@ class DEDOSParser:
                                             '~'] or 'Identifier' in self.currentkeys:
                         self.SemanticSequence.insert(len(self.SemanticSequence), {"<function->": self.position-1})
                     else:
-                        print("SYNTAX ERROR 67: Unexpected", self.currentvalues, self.lineCounter)
+                        print("Syntax Error: v67: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
                             f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "bounce", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
                 else:
-                    print("SYNTAX ERROR 67.1: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v67.1: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 67.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v67.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 67.3: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v67.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "defuse"')  # put error in a list for viewing in GUI:
 
@@ -1592,13 +1609,13 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function parameter->": self.position-1})
             else:
-                print("SYNTAX ERROR 68: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v68: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <function parameter>
         else:
-            print("SYNTAX ERROR 68.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v68.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "Identifier", ")"')  # put error in a list for viewing in GUI:
 
@@ -1609,13 +1626,13 @@ class DEDOSParser:
             if self.currentkeys == ')':
                 pass
             else:
-                print("SYNTAX ERROR 69: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v69: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == ')':
             pass  # NULL <id tail>
         else:
-            print("SYNTAX ERROR 69.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v69.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "COMMA", ")"')  # put error in a list for viewing in GUI:
 
@@ -1631,11 +1648,11 @@ class DEDOSParser:
                                         '~'] or 'Identifier' in self.currentkeys:
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<function body->": self.position-1})
                 else:
-                    print("SYNTAX ERROR 70: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v70: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "defuse", "~", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 70.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v70.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
 
@@ -1647,7 +1664,7 @@ class DEDOSParser:
                                     'back'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 71: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v71: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['inst', 'flank', 'strike', 'chat', 'tool']:
@@ -1656,14 +1673,14 @@ class DEDOSParser:
             if self.currentkeys in ['plant', 're', 'force', 'watch', '}', 'back'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 71.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v71.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "plant", "re", "force", "watch", "}}", "back", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['plant', 're', 'force', 'watch', '}', 'bounce',
                                   'back'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function declaration>
         else:
-            print("SYNTAX ERROR 71.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v71.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "globe", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}" , "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1677,14 +1694,14 @@ class DEDOSParser:
                                     'force', 'watch', '}', 'bounce'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<globe->": self.position})
             else:
-                print("SYNTAX ERROR 72: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v72: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "globe", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}", "bounce", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['globe', 'inst', 'flank', 'strike', 'chat', 'tool', 'plant', 're',
                                   'force', 'watch', '}', 'bounce'] or 'Identifier' in self.currentkeys:
             pass  # NULL <globe>
         else:
-            print("SYNTAX ERROR 72.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v72.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "globe", "inst", "flank", "strike", "chat", "tool", "plant", "re", "force", "watch", "}}", "bounce", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1700,13 +1717,13 @@ class DEDOSParser:
             if self.currentkeys == '}':
                 pass
             else:
-                print("SYNTAX ERROR 73: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v73: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "}}"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '}':
             pass  # NULL <function content>
         else:
-            print("SYNTAX ERROR 73.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v73.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1720,14 +1737,14 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function condition->": self.position})
             else:
-                print("SYNTAX ERROR 74: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v74: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         if self.currentkeys in ['force', 'watch', 'bounce', 'back', 'plant', 're',
                                 '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function condition>
         else:
-            print("SYNTAX ERROR 74.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v74.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "back", "plant", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1740,11 +1757,11 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function if->": self.position-1})
             else:
-                print("SYNTAX ERROR 75: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v75: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 75.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v75.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re"')  # put error in a list for viewing in GUI:
 
@@ -1759,15 +1776,15 @@ class DEDOSParser:
                                         '}'] or 'Identifier' in self.currentkeys:
                     self.SemanticSequence.insert(len(self.SemanticSequence), {"<function condition body->": self.position - 1})
                 else:
-                    print("SYNTAX ERROR 76: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v76: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 76.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v76.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "}}"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 76.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v76.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
 
@@ -1782,14 +1799,14 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 77: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v77: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['load', 'force', 'watch', 'bounce', 'back', 'plant', 're',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function elif>
         else:
-            print("SYNTAX ERROR 77.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v77.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", ')  # put error in a list for viewing in GUI:
 
@@ -1802,14 +1819,14 @@ class DEDOSParser:
                                     '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function else->": self.position - 1})
             else:
-                print("SYNTAX ERROR 78: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v78: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch', 'bounce', 'back', 'plant', 're',
                                   '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function else>
         else:
-            print("SYNTAX ERROR 78.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v78.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "load", "force", "watch", "bounce", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1824,7 +1841,7 @@ class DEDOSParser:
                                     're'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function force loop->": self.position - 1})
             else:
-                print("SYNTAX ERROR 79: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v79: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == 'watch':
@@ -1837,14 +1854,14 @@ class DEDOSParser:
                                     're'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function watch loop->": self.position - 1})
             else:
-                print("SYNTAX ERROR 79.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v79.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['bounce', 'back', 'plant', '}', 'abort', 'push', 'force', 'watch',
                                   're'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function loop>
         else:
-            print("SYNTAX ERROR 79.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v79.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force", "watch", "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1858,15 +1875,15 @@ class DEDOSParser:
                                         'watch', 're', 'reload', 'load'] or 'Identifier' in self.currentkeys:
                     pass
                 else:
-                    print("SYNTAX ERROR 80: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v80: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "bounce", "back", "plant", "}}", "abort", "push", "force", "watch", "re", "reload", "load", "Identifier"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 80.1: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v80.1: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "}}"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 80.2: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v80.2: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
 
@@ -1882,13 +1899,13 @@ class DEDOSParser:
             if self.currentkeys == '}':
                 pass
             else:
-                print("SYNTAX ERROR 81: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v81: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "}}"')  # put error in a list for viewing in GUI:
         elif self.currentkeys == '}':
             pass  # NULL <function loop content>
         else:
-            print("SYNTAX ERROR 81.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v81.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1902,14 +1919,14 @@ class DEDOSParser:
                                     're', '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function loop condition->": self.position-1})
             else:
-                print("SYNTAX ERROR 82: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v82: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch', 'bounce', 'abort', 'push', 'back', 'plant',
                                   're', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function loop condition>
         else:
-            print("SYNTAX ERROR 82.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v82.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1922,11 +1939,11 @@ class DEDOSParser:
                                     're', '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function loop if->": self.position-1})
             else:
-                print("SYNTAX ERROR 83: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v83: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         else:
-            print("SYNTAX ERROR 83.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v83.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "re"')  # put error in a list for viewing in GUI:
 
@@ -1941,14 +1958,14 @@ class DEDOSParser:
                                     're', '}'] or 'Identifier' in self.currentkeys:
                 pass
             else:
-                print("SYNTAX ERROR 84: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v84: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['load', 'force', 'watch', 'bounce', 'abort', 'push', 'back', 'plant',
                                   're', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function loop elif>
         else:
-            print("SYNTAX ERROR 84.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v84.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "reload", "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1961,14 +1978,14 @@ class DEDOSParser:
                                     're', '}'] or 'Identifier' in self.currentkeys:
                 self.SemanticSequence.insert(len(self.SemanticSequence), {"<function loop else->": self.position-1})
             else:
-                print("SYNTAX ERROR 85: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v85: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch', 'bounce', 'abort', 'push', 'back', 'plant',
                                   're', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <function loop else>
         else:
-            print("SYNTAX ERROR 85.1: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v85.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "load", "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -1985,22 +2002,22 @@ class DEDOSParser:
                                             're', '}'] or 'Identifier' in self.currentkeys:
                         self.SemanticSequence.insert(len(self.SemanticSequence), {"<return->": self.position-1})
                     else:
-                        print("SYNTAX ERROR 86: Unexpected", self.currentvalues, self.lineCounter)
+                        print("Syntax Error: v86: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
                             f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force", "watch", "bounce", "abort", "push", "back", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
                 else:
-                    print("SYNTAX ERROR 86.1: Unexpected", self.currentvalues, self.lineCounter)
+                    print("Syntax Error: v86.1: Unexpected", self.currentvalues, self.lineCounter)
                     self.SyntaxErrors.append(
                         f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
             else:
-                print("SYNTAX ERROR 86.2: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: v86.2: Unexpected", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("')  # put error in a list for viewing in GUI:
         elif self.currentkeys in ['force', 'watch', 'bounce', 'abort', 'push', 'back', 'plant',
                                   're', '}'] or 'Identifier' in self.currentkeys:
             pass  # NULL <return>
         else:
-            print("SYNTAX ERROR 86.3: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v86.3: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "back", "force", "watch", "bounce", "abort", "push", "plant", "re", "}}", "Identifier"')  # put error in a list for viewing in GUI:
 
@@ -2010,7 +2027,7 @@ class DEDOSParser:
         terminator = 0
         ctr = 0
         if self.currentkeys == '"NEWLINE"':
-            print("SYNTAX ERROR 87: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: v87: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "~"')  # put error in a list for viewing in GUI #
         if self.currentkeys == '~':
@@ -2024,7 +2041,7 @@ class DEDOSParser:
             elif self.currentkeys in ['plant', 're', 'force', 'watch', 'defuse'] or "Identifier" in self.currentkeys:
                 self.terminal_body()
             else:
-                print("SYNTAX ERROR X:", self.currentvalues)
+                print("Syntax Error: vX:", self.currentvalues)
                 self.SyntaxErrors.append(
                     f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}"')  # put error in a list for viewing in GUI
                 break
