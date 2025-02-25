@@ -544,13 +544,13 @@ class DEDOSLexicalAnalyzer:
 
         for char in "watch": 
             if self.currentChar != char:
-                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "tool"'
+                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "watch"'
             result += self.currentChar
             self.next()
-        if self.currentChar not in delim3:
-            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim3])}'
+        if self.currentChar not in delim4:
+            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim4])}'
 
-        return "tool", result
+        return "watch", result
 
 
     def rel_token(self):                 #Tokens for Relational Operators
