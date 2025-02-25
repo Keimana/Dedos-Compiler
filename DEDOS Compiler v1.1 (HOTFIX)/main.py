@@ -42,7 +42,7 @@ class LexerGUI:
         self.code_input.pack(fill=tk.BOTH, expand=True)
 
         # Code Input Box
-        self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200", insertbackground="#fbb200", font=("Helvetica", 12))
+        self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200", insertbackground="#fbb200", font=("Helvetica", 10))
         self.code_input.pack(fill=tk.BOTH, expand=True)
 
         # Error Output
@@ -65,16 +65,21 @@ class LexerGUI:
         self.apply_dark_mode()
 
         # Bind Ctrl+F to the find_text function
-        self.master.bind("<Control-f>", self.open_find_dialog)
+        self.master.bind("<Control-f>", self.show_find_bar)
+        # Bind Esc to close the find bar if it's open
+        self.master.bind("<Escape>", self.hide_find_bar)
+
+        # Find bar frame (hidden by default)
+        self.find_frame = None
         # --- Input Frame with Line Numbers ---
         input_frame = tk.Frame(master, bg="#3c3f59")
         input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=10, sticky="nsew")
-        self.line_numbers = tk.Text(input_frame, width=0, padx=5, bg="#161527",
-                                     fg="#fbb200", state="disabled", font=("Helvetica", 12))
+        self.line_numbers = tk.Text(input_frame, width=3, padx=5, bg="#161527",
+                                     fg="#fbb200", state="disabled", font=("Helvetica", 14))
         self.line_numbers.pack(side=tk.LEFT, fill=tk.Y)
         # Create the final code input widget (this one will be used)
         self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200",
-                                                      insertbackground="#fbb200", font=("Helvetica", 12))
+                                                      insertbackground="#fbb200", font=("Helvetica", 14))
         self.code_input.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
         # Bind events to update line numbers and sync scrolling
@@ -172,40 +177,58 @@ class LexerGUI:
         self.tokens_list.config(bg="#161527", fg="#fbb200")
         self.lexemes_list.config(bg="#161527", fg="#fbb200")
 
-    def open_find_dialog(self, event=None):
-        """Open the Find text dialog."""
-        find_dialog = tk.Toplevel(self.master)
-        find_dialog.title("Find Text")
-        find_dialog.geometry("400x100")
-        
-        # Add a label for the search term
-        label = tk.Label(find_dialog, text="Find:")
-        label.pack(padx=10, pady=5)
-        
-        # Add an entry field for user to type the text they want to find
-        self.find_entry = tk.Entry(find_dialog, font=("Helvetica", 12))
-        self.find_entry.pack(padx=10, pady=5)
-        
-        # Add a button to trigger the search
-        search_button = tk.Button(find_dialog, text="Find", command=self.find_text)
-        search_button.pack(pady=5)
+    def show_find_bar(self, event=None):
+        """Display the find bar at the top like in VS Code."""
+        if self.find_frame and self.find_frame.winfo_exists():
+            # If already open, bring focus to the entry
+            self.find_entry.focus_set()
+            return
 
-        # Focus the entry field
-        self.find_entry.focus_set()
+        # Create the find bar frame using grid (since master uses grid)
+        self.find_frame = tk.Frame(self.master, bg="#2c2c2c")
+        self.find_frame.grid(row=0, column=0, columnspan=5, sticky="ew", padx=5, pady=5)
+
+        label = tk.Label(self.find_frame, text="Find:", bg="#2c2c2c", fg="white", font=("Helvetica", 12))
+        label.pack(side=tk.LEFT, padx=5, pady=5)
+
+        self.find_entry = tk.Entry(self.find_frame, font=("Helvetica", 12))
+        self.find_entry.pack(side=tk.LEFT, padx=5, pady=5, expand=True, fill=tk.X)
+
+        search_button = tk.Button(self.find_frame, text="Find", command=self.find_text)
+        search_button.pack(side=tk.LEFT, padx=5, pady=5)
+
+        close_button = tk.Button(self.find_frame, text="X", command=self.hide_find_bar)
+        close_button.pack(side=tk.LEFT, padx=5, pady=5)
+
+        # Bind Enter key to trigger search
+        self.find_entry.bind("<Return>", lambda e: self.find_text())
+
+        self.find_entry.focus_set()  # Set focus to the find entry
+
+    def hide_find_bar(self, event=None):
+        """Close the find bar."""
+        if self.find_frame and self.find_frame.winfo_exists():
+            self.find_frame.destroy()
 
     def find_text(self):
         """Find text in the input field."""
         search_text = self.find_entry.get()
-        start_pos = '1.0'
-        self.code_input.tag_remove("highlight", "1.0", "end")  # Remove previous highlights
+        if not search_text:
+            return
+
+        # Remove previous highlights in the code input area
+        self.code_input.tag_remove("highlight", "1.0", tk.END)
         
+        start_pos = '1.0'
         while True:
             start_pos = self.code_input.search(search_text, start_pos, stopindex=tk.END, nocase=True)
             if not start_pos:
                 break
             end_pos = f"{start_pos}+{len(search_text)}c"
             self.code_input.tag_add("highlight", start_pos, end_pos)
-            start_pos = end_pos
+            start_pos = end_pos  # Move to next occurrence
+
+        # Configure the highlight appearance
         self.code_input.tag_config("highlight", background="yellow", foreground="black")
 
     def analyze_code(self):
@@ -260,7 +283,7 @@ class LexerGUI:
 
     def import_file(self):
         """Open a file dialog to import a code file."""
-        file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
+        file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.dedos"), ("All Files", "*.*")])
         if file_path:
             with open(file_path, "r") as file:
                 code = file.read()
@@ -269,7 +292,7 @@ class LexerGUI:
 
     def export_file(self):
         """Export the results to a text file."""
-        file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")])
+        file_path = filedialog.asksaveasfilename(defaultextension=".dedos", filetypes=[("Text Files", "*.dedos"), ("All Files", "*.*")])
         if file_path:
             with open(file_path, "w") as file:
                 # Collect tokens, lexemes, and errors
