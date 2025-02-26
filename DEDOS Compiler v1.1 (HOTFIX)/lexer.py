@@ -72,18 +72,21 @@ class DEDOSLexicalAnalyzer:
         result += self.currentChar
         self.next()
 
-        if self.currentChar == "b":  # advance token
+        if self.currentChar == "b":  # abort token
             result += self.currentChar
             self.next()
+            
             for char in "ort":
                 if self.currentChar != char:
-                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "advance"'
+                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "advance"'
                 result += self.currentChar
                 self.next()
-                if self.currentChar not in delim12:
-                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim12])}'
-
-            return "abort", result
+            
+            # Ensure that the next character is a valid delimiter after "abort"
+            if self.currentChar in delim12:
+                return "abort", result
+            else:
+                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use {", ".join([repr(x) for x in delim12])}'
 
 
         elif self.currentChar == "n":  # and token
@@ -92,23 +95,24 @@ class DEDOSLexicalAnalyzer:
             if self.currentChar == 'd':
                 result += self.currentChar
                 self.next()
-                if self.currentChar not in delim5:
-                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim5])}'
+                if self.currentChar in delim5:  # Ensure correct delimiter
+                    return "and", result
+                else:
+                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use {", ".join([repr(x) for x in delim5])}'
 
-                return "and", result
-
-            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "and"'
+            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "and"'
 
         else:
-            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "and"'
-    
+            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "and"'
+
+        
     def b_token(self):  # Tokens that start with B
         result = ""
 
         result += self.currentChar
         self.next()
 
-        if self.currentChar == 'a':  # elsa token
+        if self.currentChar == 'a':  # back token
             result += self.currentChar
             self.next()
             if self.currentChar == 'c':
@@ -118,38 +122,34 @@ class DEDOSLexicalAnalyzer:
                     result += self.currentChar
                     self.next()
                     if self.currentChar not in delim4:
-                        return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim4])}'
+                        return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use {", ".join([repr(x) for x in delim4])}'
                     return "elsa", result
 
-                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "elsa"'
+                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "elsa"'
 
-
-            elif self.currentChar == 'o': # elib token
+        elif self.currentChar == 'o':  # bounce token
+            result += self.currentChar
+            self.next()
+            if self.currentChar == 'u':
                 result += self.currentChar
                 self.next()
-                if self.currentChar == 'u':
+                if self.currentChar == 'n':
                     result += self.currentChar
                     self.next()
-                    if self.currentChar == 'n':
+                    if self.currentChar == 'c':
                         result += self.currentChar
                         self.next()
-                        if self.currentChar == 'c':
+                        if self.currentChar == 'e':
                             result += self.currentChar
                             self.next()
-                            if self.currentChar == 'e':
-                                result += self.currentChar
-                                self.next()
-                    if self.currentChar not in delim12:
-                        return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim12])}'
+                            if self.currentChar in delim12:  # Ensure it's correctly delimited
+                                return "bounce", result
+                            else:
+                                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use {", ".join([repr(x) for x in delim12])}'
 
-                    return "bounce", result
+                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "bounce"'
 
-                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "bounce"'
-
-            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "bounce", "back"'
-
-        else:
-            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "bounce", "back"'
+        return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "bounce", "back"'
 
     
     def c_token(self):  # Tokens that start with C
