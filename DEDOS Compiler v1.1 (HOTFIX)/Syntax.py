@@ -154,7 +154,7 @@ class DEDOSParser:
         self.SemanticSequence.insert(len(self.SemanticSequence), {"<id>": self.position})
         if 'Identifier' in self.currentkeys:
             self.next()  # Expected: self.currentkeys = follow set <id>
-            if (self.currentkeys in ['[', '=', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst',
+            if (self.currentkeys in ['{', '[', '=', 'plant', 're', 'force', 'watch', 'defuse', '~', 'globe', 'inst',
                                      'flank', 'strike', 'chat', 'tool', 'bounce', 'back', ']', 'COMMA', ')', '+', '-',
                                      '*', '/', '%', 'abort', 'push', '}', '<', '>', '<=', '>=', '==', '!=', 'and', 'or',
                                      '+=', '-=', '*=', '/=', '%=', '(', 'in'] or 'Identifier' in self.currentkeys):
@@ -167,6 +167,7 @@ class DEDOSParser:
             print("Syntax Error: v6.1: Unexpected", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
                 f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "Identifier"')  # put error in a list for viewing in GUI
+
 
 
     def terminal_inst_or_id_value(self):  # <inst or id value>
@@ -940,45 +941,45 @@ class DEDOSParser:
     def terminal_for(self):
         if self.currentkeys == 'force':
             self.next()
-            self.terminal_id()
+            self.terminal_id()  # Process first identifier (#x)
+            
             if self.currentkeys == 'in':
                 self.next()
-                self.SemanticSequence.insert(len(self.SemanticSequence), {"<perim+>": self.position})
+                # Choose branch: if the next token is 'perim', process perim()
                 if self.currentkeys == 'perim':
                     self.next()
                     if self.currentkeys == '(':
                         self.next()
                         self.terminal_inst_or_id_value()
                         self.terminal_perim()
+                        
                         if self.currentkeys == ')':
                             self.SemanticSequence.insert(len(self.SemanticSequence), {"<perim->": self.position})
                             self.next()
-                            if self.currentkeys == '{':
-                                pass
-                            else:
-                                print("Syntax Error: v38: Unexpected", self.currentvalues, self.lineCounter)
-                                self.SyntaxErrors.append(
-                                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "{{"')  # put error in a list for viewing in GUI:
                         else:
                             print("Syntax Error: v38.1: Unexpected", self.currentvalues, self.lineCounter)
                             self.SyntaxErrors.append(
-                                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"')  # put error in a list for viewing in GUI:
+                                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: ")"'
+                            )
                     else:
                         print("Syntax Error: v38.2: Unexpected", self.currentvalues, self.lineCounter)
                         self.SyntaxErrors.append(
-                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("')  # put error in a list for viewing in GUI:
+                            f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "("'
+                        )
+
                 else:
-                    print("Syntax Error: v38.3: Unexpected", self.currentvalues, self.lineCounter)
-                    self.SyntaxErrors.append(
-                        f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "perim"')  # put error in a list for viewing in GUI:
+                    self.terminal_id()  # Process second identifier (#x)
+
             else:
-                print("Syntax Error: v38.4: Unexpected", self.currentvalues, self.lineCounter)
+                print("Syntax Error: Expected 'in' after first identifier", self.currentvalues, self.lineCounter)
                 self.SyntaxErrors.append(
-                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "in"')  # put error in a list for viewing in GUI:
+                    f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "in"'
+                )
         else:
-            print("Syntax Error: v38.5: Unexpected", self.currentvalues, self.lineCounter)
+            print("Syntax Error: Expected 'force' at the beginning", self.currentvalues, self.lineCounter)
             self.SyntaxErrors.append(
-                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force"')  # put error in a list for viewing in GUI:
+                f'LINE #{self.lineCounter} : Unexpected: "{self.currentvalues}" \n\nExpected: "force"'
+            )
 
     def terminal_perim(self):
         if self.currentkeys == 'COMMA':
