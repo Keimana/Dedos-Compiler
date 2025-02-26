@@ -122,9 +122,9 @@ class DEDOSLexicalAnalyzer:
                     self.next()
                     if self.currentChar not in delim4:
                         return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use {", ".join([repr(x) for x in delim4])}'
-                    return "elsa", result
+                    return "back", result
 
-                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "elsa"'
+                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "back"'
 
         elif self.currentChar == 'o':  # bounce token
             result += self.currentChar
