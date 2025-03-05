@@ -84,7 +84,7 @@ class LexerGUI:
         input_frame = tk.Frame(master, bg="#3c3f59")
         input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=10, sticky="nsew")
         self.line_numbers = tk.Text(input_frame, width=4, padx=5, bg="#161527",
-                                     fg="#fbb200", state="disabled", font=("Helvetica", 13))
+                                     fg="white", state="disabled", font=("Helvetica", 13))
         self.line_numbers.pack(side=tk.LEFT, fill=tk.Y)
         # Create the final code input widget (this one will be used)
         self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200",
@@ -99,7 +99,6 @@ class LexerGUI:
 
     def highlight_words(self, event=None):
         """Highlight multiple groups of words in different colors."""
-        # Define groups: each key is a tag name, and each value is (list of words, color)
         highlight_groups = {
             "group1": (["defuse", "in", "not"], "#F93827"),
             "group2": (["inst", "flank", "chat", "strike"], "#5cffe4"),
@@ -108,24 +107,80 @@ class LexerGUI:
             "group5": (["re", "reload", "load"], "#ff1377"),
             "group6": (["force"], "#F3CFC6"),
             "group7": (["+", "-", "/", "*", "="], "#ffffff"),
-            "group8": (["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"], "#d6fa51"),
+            "group8": ("numbers", "#d6fa51"),  # Special handling for numbers
             "group9": (["~"], "#16C47F"),
-            "group10": (["(", ")", "[", "{", "}", "]", "'", '"'], "white")
+            "group10": (["(", ")", "[", "{", "}", "]"], "white"),
+            "group11": ("quoted_text", "#FFEB00")  # Color for text inside quotes
         }
-        # For each group, remove old highlights and configure the tag
+
+        # Remove old highlights and set colors
         for tag, (words, color) in highlight_groups.items():
             self.code_input.tag_remove(tag, "1.0", tk.END)
             self.code_input.tag_config(tag, foreground=color)
-            # For each word, search and add the tag
-            for word in words:
+
+            if words == "numbers":
+                # Special handling for full numbers
                 start_pos = "1.0"
                 while True:
-                    start_pos = self.code_input.search(word, start_pos, stopindex=tk.END)
+                    start_pos = self.code_input.search("0", start_pos, stopindex=tk.END)
                     if not start_pos:
                         break
-                    end_pos = f"{start_pos}+{len(word)}c"
-                    self.code_input.tag_add(tag, start_pos, end_pos)
+
+                    # Expand to capture the full number sequence
+                    end_pos = start_pos
+                    while True:
+                        next_char = self.code_input.get(end_pos)
+                        if not next_char.isdigit():
+                            break
+                        end_pos = f"{end_pos}+1c"
+
+                    before = self.code_input.get(f"{start_pos}-1c", start_pos)
+                    after = self.code_input.get(end_pos, f"{end_pos}+1c")
+
+                    if (before.isspace() or before in "{}[]();.,") and (after.isspace() or after in "{}[]();.,"):
+                        self.code_input.tag_add(tag, start_pos, end_pos)
+
                     start_pos = end_pos
+
+            elif words == "quoted_text":
+                # Search for text inside quotes (single and double)
+                for quote in ["'", '"']:
+                    start_pos = "1.0"
+                    while True:
+                        start_pos = self.code_input.search(quote, start_pos, stopindex=tk.END)
+                        if not start_pos:
+                            break
+
+                        end_pos = f"{start_pos}+1c"
+                        while True:
+                            next_char = self.code_input.get(end_pos)
+                            if next_char == quote:
+                                end_pos = f"{end_pos}+1c"
+                                break
+                            elif next_char == "":
+                                break
+                            end_pos = f"{end_pos}+1c"
+
+                        self.code_input.tag_add(tag, start_pos, end_pos)
+                        start_pos = end_pos
+
+            else:
+                # Standard word highlighting
+                for word in words:
+                    start_pos = "1.0"
+                    while True:
+                        start_pos = self.code_input.search(word, start_pos, stopindex=tk.END)
+                        if not start_pos:
+                            break
+
+                        before = self.code_input.get(f"{start_pos}-1c", start_pos)
+                        after = self.code_input.get(f"{start_pos}+{len(word)}c", f"{start_pos}+{len(word) + 1}c")
+
+                        if (before.isspace() or before in "{}[]();.,") and (after.isspace() or after in "{}[]();.,"):
+                            end_pos = f"{start_pos}+{len(word)}c"
+                            self.code_input.tag_add(tag, start_pos, end_pos)
+
+                        start_pos = f"{start_pos}+{len(word)}c"
 
     def create_rounded_button(self, parent, text, command, bg, fg, font):
         """Creates a rounded button with a hover effect."""
