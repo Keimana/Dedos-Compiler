@@ -386,8 +386,8 @@ class DEDOSLexicalAnalyzer:
                 return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "or"'
             result += self.currentChar
             self.next()
-        if self.currentChar not in delim4:
-            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim4])}'
+        if self.currentChar not in delim5:
+            return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim5])}'
 
         return "or", result
 
