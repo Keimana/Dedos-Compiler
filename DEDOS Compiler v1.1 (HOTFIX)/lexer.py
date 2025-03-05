@@ -77,7 +77,7 @@ class DEDOSLexicalAnalyzer:
             
             for char in "ort":
                 if self.currentChar != char:
-                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "advance"'
+                    return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use "abort"'
                 result += self.currentChar
                 self.next()
             
@@ -157,7 +157,7 @@ class DEDOSLexicalAnalyzer:
         result += self.currentChar  # 'c'
         self.next()
 
-        if self.currentChar == "h":  # 'cap' token
+        if self.currentChar == "h":  # 'chat' token
             result += self.currentChar  # 'ca'
             self.next()
             if self.currentChar == 'a':
@@ -181,7 +181,7 @@ class DEDOSLexicalAnalyzer:
         result += self.currentChar
         self.next()
 
-        if self.currentChar == 'e':  # elsa token
+        if self.currentChar == 'e':  # defuse token
             result += self.currentChar
             self.next()
             if self.currentChar == 'f':
@@ -334,7 +334,7 @@ class DEDOSLexicalAnalyzer:
     def l_token(self):  # Tokens that start with F
         result = ""
 
-        for char in "load":  # flute token
+        for char in "load":  # load token
             if self.currentChar != char:
                 return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  "load"'
             result += self.currentChar
@@ -346,7 +346,7 @@ class DEDOSLexicalAnalyzer:
         
     def n_token(self):  # Tokens that start with N
         result = ""
-        result += self.currentChar
+        result += self.currentChar  # already 'n'
         self.next()
 
         # Handle "neg"
@@ -358,23 +358,28 @@ class DEDOSLexicalAnalyzer:
             result += self.currentChar
             self.next()
 
-            if self.currentChar not in delim8:  # Check if current character is in delim6
+            if self.currentChar not in delim8:  # Check if current character is in delim8
                 return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Use   {", ".join([repr(x) for x in delim8])}'
 
             return "neg", result
 
         # Handle "not"
-        elif self.currentChar == 't':
+        elif self.currentChar == 'o':
+            result += self.currentChar
+            self.next()
+            if self.currentChar != 't':  # Now expect a 't'
+                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "not"'
             result += self.currentChar
             self.next()
 
-            if self.currentChar not in delim5:  # Check if current character is in delim1
+            if self.currentChar not in delim5:  # Check if current character is in delim5
                 return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n Use   {", ".join([repr(x) for x in delim5])}'
 
             return "not", result
 
         # Default case when neither "neg" nor "not" are found
         return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use   "neg", "not"'
+
 
         
 
@@ -593,10 +598,10 @@ class DEDOSLexicalAnalyzer:
                     return "==", result
                 else:
                     return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim14])}'
-            if self.currentChar in delim5:    # = token
+            if self.currentChar in delim3:    # = token
                 return "=", result
             else:
-                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim5])}'
+                return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use  {", ".join([repr(x) for x in delim3])}'
             
         elif result[0] == "!":                  #!= token
             if self.currentChar == "=":
@@ -871,13 +876,15 @@ class DEDOSLexicalAnalyzer:
             return "Hey Agent! This Lexeme is Unknown", f'"{result}" \n ERROR: Incorrect Delimiter'
 
     def UnknownToken(self):
-        result = ""
-        result += self.currentChar
+        result = self.currentChar  # Start with the first unknown character
         self.next()
-        for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-            if letter in result:
-                return "Hey Agent! This Lexeme is Unknown.", result
-        return "Hey Agent! This Lexeme is Unknown.", result + " "
+
+        while self.currentChar.isalpha():  # Continue if it's part of a word
+            result += self.currentChar
+            self.next()
+
+        return "Hey Agent! This Lexeme is Unknown.", result
+
     
     def strikelit_token(self):               #Token for STRIKELIT
         result = ""
@@ -1028,15 +1035,6 @@ class DEDOSLexicalAnalyzer:
             return "Hey Agent! First letter must be lowercase or underscore", f'"{result}" Use "a" to "z" or "_"'
 
 
-    def unknown_token(self):
-        result = ""
-        result += self.currentChar
-        self.next()
-        for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-            if letter in result:
-                return "Hey Agent! Uppercase letters are not allowed", result
-        return "Hey Agent! Uppercase letters are not allowed", result + " "
-    
 
     def getNextTokens(self):
         counter = 0
