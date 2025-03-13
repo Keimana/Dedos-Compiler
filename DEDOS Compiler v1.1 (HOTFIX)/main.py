@@ -3,6 +3,7 @@ from tkinter import ttk, scrolledtext, messagebox, filedialog
 from lexer import DEDOSLexicalAnalyzer
 from Syntax import DEDOSParser  # Import your PLY-based parser
 import Semantic
+import speech_recognition as sr  # Import the speech recognition module
 
 class LexerGUI:
     def __init__(self, master):
@@ -37,7 +38,7 @@ class LexerGUI:
 
         self.semantic_button = self.create_rounded_button(analyzer_button_frame, "Run Semantic Analyzer", self.analyze_semantic, "#fb5421", "white", ("Helvetica", 10))
         self.semantic_button.pack(side=tk.LEFT, padx=5)
-        self.semantic_button.configure(state="normal")
+        self.semantic_button.configure(state="disabled")
 
         self.import_button = self.create_rounded_button(analyzer_button_frame, "Import File", self.import_file, "#fb5421", "white", ("Helvetica", 10))
         self.import_button.pack(side=tk.LEFT, padx=5)
@@ -47,8 +48,6 @@ class LexerGUI:
 
         self.help_button = self.create_rounded_button(analyzer_button_frame, "Help", self.show_help, "#fb5421", "white", ("Helvetica", 10))
         self.help_button.pack(side=tk.LEFT, padx=5)
-
-
 
         
         # Input Code Frame (first instance)
@@ -126,8 +125,21 @@ class LexerGUI:
         # Add this line where the code_input is created (inside __init__)
         self.code_input.bind("<Tab>", self.handle_tab)
         
-        
-            # Add this method to the class:
+                # Within the __init__ method, after creating other buttons
+        self.help_button = self.create_rounded_button(analyzer_button_frame, "Help", self.show_help, "#fb5421", "white", ("Helvetica", 10))
+        self.help_button.pack(side=tk.LEFT, padx=5)
+
+        # Add the Voice Button to capture speech input
+        self.voice_button = self.create_rounded_button(
+            analyzer_button_frame,
+            "Speak",
+            self.voice_to_text,
+            "#fb5421",
+            "white",
+            ("Helvetica", 10)
+        )
+        self.voice_button.pack(side=tk.LEFT, padx=5)
+
     def show_help(self):
         """Show help window with input field instructions"""
         help_text = """DEDOS Input Field Guide:
@@ -175,6 +187,51 @@ class LexerGUI:
         text_area.configure(state='disabled', bg="#161527", fg="#fbb200")
         text_area.pack(fill=tk.BOTH, expand=True)
 
+    def voice_to_text(self):
+        """Capture voice input and insert recognized text into the code input field,
+        replacing spoken commands with symbols."""
+        recognizer = sr.Recognizer()
+        # Mapping spoken words to symbols
+        mapping = {
+            "equals": "=",
+            "plus": "+",
+            "minus": "-",
+            "slash": "/",
+            "double equals": "==",
+            "minus equals": "-=",
+            "plus equals": "+=",
+            "not equals": "!=",
+            "tilde": "~",
+            "open parenthesis": "(",
+            "close parenthesis": ")",
+            "open brace": "{",
+            "close brace": "}",
+        }
+        
+        try:
+            with sr.Microphone() as source:
+                self.status_label.config(text="Listening...")
+                self.master.update()  # Update the UI to show listening status
+                audio = recognizer.listen(source, timeout=5)
+                # Get the recognized text in lowercase for consistency.
+                text = recognizer.recognize_google(audio).lower()
+
+                # Replace spoken phrases with corresponding symbols.
+                for word, symbol in mapping.items():
+                    # Add spaces around word to avoid partial matches
+                    text = text.replace(" " + word + " ", " " + symbol + " ")
+                
+                # Optionally, you can print or log the transformed text.
+                self.code_input.insert(tk.INSERT, text)
+                self.status_label.config(text="Voice input added!")
+        except sr.WaitTimeoutError:
+            self.status_label.config(text="No speech detected. Please try again.")
+        except sr.UnknownValueError:
+            self.status_label.config(text="Could not understand audio.")
+        except sr.RequestError:
+            self.status_label.config(text="Speech service unavailable.")
+        except Exception as e:
+            self.status_label.config(text=f"Error: {str(e)}")
 
     def setup_hover_help(self):
         """Configure hover help messages for UI elements"""
@@ -415,23 +472,30 @@ class LexerGUI:
         """Run Syntax Analysis"""
         self.errors_list.delete(0, tk.END)
         # Create the parser instance using tokens from the lexer.
+        print("Tokens received for syntax analysis:", self.lexer.tokens)  # Debugging
         self.parser = DEDOSParser(self.lexer.tokens)
         self.parser.ListToDict()
         self.parser.GetNextTerminal()
         
         syntaxErrors = self.parser.SyntaxErrors
-        print("Syntax Errors:", syntaxErrors)
+        print("Raw Syntax Errors:", syntaxErrors)  # Debugging
         
-        # Display syntax errors in the GUI.
-        self.enteringErrorsOfSyntax(syntaxErrors)
+        # Display only the first syntax error in the GUI (if available).
+        if syntaxErrors:
+            self.errors_list.insert(tk.END, syntaxErrors[0])
         
-        # Check if the first syntax error message indicates success.
-        # (Adjust the success message string if needed.)
-        if syntaxErrors and syntaxErrors[0] == '--------------------------------------------------------------------------SYNTAX COMPILE SUCCESSFUL\n-------------------------------------------------------------\n\n':
+        # Check for success
+        if syntaxErrors and "SYNTAX COMPILE SUCCESSFUL" in syntaxErrors[0]:
+            print("Syntax analysis succeeded, enabling semantic analysis.")
+            self.semantic_button.configure(state="normal")  # Enable semantic button
             self.analyze_semantic()
-        
+        else:
+            print("Syntax analysis failed or did not return the expected compilation.")
+            self.semantic_button.configure(state="disabled")  # Ensure semantic button is disabled
+
         # Clear syntax errors for subsequent runs.
         self.parser.SyntaxErrors = []
+
 
 
     def enteringErrorsOfSyntax(self, syntaxErrors):
@@ -442,10 +506,11 @@ class LexerGUI:
 
 
     def analyze_semantic(self):
-        """Run Semantic Analysis"""
+        
+        # Check if the parser and its outputs are available.
         if not hasattr(self, 'parser') or not self.parser:
             self.errors_list.delete(0, tk.END)
-            self.errors_list.insert("Semantic Analysis", "Syntax analysis has not been run yet.")
+            self.errors_list.insert(tk.END, "Syntax analysis has not been run yet.")
             return
 
         if self.parser.SyntaxErrors:
@@ -457,7 +522,7 @@ class LexerGUI:
 
         if not Terminals or not Sequence:
             self.errors_list.delete(0, tk.END)
-            self.errors_list.insert("Semantic Analysis", "Required syntax analysis outputs are missing!")
+            self.errors_list.insert(tk.END, "Required syntax analysis outputs are missing!")
             return
 
         print("Running Semantic Analysis with Terminals:", Terminals)
@@ -465,26 +530,28 @@ class LexerGUI:
 
         # Create the semantic analyzer instance.
         sem = Semantic.DEDOSSemantic(Terminals, Sequence)
-
+        
         # Run semantic processing.
         sem.keyval_fix()
         sem.token_type()
-
+        
         # Ensure output is a list
         output = sem.Output if sem.Output is not None else []
-
+        
         # Retrieve only errors
-        errors = [item.replace("|||", "") for item in output if isinstance(item, str) and ('|||Semantic Error' in item or '|||Runtime Error' in item)]
-
+        errors = [item.replace("|||", "") for item in output 
+                if isinstance(item, str) and ('|||Semantic Error' in item or '|||Runtime Error' in item)]
+        
         # Clear previous output
         self.errors_list.delete(0, tk.END)
-
+        
         # Display errors if found, else show completion message
         if errors:
             for line in errors:
                 self.errors_list.insert(tk.END, line)
         else:
             self.errors_list.insert(tk.END, "-------------------------------------------------------------SEMANTIC COMPILE SUCCESSFUL\n-------------------------------------------------------------")
+
 
 
     def import_file(self):
@@ -508,6 +575,49 @@ class LexerGUI:
             with open(file_path, "w") as file:
                 file.write(code)
 
+
+def inputter(desc):
+    if desc.startswith("("):
+        desc = desc[1:]
+    
+    # Create a new Toplevel window for input
+    top = tk.Toplevel()
+    top.title("Input")
+    top.configure(bg="#3c3f59")
+
+
+    # Label for the description with specified font and color
+    tk.Label(top, text=desc, font=("Helvetica", 14), bg="#3c3f59", fg="#fbb200",
+             anchor='w', justify='left').pack(pady=10)
+    
+    # Entry widget for user input with specified font and color
+    entry = tk.Entry(top, font=("Helvetica", 12), width=40, bg="#3c3f59", fg="#fbb200",
+                     insertbackground="#fbb200")
+    entry.pack(padx=20, pady=10)
+    entry.focus_set()
+    value = None
+
+    def submit():
+        nonlocal value
+        # Capture the entry value (the replace is left as in the original)
+        value = str(entry.get()).replace("-", "-")
+        top.destroy()  # Close the input window
+
+    # Submit button with specified design
+    tk.Button(top, text="Submit", command=submit, font=("Helvetica", 12),
+              bg="#fb5421", fg="#fbb200", padx=20, pady=5, relief="flat", borderwidth=0).pack(pady=10)
+    
+    top.wait_window()  # Wait for the input window to close
+    try:
+        if value in [True, False]:
+            pass
+        elif type(eval(value)) == int:
+            pass
+        elif type(eval(value)) == float:
+            pass
+    except:
+        value = "\"" + value + "\""
+    return value
 
 def main():
     root = tk.Tk()
