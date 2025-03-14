@@ -1027,7 +1027,7 @@ class DEDOSLexicalAnalyzer:
 
             if self.currentChar in delim24:
                 self.IDcounter += 1
-                return f"Identifier{self.IDcounter}", result
+                return f"IDENTIFIER{self.IDcounter}", result
             else:
                 return "Hey Agent! This Lexeme is Unknown", f'"{result}" Use {", ".join([repr(x) for x in delim24])}'
 
