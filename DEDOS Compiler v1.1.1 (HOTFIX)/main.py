@@ -519,10 +519,12 @@ Function call:
         # Ensure output is a list
         output = sem.Output if sem.Output is not None else []
         
-        # Retrieve only errors
-        errors = [item.replace("|||", "") for item in output 
-                if isinstance(item, str) and ('|||Semantic Error' in item or '|||Runtime Error' in item)]
-        
+        # Retrieve only unique errors
+        errors = list(dict.fromkeys([
+            item.replace("|||", "") for item in output
+            if isinstance(item, str) and ('|||Semantic Error' in item or '|||Runtime Error' in item)
+        ]))
+
         # Clear previous output
         self.errors_list.delete(0, tk.END)
         
