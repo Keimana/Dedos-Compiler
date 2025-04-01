@@ -437,13 +437,13 @@ class DEDOSSemantic:
         try:
             if self.c1 == '<force loop+>':
                 self.next()
-                id1 = str(self.value[self.c2]) + "loop3r"
+                id1 = str(self.value[self.c2])
                 id ={id1 : 0}
                 self.GlobalVar.update(id)
                 self.GlobalDatatype.update({id1: "inst"})
                 self.next()
                 start = self.c2 + 1
-                while self.c1 != '<range->':
+                while self.c1 != '<perim->':
                     self.next()
                 end = self.c2
                 h1 = "".join(self.value[start:end]).replace("(", '').replace("-", "-")
@@ -1501,7 +1501,7 @@ class DEDOSSemantic:
                             self.c22 = cvalues[0]
                             # executing the function body
                             while self.c11 != '<function body->':  # and self.c11 != '<function body->':
-                                if self.c11 == '<universal+>':
+                                if self.c11 == '<globe+>':
                                     self.func_universal()
                                 elif self.c11 == '<declaration+>':
                                     self.func_declaration()
@@ -1654,7 +1654,7 @@ class DEDOSSemantic:
                             self.c22 = cvalues[0]
                             # executing the function body
                             while self.c11 != '<function body->':  # and self.c11 != '<function body->':
-                                if self.c11 == '<universal+>':
+                                if self.c11 == '<globe+>':
                                     self.func_universal()
                                 elif self.c11 == '<declaration+>':
                                     self.func_declaration()
@@ -2476,13 +2476,13 @@ class DEDOSSemantic:
             a = "None"
             if self.c11 == '<function force loop+>':  # if loop statement is a for loop then go here
                 self.funcnext()
-                id1 = str(self.value[self.c22]) + "loop3r"  # later
-                id = {id1: 0}  # get the id and give it a value 0, id+loop3r for the id
+                id1 = str(self.value[self.c22])  # later
+                id = {id1: 0}  
                 self.FuncVariable.update(id)
                 self.FuncVariableDatatype.update({id1: "inst"})
                 self.funcnext()
-                start = self.c22 + 1  # get the range parameters for "for loop"
-                while self.c11 != '<range->':
+                start = self.c22 + 1  
+                while self.c11 != '<perim->':
                     self.funcnext()
                 end = self.c22
                 h1 = "".join(self.value[start:end]).replace("(", '').replace("-", "-")

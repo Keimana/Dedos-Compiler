@@ -3,7 +3,6 @@ from tkinter import ttk, scrolledtext, messagebox, filedialog
 from lexer import DEDOSLexicalAnalyzer
 from Syntax import DEDOSParser  # Import your PLY-based parser
 import Semantic
-import speech_recognition as sr  # Import the speech recognition module
 
 class LexerGUI:
     def __init__(self, master):
@@ -23,39 +22,40 @@ class LexerGUI:
         master.grid_rowconfigure(2, weight=2)
         master.grid_rowconfigure(3, weight=1)
 
-
         analyzer_button_frame = tk.Frame(master, bg="#3c3f59")
         analyzer_button_frame.grid(row=3, column=0, columnspan=5, padx=0, pady=10, sticky="ew")
 
-
-        self.lexical_button = self.create_rounded_button(analyzer_button_frame, "Run Lexical Analyzer", self.analyze_code, "#fb5421", "white", ("Helvetica", 10))
+        self.lexical_button = self.create_rounded_button(analyzer_button_frame, "Run Lexical Analyzer", self.analyze_code, "#fb5421", "white", ("Consolas", 10))
         self.lexical_button.pack(side=tk.LEFT, padx=5)
 
-        self.syntax_button = self.create_rounded_button(analyzer_button_frame, "Run Syntax Analyzer", self.analyze_syntax, "#fb5421", "white", ("Helvetica", 10))
+        self.syntax_button = self.create_rounded_button(analyzer_button_frame, "Run Syntax Analyzer", self.analyze_syntax, "#fb5421", "white", ("Consolas", 10))
         self.syntax_button.pack(side=tk.LEFT, padx=0)
         self.syntax_button.configure(state="disabled")
 
-
-        self.semantic_button = self.create_rounded_button(analyzer_button_frame, "Run Semantic Analyzer", self.analyze_semantic, "#fb5421", "white", ("Helvetica", 10))
+        self.semantic_button = self.create_rounded_button(analyzer_button_frame, "Run Semantic Analyzer", self.analyze_semantic, "#fb5421", "white", ("Consolas", 10))
         self.semantic_button.pack(side=tk.LEFT, padx=5)
         self.semantic_button.configure(state="disabled")
 
-        self.import_button = self.create_rounded_button(analyzer_button_frame, "Import File", self.import_file, "#fb5421", "white", ("Helvetica", 10))
+        # New Code Generation Button (disabled by default)
+        self.codegen_button = self.create_rounded_button(analyzer_button_frame, "Generate Code", self.generate_code, "#fb5421", "white", ("Consolas", 10))
+        self.codegen_button.pack(side=tk.LEFT, padx=5)
+        self.codegen_button.configure(state="disabled")
+
+        self.import_button = self.create_rounded_button(analyzer_button_frame, "Import File", self.import_file, "#fb5421", "white", ("Consolas", 10))
         self.import_button.pack(side=tk.LEFT, padx=5)
 
-        self.export_button = self.create_rounded_button(analyzer_button_frame, "Export Results", self.export_file, "#fb5421", "white", ("Helvetica", 10))
+        self.export_button = self.create_rounded_button(analyzer_button_frame, "Export Results", self.export_file, "#fb5421", "white", ("Consolas", 10))
         self.export_button.pack(side=tk.LEFT, padx=5)
 
-        self.help_button = self.create_rounded_button(analyzer_button_frame, "Help", self.show_help, "#fb5421", "white", ("Helvetica", 10))
+        self.help_button = self.create_rounded_button(analyzer_button_frame, "Help", self.show_help, "#fb5421", "white", ("Consolas", 10))
         self.help_button.pack(side=tk.LEFT, padx=5)
 
-        
         # Input Code Frame (first instance)
         input_frame = tk.Frame(master, bg="#3c3f59")
         input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=20, sticky="nsew")
         # (This instance will be overridden later by the final code input widget)
         self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200",
-                                                     insertbackground="#fbb200", font=("Helvetica", 12))
+                                                     insertbackground="#fbb200", font=("Consolas", 12))
         self.code_input.pack(fill=tk.BOTH, expand=True)
 
         # Error Output with scrollbar
@@ -66,8 +66,6 @@ class LexerGUI:
         self.errors_list.config(yscrollcommand=scrollbar_errors.set)
         self.errors_list.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar_errors.pack(side=tk.RIGHT, fill=tk.Y)
-
-
 
         # Tokens Panel with scrollbar
         tokens_frame = ttk.LabelFrame(master, text="Tokens")
@@ -93,7 +91,7 @@ class LexerGUI:
         # Bind Ctrl+F to the find_text function and Esc to close the find bar
         self.master.bind("<Control-f>", self.show_find_bar)
         self.master.bind("<Escape>", self.hide_find_bar)
-
+        self.master.bind("<Control-BackSpace>", self.handle_ctrl_backspace)
         # Find bar frame (hidden by default)
         self.find_frame = None
 
@@ -101,13 +99,12 @@ class LexerGUI:
         input_frame = tk.Frame(master, bg="#3c3f59")
         input_frame.grid(row=1, column=0, columnspan=3, padx=20, pady=10, sticky="nsew")
         self.line_numbers = tk.Text(input_frame, width=4, padx=5, bg="#161527",
-                                     fg="white", state="disabled", font=("Helvetica", 13))
+                                     fg="white", state="disabled", font=("Consolas", 13))
         self.line_numbers.pack(side=tk.LEFT, fill=tk.Y)
         # Create the final code input widget (this one will be used)
         self.code_input = scrolledtext.ScrolledText(input_frame, bg="#161527", fg="#fbb200",
-                                                      insertbackground="#fbb200", font=("Helvetica", 13))
+                                                      insertbackground="#fbb200", font=("Consolas", 13))
         self.code_input.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
-
 
         # Add status bar at the top
         self.status_frame = tk.Frame(master, bg="#2c2c2c", height=20)
@@ -122,61 +119,48 @@ class LexerGUI:
         self.code_input.bind("<MouseWheel>", self.sync_scroll)
         self.code_input.bind("<Configure>", self.update_line_numbers)
         self.code_input.bind("<KeyRelease>", self.highlight_words, add="+")
-        # Add this line where the code_input is created (inside __init__)
+        # Bind Tab key for inserting 4 spaces
         self.code_input.bind("<Tab>", self.handle_tab)
         
-                # Within the __init__ method, after creating other buttons
-        self.help_button = self.create_rounded_button(analyzer_button_frame, "Help", self.show_help, "#fb5421", "white", ("Helvetica", 10))
-        self.help_button.pack(side=tk.LEFT, padx=5)
 
-        # Add the Voice Button to capture speech input
-        self.voice_button = self.create_rounded_button(
-            analyzer_button_frame,
-            "Speak",
-            self.voice_to_text,
-            "#fb5421",
-            "white",
-            ("Helvetica", 10)
-        )
-        self.voice_button.pack(side=tk.LEFT, padx=5)
 
     def show_help(self):
         """Show help window with input field instructions"""
         help_text = """DEDOS Input Field Guide:
         
-        1. Basic Syntax:
-        - Use indentation (4 spaces) for code blocks
-        - start statements with ~ and end statements with ~
-        - Example:
-            ~
-            inst #x = 10
-            plant(#x)
-            ~
-        
-        2. Shortcuts:
-        - Ctrl+F: Find text
-        - Tab: Insert 4 spaces
-        - Mouse hover: See element descriptions above
-        
-        3. Special Symbols:
-        - ~ : Code of Block 
-        - +-*/ : Arithmetic operators
-        - () : Parameter grouping
-        - "" : String delimiters
-        
-        4. Code Examples:
-        Variable declaration:
-            inst ammo = 30 
-        Conditional statement:
-            re(ammo < 10){
-                plant("the ammo is greater than 10")
-            }
-            reload{
-                plant("The ammo is less than 10")
-            }
-        Function call:
-            defuse bomb_siteb(){
-                }"""
+1. Basic Syntax:
+- Use indentation (4 spaces) for code blocks
+- start statements with ~ and end statements with ~
+- Example:
+    ~
+    inst #x = 10
+    plant(#x)
+    ~
+
+2. Shortcuts:
+- Ctrl+F: Find text
+- Tab: Insert 4 spaces
+- Mouse hover: See element descriptions above
+
+3. Special Symbols:
+- ~ : Code of Block 
+- +-*/ : Arithmetic operators
+- () : Parameter grouping
+- "" : String delimiters
+
+4. Code Examples:
+Variable declaration:
+    inst ammo = 30 
+Conditional statement:
+    re(ammo < 10){
+        plant("the ammo is greater than 10")
+    }
+    reload{
+        plant("The ammo is less than 10")
+    }
+Function call:
+    defuse bomb_siteb(){
+    }"""
         
         help_window = tk.Toplevel(self.master)
         help_window.title("Input Field Help")
@@ -186,52 +170,6 @@ class LexerGUI:
         text_area.insert(tk.INSERT, help_text)
         text_area.configure(state='disabled', bg="#161527", fg="#fbb200")
         text_area.pack(fill=tk.BOTH, expand=True)
-
-    def voice_to_text(self):
-        """Capture voice input and insert recognized text into the code input field,
-        replacing spoken commands with symbols."""
-        recognizer = sr.Recognizer()
-        # Mapping spoken words to symbols
-        mapping = {
-            "equals": "=",
-            "plus": "+",
-            "minus": "-",
-            "slash": "/",
-            "double equals": "==",
-            "minus equals": "-=",
-            "plus equals": "+=",
-            "not equals": "!=",
-            "tilde": "~",
-            "open parenthesis": "(",
-            "close parenthesis": ")",
-            "open brace": "{",
-            "close brace": "}",
-        }
-        
-        try:
-            with sr.Microphone() as source:
-                self.status_label.config(text="Listening...")
-                self.master.update()  # Update the UI to show listening status
-                audio = recognizer.listen(source, timeout=5)
-                # Get the recognized text in lowercase for consistency.
-                text = recognizer.recognize_google(audio).lower()
-
-                # Replace spoken phrases with corresponding symbols.
-                for word, symbol in mapping.items():
-                    # Add spaces around word to avoid partial matches
-                    text = text.replace(" " + word + " ", " " + symbol + " ")
-                
-                # Optionally, you can print or log the transformed text.
-                self.code_input.insert(tk.INSERT, text)
-                self.status_label.config(text="Voice input added!")
-        except sr.WaitTimeoutError:
-            self.status_label.config(text="No speech detected. Please try again.")
-        except sr.UnknownValueError:
-            self.status_label.config(text="Could not understand audio.")
-        except sr.RequestError:
-            self.status_label.config(text="Speech service unavailable.")
-        except Exception as e:
-            self.status_label.config(text=f"Error: {str(e)}")
 
     def setup_hover_help(self):
         """Configure hover help messages for UI elements"""
@@ -244,7 +182,8 @@ class LexerGUI:
             self.lexical_button: "Analyze code for valid tokens and lexemes",
             self.semantic_button: "Verify semantic rules and type checking",
             self.import_button: "Import code from .dedos files",
-            self.export_button: "Export code and analysis results"
+            self.export_button: "Export code and analysis results",
+            self.codegen_button: "Generate target code from the analyzed input"
         }
 
         for widget, message in hover_help.items():
@@ -264,7 +203,7 @@ class LexerGUI:
         """Highlight multiple groups of words in different colors."""
         highlight_groups = {
             "group1": (["defuse", "in", "not"], "#F93827"),
-            "group2": (["inst", "flank", "chat", "strike"], "#5cffe4"),
+            "group2": (["inst", "flank", "chat", "strike", "tool"], "#5cffe4"),
             "group3": (["abort", "back", "push", "perim"], "#aeac95"),
             "group4": (["plant", "info"], "#FFD65A"),
             "group5": (["re", "reload", "load"], "#ff1377"),
@@ -273,7 +212,8 @@ class LexerGUI:
             "group8": ("numbers", "#d6fa51"),  # Special handling for numbers
             "group9": (["~"], "#16C47F"),
             "group10": (["(", ")", "[", "{", "}", "]"], "white"),
-            "group11": ("quoted_text", "#FFEB00")  # Color for text inside quotes
+            "group11": ("quoted_text", "#FFEB00"),  # Color for text inside quotes
+            "group12": ("comment", "#A9A9A9")  # Color for text inside comments
         }
 
         # Remove old highlights and set colors
@@ -320,7 +260,26 @@ class LexerGUI:
                             end_pos = f"{end_pos}+1c"
                         self.code_input.tag_add(tag, start_pos, end_pos)
                         start_pos = end_pos
-
+                        
+            elif words == "comment":
+                # Search for text inside comments marked with '$'
+                for quote in ["$"]:
+                    start_pos = "1.0"
+                    while True:
+                        start_pos = self.code_input.search(quote, start_pos, stopindex=tk.END)
+                        if not start_pos:
+                            break
+                        end_pos = f"{start_pos}+1c"
+                        while True:
+                            next_char = self.code_input.get(end_pos)
+                            if next_char == quote:
+                                end_pos = f"{end_pos}+1c"
+                                break
+                            elif next_char == "":
+                                break
+                            end_pos = f"{end_pos}+1c"
+                        self.code_input.tag_add(tag, start_pos, end_pos)
+                        start_pos = end_pos
             else:
                 # Standard word highlighting
                 for word in words:
@@ -335,7 +294,6 @@ class LexerGUI:
                             end_pos = f"{start_pos}+{len(word)}c"
                             self.code_input.tag_add(tag, start_pos, end_pos)
                         start_pos = f"{start_pos}+{len(word)}c"
-
 
     def create_rounded_button(self, parent, text, command, bg, fg, font):
         """Creates a rounded button with a hover effect."""
@@ -395,9 +353,9 @@ class LexerGUI:
             return
         self.find_frame = tk.Frame(self.master, bg="#2c2c2c")
         self.find_frame.grid(row=0, column=0, columnspan=5, sticky="ew", padx=5, pady=5)
-        label = tk.Label(self.find_frame, text="Find:", bg="#2c2c2c", fg="white", font=("Helvetica", 12))
+        label = tk.Label(self.find_frame, text="Find:", bg="#2c2c2c", fg="white", font=("Consolas", 12))
         label.pack(side=tk.LEFT, padx=5, pady=5)
-        self.find_entry = tk.Entry(self.find_frame, font=("Helvetica", 12))
+        self.find_entry = tk.Entry(self.find_frame, font=("Consolas", 12))
         self.find_entry.pack(side=tk.LEFT, padx=5, pady=5, expand=True, fill=tk.X)
         search_button = tk.Button(self.find_frame, text="Find", command=self.find_text)
         search_button.pack(side=tk.LEFT, padx=5, pady=5)
@@ -467,6 +425,33 @@ class LexerGUI:
             self.errors_list.insert(tk.END, "-" * 180)
             self.syntax_button.configure(state="normal")
 
+    def handle_ctrl_backspace(self, event):
+        # Get the current insertion index
+        current_index = self.code_input.index("insert")
+        # Get the start index of the current line
+        line_start = self.code_input.index("insert linestart")
+        # Retrieve the text from the beginning of the line to the current insertion point
+        text_before = self.code_input.get(line_start, current_index)
+        
+        # Remove trailing spaces in case the cursor is after spaces
+        stripped_text = text_before.rstrip()
+        if not stripped_text:
+            # Nothing to delete on this line, so let the default behavior occur
+            return "break"
+        
+        # Calculate how many characters to delete:
+        # Find the last space character in the stripped text. If none is found, delete from the beginning of the line.
+        last_space = stripped_text.rfind(" ")
+        if last_space == -1:
+            delete_start = line_start
+        else:
+            # +1 to delete the space as well, so start from the character right after the last space.
+            delete_start = f"{line_start}+{last_space + 1}c"
+        
+        # Delete from the calculated starting position to the current insertion point.
+        self.code_input.delete(delete_start, current_index)
+        
+        return "break"  # Prevent any default behavior
 
     def analyze_syntax(self):
         """Run Syntax Analysis"""
@@ -496,17 +481,13 @@ class LexerGUI:
         # Clear syntax errors for subsequent runs.
         self.parser.SyntaxErrors = []
 
-
-
     def enteringErrorsOfSyntax(self, syntaxErrors):
         # For a Listbox widget, use numeric indices.
         self.errors_list.delete(0, tk.END)
         for err in syntaxErrors:
             self.errors_list.insert(tk.END, err)
 
-
     def analyze_semantic(self):
-        
         # Check if the parser and its outputs are available.
         if not hasattr(self, 'parser') or not self.parser:
             self.errors_list.delete(0, tk.END)
@@ -545,14 +526,70 @@ class LexerGUI:
         # Clear previous output
         self.errors_list.delete(0, tk.END)
         
-        # Display errors if found, else show completion message
+        # Display errors if found, else show completion message and enable code generation.
         if errors:
             for line in errors:
                 self.errors_list.insert(tk.END, line)
+            # Disable the Generate Code button if errors are present.
+            self.codegen_button.configure(state="disabled")
         else:
             self.errors_list.insert(tk.END, "-------------------------------------------------------------SEMANTIC COMPILE SUCCESSFUL\n-------------------------------------------------------------")
+            # Enable the Generate Code button when semantic analysis is successful.
+            self.codegen_button.configure(state="normal")
 
+    def generate_code(self):
+        """Generate target code by running semantic analysis and print the output in the error output box.
+        If semantic errors are found, disable the Generate Code button."""
+        # Check if the parser and its outputs are available.
+        if not hasattr(self, 'parser') or not self.parser:
+            self.errors_list.delete(0, tk.END)
+            self.errors_list.insert(tk.END, "Syntax analysis has not been run yet.")
+            return
 
+        if self.parser.SyntaxErrors:
+            print("Syntax Errors:", self.parser.SyntaxErrors)  # Debugging
+            return
+
+        Terminals = getattr(self.parser, 'Terminals', [])
+        Sequence = getattr(self.parser, 'SemanticSequence', None) or getattr(self.parser, 'Sequence', []) or Terminals
+
+        if not Terminals or not Sequence:
+            self.errors_list.delete(0, tk.END)
+            self.errors_list.insert(tk.END, "Required syntax analysis outputs are missing!")
+            return
+
+        print("Running Semantic Analysis with Terminals:", Terminals)
+        print("Running Semantic Analysis with Sequence:", Sequence)
+
+        # Create the semantic analyzer instance.
+        sem = Semantic.DEDOSSemantic(Terminals, Sequence)
+        
+        # Run semantic processing.
+        sem.keyval_fix()
+        sem.token_type()
+        
+        # Retrieve output from the semantic analyzer.
+        output = sem.Output
+        
+        # Print the output in the error output box.
+        self.errors_list.delete(0, tk.END)
+        errors_found = False
+        if output:
+            if isinstance(output, list):
+                for line in output:
+                    self.errors_list.insert(tk.END, line)
+                    if ("Semantic Error" in line) or ("Runtime Error" in line):
+                        errors_found = True
+            else:
+                self.errors_list.insert(tk.END, output)
+                if ("Semantic Error" in output) or ("Runtime Error" in output):
+                    errors_found = True
+        else:
+            self.errors_list.insert(tk.END, "No output generated.")
+        
+        # If semantic errors are found, disable the Generate Code button.
+        if errors_found:
+            self.codegen_button.configure(state="disabled")
 
     def import_file(self):
         """Open a file dialog to import a code file."""
@@ -562,7 +599,6 @@ class LexerGUI:
                 code = file.read()
                 self.code_input.delete(1.0, tk.END)
                 self.code_input.insert(tk.END, code)
-
 
     def export_file(self):
         """Export the code from the input box to a text file."""
@@ -575,7 +611,6 @@ class LexerGUI:
             with open(file_path, "w") as file:
                 file.write(code)
 
-
 def inputter(desc):
     if desc.startswith("("):
         desc = desc[1:]
@@ -585,13 +620,12 @@ def inputter(desc):
     top.title("Input")
     top.configure(bg="#3c3f59")
 
-
     # Label for the description with specified font and color
-    tk.Label(top, text=desc, font=("Helvetica", 14), bg="#3c3f59", fg="#fbb200",
+    tk.Label(top, text=desc, font=("Consolas", 14), bg="#3c3f59", fg="#fbb200",
              anchor='w', justify='left').pack(pady=10)
     
     # Entry widget for user input with specified font and color
-    entry = tk.Entry(top, font=("Helvetica", 12), width=40, bg="#3c3f59", fg="#fbb200",
+    entry = tk.Entry(top, font=("Consolas", 12), width=40, bg="#3c3f59", fg="#fbb200",
                      insertbackground="#fbb200")
     entry.pack(padx=20, pady=10)
     entry.focus_set()
@@ -604,7 +638,7 @@ def inputter(desc):
         top.destroy()  # Close the input window
 
     # Submit button with specified design
-    tk.Button(top, text="Submit", command=submit, font=("Helvetica", 12),
+    tk.Button(top, text="Submit", command=submit, font=("Consolas", 12),
               bg="#fb5421", fg="#fbb200", padx=20, pady=5, relief="flat", borderwidth=0).pack(pady=10)
     
     top.wait_window()  # Wait for the input window to close
@@ -623,7 +657,6 @@ def main():
     root = tk.Tk()
     app = LexerGUI(root)
     root.mainloop()
-
 
 if __name__ == "__main__":
     main()

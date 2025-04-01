@@ -1218,7 +1218,7 @@ class DEDOSLexicalAnalyzer:
                 self.tokens.append(f'{self.type_} : {self.value_}')
                 continue
             if self.currentChar == "\n":
-                self.tokens.append(f'NEWLINE')
+                self.tokens.append(f'"NEWLINE" : "\\n"')
                 self.lineCounter += 1
                 self.next()
                 continue
