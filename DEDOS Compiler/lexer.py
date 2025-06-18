@@ -37,7 +37,7 @@ unknownCharacters = ['@', '^',  '&', '?', '-', '\\', ':', 'e', 'h', 'j', 'k', 'm
 reservedkeywords = ["abort", "and", "back", "bounce", "chat", "defuse", "flank", "force", "in", "inst", "info","load", "neg", "not", "or", "perim", "plant", "push", "re", "reload", "strike", "tool", "watch"]
 
 class DEDOSLexicalAnalyzer:
-    def __init__(self, lexeme):         #local declarations inside the class
+    def __init__(self, lexeme):         
         self.lexeme = lexeme
         self.currentChar = lexeme[0]
         self.position = 0
@@ -50,14 +50,13 @@ class DEDOSLexicalAnalyzer:
         self.lineCounter = 1
 
     def peek(self):
-        # Assuming self.input is your input string and self.position is the index of self.currentChar
         pos = self.position + 1
         if pos < len(self.lexeme):
             return self.lexeme[pos]
         return '\0'
 
 
-    def next(self):                     #character next function
+    def next(self):                     
         self.position += 1
         if self.position > len(self.lexeme) - 1:
             self.currentChar = '\0'
@@ -89,11 +88,9 @@ class DEDOSLexicalAnalyzer:
                         result += self.currentChar
                         self.next()
 
-                        # ensure delimiter follows
                         if self.currentChar in delim12:
                             return "abort", result
 
-            #  abort‑path failure: consume the “bad tail” up to the next delimiter
             while self.currentChar not in delim12 and self.currentChar is not None:
                 result += self.currentChar
                 self.next()
@@ -1239,30 +1236,23 @@ class DEDOSLexicalAnalyzer:
             self.next()
             return "ERROR", f"Hey Agent! This Lexeme is Unknown."
 
-        # Consume the first '#'
         result = '#'
         self.next()
 
-        # Step 2: If second char isn't [a–z_], reject the entire lexeme char-by-char
         if self.currentChar not in "abcdefghijklmnopqrstuvwxyz_":
-            # build the full invalid lexeme so far
             invalid = result + self.currentChar
-            # emit one error per character
             for ch in invalid:
                 self.tokensForUnknown.append(
                     f"line #{self.lineCounter} : ERROR : Hey Agent! This Lexeme is Unknown. '{ch}'"
                 )
-            self.next()  # consume the bad char
+            self.next()  
             return "ERROR", f"ends with invalid delimiter of '{invalid}', 'Invalid Delimiter', '{invalid[-1]}'"
 
-        # otherwise, include that valid 2nd char
         result += self.currentChar
         self.next()
         count = 1
 
-        # Step 3: Read the rest of the identifier
         while self.currentChar in "abcdefghijklmnopqrstuvwxyz0123456789_":
-            # any uppercase, another '#', too long, or a delim24 char → reject
             if (self.currentChar in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" or
                 self.currentChar == "#" or
                 count >= 15 or
@@ -1287,7 +1277,6 @@ class DEDOSLexicalAnalyzer:
             self.IDcounter += 1
             return f"IDENTIFIER_{self.IDcounter}", result
         else:
-            # final‐character delimiter error, same char-by-char reporting
             invalid = result + self.currentChar
             for ch in invalid:
                 self.tokensForUnknown.append(
